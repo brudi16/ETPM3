@@ -67,4 +67,6 @@ Utilities/
 Doxyfile
 *.launch
 *.cfg
-*.Ink
+*.lnk
+*.cproject
+*.project
