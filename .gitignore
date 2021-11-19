@@ -63,6 +63,8 @@ html/
 Utilities/
 
 *.txt
-*.Id
+*.ld
 Doxyfile
 *.launch
+*.cfg
+*.Ink
