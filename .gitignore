@@ -70,3 +70,4 @@ Doxyfile
 *.lnk
 *.cproject
 *.project
+*.DS_Store
