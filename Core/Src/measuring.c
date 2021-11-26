@@ -322,7 +322,7 @@ void ADC1_IN13_ADC2_IN5_dual_init(void)
 	ADC1->CR2 |= (1UL << ADC_CR2_EXTEN_Pos);	// En. ext. trigger on rising e.
 	ADC1->CR2 |= (6UL << ADC_CR2_EXTSEL_Pos);	// Timer 2 TRGO event
 	ADC1->SQR3 |= (13UL << ADC_SQR3_SQ1_Pos);	// Input 13 = first conversion
-	ADC2->SQR3 |= (5UL << ADC_SQR3_SQ1_Pos);	// Input 5 = first conversion
+	ADC2->SQR3 |= (56L << ADC_SQR3_SQ1_Pos);	// Input 5 = first conversion
 	__HAL_RCC_DMA2_CLK_ENABLE();		// Enable Clock for DMA2
 	DMA2_Stream4->CR &= ~DMA_SxCR_EN;	// Disable the DMA stream 4
 	while (DMA2_Stream4->CR & DMA_SxCR_EN) { ; }	// Wait for DMA to finish
