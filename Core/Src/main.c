@@ -24,6 +24,7 @@
 #include "pushbutton.h"
 #include "menu.h"
 #include "measuring.h"
+#include "led.h"
 
 
 /******************************************************************************
@@ -79,6 +80,7 @@ int main(void) {
 	MEAS_timer_init();					// Configure the timer
 
 	ext_led_init();						// Initialize the external LEDs
+	ext_led_lamptest(1500);					// Lamptest for external LEDs
 
 	/* Infinite while loop */
 	while (1) {							// Infinitely loop in main function
