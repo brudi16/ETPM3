@@ -61,6 +61,7 @@ Debug/
 Drivers/
 html/
 Utilities/
+Doxygen/
 
 *.txt
 *.ld
