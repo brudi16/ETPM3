@@ -68,7 +68,7 @@
  *****************************************************************************/
 #define ADC_DAC_RES		12			///< Resolution
 #define ADC_NUMS		60			///< Number of samples
-#define ADC_FS			600	///< Sampling freq. => 12 samples for a 50Hz period
+#define ADC_FS			600			///< Sampling freq. => 12 samples for a 50Hz period
 #define ADC_CLOCK		84000000	///< APB2 peripheral clock frequency
 #define ADC_CLOCKS_PS	15			///< Clocks/sample: 3 hold + 12 conversion
 #define TIM_CLOCK		84000000	///< APB1 timer clock frequency
@@ -187,9 +187,7 @@ void ADC3_IN4_single_read(void)
 	while (!(ADC3->SR & ADC_SR_EOC)) { ; }	// Wait for end of conversion
 	ADC_samples[0] = ADC3->DR;			// Read the converted value
 	ADC3->CR2 &= ~ADC_CR2_ADON;			// Disable ADC3
-	if (DAC_active) {
-		DAC_increment();
-	}
+
 	ADC_reset();
 	MEAS_data_ready = true;
 }

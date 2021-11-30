@@ -57,6 +57,7 @@ dkms.conf
 # Ignored Folders
 .metadata/
 .settings/
+.vscode/
 Debug/
 Drivers/
 html/
