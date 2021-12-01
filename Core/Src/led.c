@@ -14,7 +14,6 @@
  *****************************************************************************/
 #include "stm32f429i_discovery_ts.h"
 
-#include "main.h"
 #include "led.h"
 
 #include <stdbool.h>
