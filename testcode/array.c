@@ -4,16 +4,16 @@
 
 #define ARRAYSIZE   20
 
-uint32_t arrayMean(uint32_t array[], uint8_t size);
-void printArray(uint32_t array[], uint8_t size);
-void removeMean(uint32_t array[], uint8_t size);
-void rectify(uint32_t array[], uint8_t size);
-void convertToSigned(uint32_t **array[], uint8_t);
+int32_t arrayMean(int32_t array[], uint16_t size);
+void printArray(int32_t array[], uint16_t size);
+void removeMean(int32_t array[], uint16_t size);
+void rectify(int32_t array[], uint16_t size);
+void forTestLoops(uint8_t pram1, uint8_t param2);
 
 int main(){
-    uint32_t sum, mean;
+    int32_t sum, mean;
 
-    uint32_t array[ARRAYSIZE] = {1000, 1166, 1314, 1428, 1495, 1509, 1468, 1376, 1243, 1084, 916, 757, 624, 523, 491, 504, 572, 686, 834, 1000};
+    int32_t array[ARRAYSIZE] = {1000, 1166, 1314, 1428, 1495, 1509, 1468, 1376, 1243, 1084, 916, 757, 624, 523, 491, 504, 572, 686, 834, 1000};
     printArray(array, ARRAYSIZE);
     printf("Adress: %p\n", array);
 
@@ -31,10 +31,11 @@ int main(){
     printArray(array, ARRAYSIZE);
     printf("Adress: %p\n", array);
 
+    forTestLoops(4,5);
     return 0;
 }
 
-uint32_t arrayMean(uint32_t array[], uint8_t size){
+int32_t arrayMean(int32_t array[], uint16_t size){
     uint32_t mean = 0;
     int i;
 
@@ -46,7 +47,7 @@ uint32_t arrayMean(uint32_t array[], uint8_t size){
     return mean;
 }
 
-void printArray(uint32_t array[], uint8_t size){
+void printArray(int32_t array[], uint16_t size){
     int i;
 
     printf("Array: ");
@@ -57,7 +58,7 @@ void printArray(uint32_t array[], uint8_t size){
     printf("\n");
 }
 
-void removeMean(uint32_t array[], uint8_t size){
+void removeMean(int32_t array[], uint16_t size){
     int i;
     uint32_t mean = arrayMean(array, size);
 
@@ -66,7 +67,7 @@ void removeMean(uint32_t array[], uint8_t size){
     }
 }
 
-void rectify(uint32_t array[], uint8_t size){
+void rectify(int32_t array[], uint16_t size){
     int i;
     uint32_t cmpVal = 0;
     
@@ -77,14 +78,18 @@ void rectify(uint32_t array[], uint8_t size){
 
 }
 
-void convertToSigned (uint32_t **array[], uint8_t size){
-    int32_t *tmp = calloc(size, sizeof(int32_t));
-    int i;
+void forTestLoops(uint8_t param1, uint8_t param2){
+    uint8_t i1, i2;
+    uint16_t tot;
 
-    for(i=0; i<size; i++){
-        *(tmp+i) = (int32_t)array[i];
+    for(i1=0; i1<param1; i1++){
+        printf("Param 1 = %d\n", i1);
+        for(i2=0; i2<param2; i2++){
+            printf("Param 2 = %d\n", i2);
+            tot = (i1*param2)+i2;
+            printf("Param 1 * Param 2 = %d\n", tot);
+        }
     }
+    
 
-    free(*array);
-    *array = tmp;
 }

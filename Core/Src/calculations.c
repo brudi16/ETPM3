@@ -17,7 +17,8 @@
 #include "stm32f429i_discovery_lcd.h"
 #include "stm32f429i_discovery_ts.h"
 
-#include "main.h"
+#include "calculations.h"
+#include "measuring.h"
 
 
 /******************************************************************************
@@ -30,9 +31,9 @@
  *
  * @n
  *****************************************************************************/
-uint32_t calc_dcValue(uint32_t ADC_samples[], uint8_t size){
-	uint32_t dcValue = 0;
-	uint8_t i;
+int32_t calc_dcValue(int32_t ADC_samples[], uint16_t size){
+	int32_t dcValue = 0;
+	uint16_t i;
 
 	for(i=0; i < size; i++){
 		dcValue = dcValue + ADC_samples[i];
@@ -47,9 +48,9 @@ uint32_t calc_dcValue(uint32_t ADC_samples[], uint8_t size){
  *
  * @n
  *****************************************************************************/
-void calc_removeDc(uint32_t ADC_samples[], uint8_t size){
-	uint32_t dcValue;
-	uint8_t i;
+void calc_removeDc(int32_t ADC_samples[], uint16_t size){
+	int32_t dcValue;
+	uint16_t i;
 
 	dcValue = calc_dcValue(ADC_samples, size);
 
@@ -59,12 +60,26 @@ void calc_removeDc(uint32_t ADC_samples[], uint8_t size){
 }
 
 /** ***************************************************************************
- * @brief
+ * @brief calculate average peak to peak value
  *
  *
  * @n
  *****************************************************************************/
-void calc_peakToPeak(uint32_t ADC_samples[], uint8_t size){
+uint32_t calc_peakToPeak_av(int32_t ADC_samples[], uint16_t size){
+	uint16_t i1, i2;
+	uint8_t nPeriods = size / 60;
+	int32_t max_Array[NPeriods], minArray[NPeriods], max, min;
+
+	for(i1=0; i1 = nPeriods; i1++){
+		for(i2=0; i2 < 60; i2++){
+			if(ADC_samples[((nPeriods * i1)+i2)] > maxArray[i1]){
+				maxArray[i1] = ADC_samples[((nPeriods * i1)+i2)];
+			}else if((ADC_samples[((nPeriods * i1)+i2)] < minArray[i1])){
+				minArray[i1] = ADC_samples[((nPeriods * i1)+i2)];
+			}
+		}
+	}
+
 
 }
 
@@ -74,8 +89,8 @@ void calc_peakToPeak(uint32_t ADC_samples[], uint8_t size){
  *
  * @n
  *****************************************************************************/
-uint32_t calc_rmsValue(uint32_t ADC_samples[], uint8_t size){
-	uint32_t rmsValue = 0;
+int32_t calc_rmsValue(int32_t ADC_samples[], uint16_t size){
+	int32_t rmsValue = 0;
 
 	return rmsValue;
 }

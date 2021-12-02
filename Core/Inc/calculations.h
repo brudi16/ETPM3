@@ -14,10 +14,10 @@
  *****************************************************************************/
 
 // Basic calculations
-uint32_t calc_dcValue(uint32_t ADC_samples[], uint8_t size);
-void calc_removeDc(uint32_t ADC_samples[], uint8_t size);
-void calc_peakToPeak(uint32_t ADC_samples[], uint8_t size);
-uint32_t calc_rmsValue(uint32_t ADC_samples[], uint8_t size);
+int32_t calc_dcValue(int32_t ADC_samples[], uint16_t size);
+void calc_removeDc(int32_t ADC_samples[], uint16_t size);
+uint32_t calc_peakToPeak_av(int32_t ADC_samples[], uint16_t size);
+int32_t calc_rmsValue(int32_t ADC_samples[], uint16_t size);
 
 // Advanced calculations
 
