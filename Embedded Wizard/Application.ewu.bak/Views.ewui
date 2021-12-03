@@ -1,0 +1,7 @@
+﻿$version 11.00
+
+// Views
+note group Views
+{
+  attr Bounds = <50,-280,510,30>;
+}

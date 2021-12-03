@@ -125,8 +125,8 @@ profile STM32F429 : STM.STM32.RGB565
   attr FontConversion = Windows;
   attr OutputFileNameExtension = c;
   attr Verbose = true;
-  attr OutputDirectory = C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\Application\GeneratedCode;
-  attr PostProcess = C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\Application\Project\MDK-ARM\MDK-ARM_ew_post_process.cmd;
+  attr OutputDirectory = .\ETPM3\Application\GeneratedCode;
+  attr PostProcess = .\ETPM3\Application\Project\MDK-ARM\MDK-ARM_ew_post_process.cmd;
 
   $rect <10,10,154,50>
   macro Author = "Dipl. Ing. Paul Banach and Dipl. Ing. Manfred Schweyer, Copyright (C) TARA Systems GmbH";
