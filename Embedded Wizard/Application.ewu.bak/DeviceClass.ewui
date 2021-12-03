@@ -1,0 +1,262 @@
+﻿$version 11.00
+
+$rect <80,110,280,150>
+$output false
+class DeviceClass : Templates::DeviceClass
+{
+  $rect <30,80,230,120>
+  inherited method Done()
+  {
+    // The following section is intended to perform de-initialization-related operations
+    // in the underlying device or middleware. Consequently, the section is taken in
+    // account only when generating code (not during prototyping).
+    $if !$prototyper
+      var object thisObject = this;
+
+      /*
+         TO DO:
+
+         The following native statement is intended to enclose code to communicate with
+         your device API. The variable 'thisObject' contains a pointer to the actually
+         de-initialized Application::DeviceClass object. Use the 'thisObject' pointer to
+         e.g. de-register the object from the middleware if you have registered it
+         beforehand.
+         
+      */
+
+      native ( thisObject )
+      {
+        /*
+           TO DO:
+
+           Depending on your application case you call functions of the underlying
+           middleware (or access the device directly) in order to perform the necessary
+           de-initialization steps. For example, you invoke some 'C' function:
+
+             YourDevice_DeInitialize();
+
+           IMPORTANT:
+           ----------
+
+           The variable 'thisObject' represents the actually de-initialized instance of the
+           Application::DeviceClass. If you have stored this object at the initialization
+           time (in the 'Init' method) in some global C variable or registered it by the
+           middleware, it is important to perform now the opposite operation. Set the
+           global variable to NULL or de-register 'thisObject' object from the middleware.
+           
+        */
+      }
+    $endif
+  }
+
+  $rect <30,40,230,80>
+  inherited method Init()
+  {
+    // The following section is intended to perform initialization-related operations
+    // in the underlying device or middleware. Consequently, the section is taken in
+    // account only when generating code (not during prototyping).
+    $if !$prototyper
+      var object thisObject = this;
+
+      /*
+         TO DO:
+
+         The following native statement is intended to enclose code to communicate with
+         your device API. The variable 'thisObject' contains a pointer to the actually
+         initialized Application::DeviceClass object. Use the 'thisObject' pointer to
+         e.g. register the object by the middleware as receiver of events, etc.
+         
+      */
+
+      native ( thisObject )
+      {
+        /*
+           TO DO:
+
+           Depending on your application case you call functions of the underlying
+           middleware (or access the device directly) in order to perform the necessary
+           initialization steps. For example, you invoke some 'C' function:
+
+             YourDevice_Initialize();
+
+           The variable 'thisObject' represents the actually initialized instance of the
+           Application::DeviceClass. You can store this variable e.g. in the middleware
+           and use it whenever the middleware needs to notify the GUI application about
+           some state alternation or events. In this manner, the middleware will be able
+           to invoke methods of the interface device object.
+
+           For example, you can store 'thisObject' in some global C variable:
+
+             // Declaration of the global C variable
+             XObject theDeviceObject;
+
+             // Store the instance in the global variable
+             theDeviceObject = thisObject;
+
+           Later use the global variable e.g. to provide the GUI application with events:
+
+             ApplicationDeviceClass__TriggerSomeEvent( theDeviceObject );
+
+           IMPORTANT:
+           ----------
+
+           If you store 'thisObject' for later use, don't forget to implement the opposite
+           operation in the method 'Done'. Concrete, 'Done' should set the global variable
+           again to the value NULL.
+
+        */
+      }
+    $endif
+  }
+
+  // Device classes are assembled from 'Commands', 'Properties' and 'System Events'. \
+  // For this purpose use the following prepared templates from the Gallery folder \
+  // 'Device':
+  // 
+  // Command - method to trigger actions in the underlying device or query data from \
+  // the device.
+  // 
+  // Property - variable to represent or modify a setting or state value existing \
+  // within the underlying device.
+  // 
+  // System Event - represents an event or notifications the underlying device may \
+  // report.
+  // 
+  // For more details please visit: https://doc.embedded-wizard.de/device-class-and-device-driver
+  note legend Note4
+  {
+    attr Bounds = <310,600,1400,770>;
+  }
+
+  // The method 'Init' is executed just in the moment when new instance of 'Application::DeviceClass' \
+  // is created. It is suitable to:
+  // - initialize the hardware represented by the interface.
+  // - register the instance by the middleware to receive updates and events.
+  // - open files, network connections or other system resources needed by the interface.
+  // 
+  // The method 'Done' is executed just in the moment when an instance of 'Application::DeviceClass' \
+  // is disposed. It is suitable to:
+  // - de-initialize the underlying hardware.
+  // - de-register the instance from the underlying middleware.
+  // - close files, network connections and other no longer needed system resources.
+  // 
+  // If your application case doesn't need the initialization or de-initialization, \
+  // feel free to delete the methods 'Init' or/and 'Done'.
+  note legend Note3
+  {
+    attr Bounds = <320,0,1100,220>;
+  }
+
+  note arrow Note2
+  {
+    attr Point1 = <250,50>;
+    attr Point2 = <320,50>;
+  }
+
+  // Constructor and Destructor
+  note group Note1
+  {
+    attr Bounds = <10,0,250,140>;
+  }
+
+  $rect <40,280,240,320>
+  property bool Lamptest;
+
+  $rect <40,320,240,360>
+  onset Lamptest
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Lamptest == value )
+      return;
+
+    // Remember the property's new value.
+    pure Lamptest = value;
+
+    // TO DO:
+    // 
+    // Now you can handle the alternation of the property.
+    $if !$prototyper
+      native ( value )
+      {
+        if(value){
+          DeviceDriver_SetLampTest();
+        }
+      }
+    $endif
+
+    // Notify all associated property observers.
+    notifyobservers ^Lamptest;
+  }
+
+  $rect <270,280,470,320>
+  property int32 Current;
+
+  $rect <270,320,470,360>
+  onset Current
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Current == value )
+      return;
+
+    // Remember the property's new value.
+    pure Current = value;
+
+    // TO DO:
+    // 
+    // Now you can handle the alternation of the property.
+  }
+
+  $rect <270,360,470,400>
+  onget Current
+  {
+    return pure Current;
+  }
+
+  $rect <500,280,700,320>
+  property int32 Distance;
+
+  $rect <500,320,700,360>
+  onset Distance
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Distance == value )
+      return;
+
+    // Remember the property's new value.
+    pure Distance = value;
+
+    // TO DO:
+    // 
+    // Now you can handle the alternation of the property.
+  }
+
+  $rect <500,360,700,400>
+  onget Distance
+  {
+    return pure Distance;
+  }
+
+  $rect <730,280,930,320>
+  property int32 Angle;
+
+  $rect <730,320,930,360>
+  onset Angle
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Angle == value )
+      return;
+
+    // Remember the property's new value.
+    pure Angle = value;
+
+    // TO DO:
+    // 
+    // Now you can handle the alternation of the property.
+  }
+
+  $rect <730,360,930,400>
+  onget Angle
+  {
+    return pure Angle;
+  }
+}

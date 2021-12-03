@@ -1,0 +1,23 @@
+﻿$version 11.00
+
+$include Application
+$include Font
+$include TitelFont
+$include WelcomeScreen
+$include Views
+$include Resources
+$include DetectorScreen
+$include CurrentMeasurement
+$include Settings
+$include DistanceMeasurement
+$include ZhawLogo
+$include Buttons
+$include MenuButtonFont
+$include Menu
+$include Inline
+$include DeviceClass
+$include Device
+$include Note
+$include BlueGauge
+$include BluePushButton
+$include BlueValueBar

@@ -55,6 +55,9 @@
 #include "_WidgetSetWidgetConfig.h"
 
 /* Bitmap resource used per default by the Widgets customized for the medium size. */
+EW_DECLARE_BITMAP_RES( WidgetSetGaugeNeedleMedium )
+
+/* Bitmap resource used per default by the Widgets customized for the medium size. */
 EW_DECLARE_BITMAP_RES( WidgetSetGaugeTrackMedium )
 
 /* Bitmap resource used per default by the Widgets customized for the medium size. */
@@ -74,6 +77,10 @@ EW_DECLARE_AUTOOBJECT( WidgetSetHorizontalValueBar_Medium, WidgetSetHorizontalVa
    (WidgetSet::ValueDisplay) in its medium size variant. Widgets using this configuration 
    display the value and unit aligned at the right widget edge. */
 EW_DECLARE_AUTOOBJECT( WidgetSetValueDisplay_Medium, WidgetSetValueDisplayConfig )
+
+/* This autoobject provides the default customization for the 'analog gauge' widget 
+   (WidgetSet::Gauge) in its medium size variant. */
+EW_DECLARE_AUTOOBJECT( WidgetSetGauge_Medium, WidgetSetGaugeConfig )
 
 /* This autoobject provides one of the default customizations for the 'toggle' widget 
    (WidgetSet::ToggleButton) in its medium size variant. With this customization 
