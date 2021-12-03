@@ -61,6 +61,7 @@ Debug/
 Drivers/
 html/
 Utilities/
+Doxygen/
 
 *.txt
 *.ld
@@ -70,4 +71,5 @@ Doxyfile
 *.lnk
 *.cproject
 *.project
+
 *.DS_Store
