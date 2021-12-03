@@ -12,12 +12,9 @@
 /******************************************************************************
  * Includes
  *****************************************************************************/
-#include "stm32f4xx.h"
-#include "stm32f429i_discovery.h"
-#include "stm32f429i_discovery_lcd.h"
 #include "stm32f429i_discovery_ts.h"
 
-#include "main.h"
+#include "led.h"
 
 #include <stdbool.h>
 
@@ -52,6 +49,12 @@ void ext_led_init(void){
 
 }
 
+/** ***************************************************************************
+ * @brief
+ *
+ *
+ * @n
+ *****************************************************************************/
 void ext_led_set(uint8_t ledNum, bool status){
 	switch(ledNum){
 	case 0:											// RUN LED
@@ -116,6 +119,12 @@ void ext_led_set(uint8_t ledNum, bool status){
 	}
 }
 
+/** ***************************************************************************
+ * @brief
+ *
+ *
+ * @n
+ *****************************************************************************/
 void ext_led_lamptest(uint16_t time){
 	uint8_t i;
 

@@ -92,14 +92,7 @@ int main(void) {
 		}
 
 		if (PB_pressed()) {				// Check if user pushbutton was pressed
-			DAC_active = !DAC_active;	// Toggle DAC on/off
-			if (DAC_active) {
-				DAC_init();
-				BSP_LED_On(LED4);
-			} else {
-				DAC_reset();
-				BSP_LED_Off(LED4);
-			}
+			// start measurement code
 		}
 
 		/* Comment next line if touchscreen interrupt is enabled */

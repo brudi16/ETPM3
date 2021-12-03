@@ -67,8 +67,7 @@
  * Defines
  *****************************************************************************/
 #define ADC_DAC_RES		12			///< Resolution
-#define ADC_NUMS		60			///< Number of samples
-#define ADC_FS			600	///< Sampling freq. => 12 samples for a 50Hz period
+#define ADC_FS			600			///< Sampling freq. => 12 samples for a 50Hz period
 #define ADC_CLOCK		84000000	///< APB2 peripheral clock frequency
 #define ADC_CLOCKS_PS	15			///< Clocks/sample: 3 hold + 12 conversion
 #define TIM_CLOCK		84000000	///< APB1 timer clock frequency
@@ -84,7 +83,7 @@ uint32_t MEAS_input_count = 1;			///< 1 or 2 input channels?
 bool DAC_active = false;				///< DAC output active?
 
 static uint32_t ADC_sample_count = 0;	///< Index for buffer
-static uint32_t ADC_samples[2*ADC_NUMS];///< ADC values of max. 2 input channels
+static int32_t ADC_samples[2*ADC_NUMS];///< ADC values of max. 2 input channels
 static uint32_t DAC_sample = 0;			///< DAC output value
 
 
@@ -187,9 +186,7 @@ void ADC3_IN4_single_read(void)
 	while (!(ADC3->SR & ADC_SR_EOC)) { ; }	// Wait for end of conversion
 	ADC_samples[0] = ADC3->DR;			// Read the converted value
 	ADC3->CR2 &= ~ADC_CR2_ADON;			// Disable ADC3
-	if (DAC_active) {
-		DAC_increment();
-	}
+
 	ADC_reset();
 	MEAS_data_ready = true;
 }
@@ -279,7 +276,7 @@ void ADC3_IN4_DMA_init(void)
 	DMA2_Stream1->CR |= DMA_SxCR_TCIE;	// Transfer complete interrupt enable
 	DMA2_Stream1->NDTR = ADC_NUMS;		// Number of data items to transfer
 	DMA2_Stream1->PAR = (uint32_t)&ADC3->DR;	// Peripheral register address
-	DMA2_Stream1->M0AR = (uint32_t)ADC_samples;	// Buffer memory loc. address
+	DMA2_Stream1->M0AR = (int32_t)ADC_samples;	// Buffer memory loc. address
 }
 
 
@@ -335,7 +332,7 @@ void ADC1_IN13_ADC2_IN5_dual_init(void)
 	DMA2_Stream4->CR |= DMA_SxCR_TCIE;	// Transfer complete interrupt enable
 	DMA2_Stream4->NDTR = ADC_NUMS;		// Number of data items to transfer
 	DMA2_Stream4->PAR = (uint32_t)&ADC->CDR;	// Peripheral register address
-	DMA2_Stream4->M0AR = (uint32_t)ADC_samples;	// Buffer memory loc. address
+	DMA2_Stream4->M0AR = (int32_t)ADC_samples;	// Buffer memory loc. address
 }
 
 
@@ -388,7 +385,7 @@ void ADC2_IN13_IN5_scan_init(void)
 	DMA2_Stream3->CR |= DMA_SxCR_TCIE;	// Transfer complete interrupt enable
 	DMA2_Stream3->NDTR = 2*ADC_NUMS;	// Number of data items to transfer
 	DMA2_Stream3->PAR = (uint32_t)&ADC2->DR;	// Peripheral register address
-	DMA2_Stream3->M0AR = (uint32_t)ADC_samples;	// Buffer memory loc. address
+	DMA2_Stream3->M0AR = (int32_t)ADC_samples;	// Buffer memory loc. address
 }
 
 
@@ -440,7 +437,7 @@ void ADC3_IN13_IN4_scan_init(void)
 	DMA2_Stream1->CR |= DMA_SxCR_TCIE;	// Transfer complete interrupt enable
 	DMA2_Stream1->NDTR = 2*ADC_NUMS;	// Number of data items to transfer
 	DMA2_Stream1->PAR = (uint32_t)&ADC3->DR;	// Peripheral register address
-	DMA2_Stream1->M0AR = (uint32_t)ADC_samples;	// Buffer memory loc. address
+	DMA2_Stream1->M0AR = (int32_t)ADC_samples;	// Buffer memory loc. address
 
 }
 

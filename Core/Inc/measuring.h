@@ -29,9 +29,6 @@ extern bool DAC_active;
  *****************************************************************************/
 void MEAS_GPIO_analog_init(void);
 void MEAS_timer_init(void);
-void DAC_reset(void);
-void DAC_init(void);
-void DAC_increment(void);
 void ADC_reset(void);
 void ADC3_IN4_single_init(void);
 void ADC3_IN4_single_read(void);
@@ -48,5 +45,9 @@ void ADC3_IN13_IN4_scan_start(void);
 
 void MEAS_show_data(void);
 
+/******************************************************************************
+ * Defines
+ *****************************************************************************/
+#define ADC_NUMS		60			///< Number of samples
 
 #endif
