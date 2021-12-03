@@ -655,7 +655,7 @@
 
   <RTE>
     <gpdscs>
-      <gpdsc name="C:\Users\yvesroehrig\Documents\GitHub\ETPM3\Application\GeneratedCode\ewfiles.gpdsc">
+      <gpdsc name="C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\Application\GeneratedCode\ewfiles.gpdsc">
         <targetInfos>
           <targetInfo name="STM32F429-Discovery"/>
         </targetInfos>

@@ -1,0 +1,17 @@
+﻿$version 11.00
+
+$rect <550,-160,750,-120>
+$output false
+resource Resources::Font MenuButtonFont
+{
+  attr fontname FontName = Arial;
+  attr fontheight Height = 22;
+  attr fontheightmode HeightMode = Popular;
+  attr fontquality Quality = High;
+  attr fontranges Ranges = 0x20-0xFF;
+  attr fontaspectratio AspectRatio = 1.0;
+  attr fontbold Bold = true;
+  attr fontitalic Italic = false;
+  attr fontkerning Kerning = true;
+  attr fontrowdistance RowDistance;
+}

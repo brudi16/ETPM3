@@ -1,0 +1,38 @@
+﻿$version 11.00
+
+// This is the root component of the entire GUI application.
+$rect <70,-230,270,-190>
+$output false
+class Application : Core::Root
+{
+  $rect <30,340,210,380>
+  inherited method Init()
+  {
+    var Core::Group newDialog = new Application::WelcomeScreen;
+    PresentDialog( newDialog, null, null, null, null, null, null, null, null, false );
+  }
+
+  $rect <270,10,470,50>
+  inherited property Bounds = <0,0,240,320>;
+
+  // To do:
+  // 
+  // - The simplest way to compose the appearance of the application is to use the \
+  // 'Views' and 'Widgets' from the Gallery.
+  // 
+  // - To react to touch or keyboard events use the templates from the Gallery folder \
+  // 'Event Handlers'.
+  // 
+  // - To perform transitions (animations) use the templates from the Gallery folder \
+  // 'Effects'.
+  // 
+  // - To store values use the 'Variable', 'Array' and 'Property' templates available \
+  // in the Gallery folder 'Chora'.
+  // 
+  // - To implement behavior use the 'Method' and 'Slot Method' templates available \
+  // in the Gallery folder 'Chora'.
+  note legend Note1
+  {
+    attr Bounds = <470,410,1250,610>;
+  }
+}
