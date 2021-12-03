@@ -1720,7 +1720,7 @@ I (..\..\Source\led.h)(0x61AA2E0F)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdbool.h)(0x60355C2A)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x60355C30)
 I (..\..\Source\DeviceDriver.h)(0x61AA2E0F)
-I (..\..\GeneratedCode\Application.h)(0x61AA770A)
+I (..\..\GeneratedCode\Application.h)(0x61AA98AC)
 I (C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\PlatformPackage\RGB565\ewgfx.h)(0x61AA6F60)
 I (C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\PlatformPackage\RGB565\ewgfxdriver.h)(0x61AA6F60)
 I (C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\PlatformPackage\RGB565\ewextgfx.h)(0x61AA6F60)
@@ -1740,13 +1740,12 @@ I (..\..\GeneratedCode\_ViewsText.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_WidgetSetGauge.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_EffectsFloatEffect.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_EffectsEffect.h)(0x61AA2E0F)
-I (..\..\GeneratedCode\_WidgetSetPushButton.h)(0x61AA770A)
+I (..\..\GeneratedCode\_WidgetSetPushButton.h)(0x61AA98AC)
 I (..\..\GeneratedCode\_CoreKeyPressHandler.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_CoreSimpleTouchHandler.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_CoreQuadView.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_WidgetSetValueDisplay.h)(0x61AA2E0F)
-I (..\..\GeneratedCode\_ApplicationDetectorScreen.h)(0x61AA770A)
-I (..\..\GeneratedCode\_ViewsImage.h)(0x61AA770A)
+I (..\..\GeneratedCode\_ApplicationDetectorScreen.h)(0x61AA98AC)
 I (..\..\GeneratedCode\_ApplicationDeviceClass.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_TemplatesDeviceClass.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_ApplicationDistanceMeasurement.h)(0x61AA2E0F)
@@ -1755,6 +1754,7 @@ I (..\..\GeneratedCode\_ApplicationMenu.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_ApplicationSettings.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_WidgetSetToggleButton.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_ApplicationWelcomeScreen.h)(0x61AA2E0F)
+I (..\..\GeneratedCode\_ViewsImage.h)(0x61AA98AC)
 F (..\..\Source\ewmain.c)(0x61AA2E0F)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O2 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Inc -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/STM32F4xx_HAL_Driver/Inc -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/BSP/STM32F429I-Discovery -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/BSP/Components -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/CMSIS/Include -I ../../../TargetSpecific -I ../../GeneratedCode -I ../../Source -I ../../../ThirdParty/STM32Cube_FW_F4/MiddleWares/Third_Party/FreeRTOS/Source/include -I ../../../ThirdParty/STM32Cube_FW_F4/MiddleWares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I ../../../ThirdParty/STM32Cube_FW_F4/MiddleWares/Third_Party/FreeRTOS/Source/CMSIS_RTOS-I./RTE/_STM32F429-Discovery-IC:/Users/brudi/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.15.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include-IC:/Users/brudi/OneDrive/Dokumente/GitHub/ETPM3/PlatformPackage/RGB565-IC:/Users/brudi/OneDrive/Dokumente/GitHub/ETPM3/PlatformPackage/RTE-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F429xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F429xx -DUSE_STM32F429I_DISCO -DHSE_VALUE="8000000" -DEW_USE_FREE_RTOS="1"-o stm32f429-discovery/ewmain.o -MD)
 I (..\..\Source\ewconfig.h)(0x61AA2E0F)
 I (..\..\Source\ewdef.h)(0x61AA2E0F)
@@ -1959,7 +1959,7 @@ I (..\..\..\ThirdParty\STM32Cube_FW_F4\MiddleWares\Third_Party\FreeRTOS\Source\p
 I (..\..\..\ThirdParty\STM32Cube_FW_F4\MiddleWares\Third_Party\FreeRTOS\Source\include\mpu_wrappers.h)(0x61AA2E0F)
 I (..\..\..\ThirdParty\STM32Cube_FW_F4\MiddleWares\Third_Party\FreeRTOS\Source\include\task.h)(0x61AA2E0F)
 I (..\..\..\ThirdParty\STM32Cube_FW_F4\MiddleWares\Third_Party\FreeRTOS\Source\include\list.h)(0x61AA2E0F)
-F (C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\Application\GeneratedCode\Application.c)(0x61AA770A)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O2 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Inc -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/STM32F4xx_HAL_Driver/Inc -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/BSP/STM32F429I-Discovery -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/BSP/Components -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/CMSIS/Include -I ../../../TargetSpecific -I ../../GeneratedCode -I ../../Source -I ../../../ThirdParty/STM32Cube_FW_F4/MiddleWares/Third_Party/FreeRTOS/Source/include -I ../../../ThirdParty/STM32Cube_FW_F4/MiddleWares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I ../../../ThirdParty/STM32Cube_FW_F4/MiddleWares/Third_Party/FreeRTOS/Source/CMSIS_RTOS-I./RTE/_STM32F429-Discovery-IC:/Users/brudi/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.15.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include-IC:/Users/brudi/OneDrive/Dokumente/GitHub/ETPM3/PlatformPackage/RGB565-IC:/Users/brudi/OneDrive/Dokumente/GitHub/ETPM3/PlatformPackage/RTE-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F429xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F429xx -DUSE_STM32F429I_DISCO -DHSE_VALUE="8000000" -DEW_USE_FREE_RTOS="1"-o stm32f429-discovery/application.o -MD)
+F (C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\Application\GeneratedCode\Application.c)(0x61AA98AC)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O2 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Inc -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/STM32F4xx_HAL_Driver/Inc -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/BSP/STM32F429I-Discovery -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/BSP/Components -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/CMSIS/Include -I ../../../TargetSpecific -I ../../GeneratedCode -I ../../Source -I ../../../ThirdParty/STM32Cube_FW_F4/MiddleWares/Third_Party/FreeRTOS/Source/include -I ../../../ThirdParty/STM32Cube_FW_F4/MiddleWares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I ../../../ThirdParty/STM32Cube_FW_F4/MiddleWares/Third_Party/FreeRTOS/Source/CMSIS_RTOS-I./RTE/_STM32F429-Discovery-IC:/Users/brudi/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.15.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include-IC:/Users/brudi/OneDrive/Dokumente/GitHub/ETPM3/PlatformPackage/RGB565-IC:/Users/brudi/OneDrive/Dokumente/GitHub/ETPM3/PlatformPackage/RTE-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F429xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F429xx -DUSE_STM32F429I_DISCO -DHSE_VALUE="8000000" -DEW_USE_FREE_RTOS="1"-o stm32f429-discovery/application.o -MD)
 I (..\..\GeneratedCode\ewlocale.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_ApplicationApplication.h)(0x61AA2E0F)
 I (C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\PlatformPackage\RTE\ewrte.h)(0x61AA6F62)
@@ -1984,13 +1984,12 @@ I (..\..\GeneratedCode\_ViewsText.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_WidgetSetGauge.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_EffectsFloatEffect.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_EffectsEffect.h)(0x61AA2E0F)
-I (..\..\GeneratedCode\_WidgetSetPushButton.h)(0x61AA770A)
+I (..\..\GeneratedCode\_WidgetSetPushButton.h)(0x61AA98AC)
 I (..\..\GeneratedCode\_CoreKeyPressHandler.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_CoreSimpleTouchHandler.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_CoreQuadView.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_WidgetSetValueDisplay.h)(0x61AA2E0F)
-I (..\..\GeneratedCode\_ApplicationDetectorScreen.h)(0x61AA770A)
-I (..\..\GeneratedCode\_ViewsImage.h)(0x61AA770A)
+I (..\..\GeneratedCode\_ApplicationDetectorScreen.h)(0x61AA98AC)
 I (..\..\GeneratedCode\_ApplicationDeviceClass.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_TemplatesDeviceClass.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_ApplicationDistanceMeasurement.h)(0x61AA2E0F)
@@ -1999,6 +1998,7 @@ I (..\..\GeneratedCode\_ApplicationMenu.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_ApplicationSettings.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_WidgetSetToggleButton.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_ApplicationWelcomeScreen.h)(0x61AA2E0F)
+I (..\..\GeneratedCode\_ViewsImage.h)(0x61AA98AC)
 I (..\..\GeneratedCode\_ResourcesBitmap.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_CoreResource.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_ResourcesFont.h)(0x61AA2E0F)
@@ -2008,7 +2008,7 @@ I (..\..\GeneratedCode\_WidgetSetHorizontalValueBarConfig.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_WidgetSetPushButtonConfig.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_WidgetSetToggleButtonConfig.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_WidgetSetValueDisplayConfig.h)(0x61AA2E0F)
-I (..\..\GeneratedCode\Application.h)(0x61AA770A)
+I (..\..\GeneratedCode\Application.h)(0x61AA98AC)
 I (..\..\GeneratedCode\Core.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_CoreCursorEvent.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_CoreEvent.h)(0x61AA2E0F)
@@ -2022,13 +2022,10 @@ I (..\..\GeneratedCode\_CoreLayoutQuadContext.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_CoreOutline.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_CoreTask.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_CoreTaskQueue.h)(0x61AA2E0F)
-I (..\..\GeneratedCode\WidgetSet.h)(0x61AA770A)
+I (..\..\GeneratedCode\WidgetSet.h)(0x61AA98AC)
 I (..\..\GeneratedCode\_ApplicationFont.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_ApplicationTitelFont.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_ApplicationZhawLogo.h)(0x61AA2E0F)
-I (..\..\GeneratedCode\_ApplicationWarnSign.h)(0x61AA2E0F)
-I (..\..\GeneratedCode\_ApplicationHomeIcon.h)(0x61AA2E0F)
-I (..\..\GeneratedCode\_ApplicationBlueNeedle.h)(0x61AA2E0F)
 F (C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\Application\GeneratedCode\Core.c)(0x61AA2E0F)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O2 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Inc -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/STM32F4xx_HAL_Driver/Inc -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/BSP/STM32F429I-Discovery -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/BSP/Components -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/CMSIS/Include -I ../../../TargetSpecific -I ../../GeneratedCode -I ../../Source -I ../../../ThirdParty/STM32Cube_FW_F4/MiddleWares/Third_Party/FreeRTOS/Source/include -I ../../../ThirdParty/STM32Cube_FW_F4/MiddleWares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I ../../../ThirdParty/STM32Cube_FW_F4/MiddleWares/Third_Party/FreeRTOS/Source/CMSIS_RTOS-I./RTE/_STM32F429-Discovery-IC:/Users/brudi/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.15.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include-IC:/Users/brudi/OneDrive/Dokumente/GitHub/ETPM3/PlatformPackage/RGB565-IC:/Users/brudi/OneDrive/Dokumente/GitHub/ETPM3/PlatformPackage/RTE-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F429xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F429xx -DUSE_STM32F429I_DISCO -DHSE_VALUE="8000000" -DEW_USE_FREE_RTOS="1"-o stm32f429-discovery/core.o -MD)
 I (..\..\GeneratedCode\ewlocale.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_ApplicationApplication.h)(0x61AA2E0F)
@@ -2148,7 +2145,7 @@ I (..\..\GeneratedCode\_ViewsFillPath.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_CoreRectView.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_CoreView.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_ViewsFrame.h)(0x61AA2E0F)
-I (..\..\GeneratedCode\_ViewsImage.h)(0x61AA770A)
+I (..\..\GeneratedCode\_ViewsImage.h)(0x61AA98AC)
 I (..\..\GeneratedCode\_ViewsRectangle.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_ViewsText.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_ViewsWarpImage.h)(0x61AA2E0F)
@@ -2188,7 +2185,7 @@ I (C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\PlatformPackage\RGB565\ewextbm
 I (C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\PlatformPackage\RGB565\ewextfnt.h)(0x61AA6F60)
 I (C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\PlatformPackage\RGB565\ewgfxcore.h)(0x61AA6F60)
 I (..\..\GeneratedCode\Templates.h)(0x61AA2E0F)
-F (C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\Application\GeneratedCode\Views.c)(0x61AA770A)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O2 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Inc -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/STM32F4xx_HAL_Driver/Inc -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/BSP/STM32F429I-Discovery -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/BSP/Components -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/CMSIS/Include -I ../../../TargetSpecific -I ../../GeneratedCode -I ../../Source -I ../../../ThirdParty/STM32Cube_FW_F4/MiddleWares/Third_Party/FreeRTOS/Source/include -I ../../../ThirdParty/STM32Cube_FW_F4/MiddleWares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I ../../../ThirdParty/STM32Cube_FW_F4/MiddleWares/Third_Party/FreeRTOS/Source/CMSIS_RTOS-I./RTE/_STM32F429-Discovery-IC:/Users/brudi/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.15.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include-IC:/Users/brudi/OneDrive/Dokumente/GitHub/ETPM3/PlatformPackage/RGB565-IC:/Users/brudi/OneDrive/Dokumente/GitHub/ETPM3/PlatformPackage/RTE-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F429xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F429xx -DUSE_STM32F429I_DISCO -DHSE_VALUE="8000000" -DEW_USE_FREE_RTOS="1"-o stm32f429-discovery/views.o -MD)
+F (C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\Application\GeneratedCode\Views.c)(0x61AA98AC)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O2 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Inc -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/STM32F4xx_HAL_Driver/Inc -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/BSP/STM32F429I-Discovery -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/BSP/Components -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/CMSIS/Include -I ../../../TargetSpecific -I ../../GeneratedCode -I ../../Source -I ../../../ThirdParty/STM32Cube_FW_F4/MiddleWares/Third_Party/FreeRTOS/Source/include -I ../../../ThirdParty/STM32Cube_FW_F4/MiddleWares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I ../../../ThirdParty/STM32Cube_FW_F4/MiddleWares/Third_Party/FreeRTOS/Source/CMSIS_RTOS-I./RTE/_STM32F429-Discovery-IC:/Users/brudi/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.15.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include-IC:/Users/brudi/OneDrive/Dokumente/GitHub/ETPM3/PlatformPackage/RGB565-IC:/Users/brudi/OneDrive/Dokumente/GitHub/ETPM3/PlatformPackage/RTE-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F429xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F429xx -DUSE_STM32F429I_DISCO -DHSE_VALUE="8000000" -DEW_USE_FREE_RTOS="1"-o stm32f429-discovery/views.o -MD)
 I (..\..\GeneratedCode\ewlocale.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_CoreGroup.h)(0x61AA2E0F)
 I (C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\PlatformPackage\RTE\ewrte.h)(0x61AA6F62)
@@ -2213,7 +2210,7 @@ I (..\..\GeneratedCode\_GraphicsWarpMatrix.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_ResourcesFont.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_ViewsFillPath.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_ViewsFrame.h)(0x61AA2E0F)
-I (..\..\GeneratedCode\_ViewsImage.h)(0x61AA770A)
+I (..\..\GeneratedCode\_ViewsImage.h)(0x61AA98AC)
 I (..\..\GeneratedCode\_ViewsRectangle.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_ViewsText.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_ViewsWarpImage.h)(0x61AA2E0F)
@@ -2248,7 +2245,7 @@ I (..\..\GeneratedCode\Graphics.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_GraphicsArcPath.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_GraphicsPath.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\Views.h)(0x61AA2E0F)
-F (C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\Application\GeneratedCode\WidgetSet.c)(0x61AA770A)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O2 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Inc -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/STM32F4xx_HAL_Driver/Inc -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/BSP/STM32F429I-Discovery -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/BSP/Components -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/CMSIS/Include -I ../../../TargetSpecific -I ../../GeneratedCode -I ../../Source -I ../../../ThirdParty/STM32Cube_FW_F4/MiddleWares/Third_Party/FreeRTOS/Source/include -I ../../../ThirdParty/STM32Cube_FW_F4/MiddleWares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I ../../../ThirdParty/STM32Cube_FW_F4/MiddleWares/Third_Party/FreeRTOS/Source/CMSIS_RTOS-I./RTE/_STM32F429-Discovery-IC:/Users/brudi/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.15.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include-IC:/Users/brudi/OneDrive/Dokumente/GitHub/ETPM3/PlatformPackage/RGB565-IC:/Users/brudi/OneDrive/Dokumente/GitHub/ETPM3/PlatformPackage/RTE-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F429xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F429xx -DUSE_STM32F429I_DISCO -DHSE_VALUE="8000000" -DEW_USE_FREE_RTOS="1"-o stm32f429-discovery/widgetset.o -MD)
+F (C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\Application\GeneratedCode\WidgetSet.c)(0x61AA98AC)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O2 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Inc -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/STM32F4xx_HAL_Driver/Inc -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/BSP/STM32F429I-Discovery -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/BSP/Components -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/CMSIS/Include -I ../../../TargetSpecific -I ../../GeneratedCode -I ../../Source -I ../../../ThirdParty/STM32Cube_FW_F4/MiddleWares/Third_Party/FreeRTOS/Source/include -I ../../../ThirdParty/STM32Cube_FW_F4/MiddleWares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I ../../../ThirdParty/STM32Cube_FW_F4/MiddleWares/Third_Party/FreeRTOS/Source/CMSIS_RTOS-I./RTE/_STM32F429-Discovery-IC:/Users/brudi/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.15.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include-IC:/Users/brudi/OneDrive/Dokumente/GitHub/ETPM3/PlatformPackage/RGB565-IC:/Users/brudi/OneDrive/Dokumente/GitHub/ETPM3/PlatformPackage/RTE-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F429xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F429xx -DUSE_STM32F429I_DISCO -DHSE_VALUE="8000000" -DEW_USE_FREE_RTOS="1"-o stm32f429-discovery/widgetset.o -MD)
 I (..\..\GeneratedCode\ewlocale.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_CoreKeyPressHandler.h)(0x61AA2E0F)
 I (C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\PlatformPackage\RTE\ewrte.h)(0x61AA6F62)
@@ -2277,7 +2274,7 @@ I (..\..\GeneratedCode\_ResourcesFont.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_ViewsFillPath.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_CoreRectView.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_ViewsFrame.h)(0x61AA2E0F)
-I (..\..\GeneratedCode\_ViewsImage.h)(0x61AA770A)
+I (..\..\GeneratedCode\_ViewsImage.h)(0x61AA98AC)
 I (..\..\GeneratedCode\_ViewsText.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_ViewsWarpImage.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_ViewsWarpView.h)(0x61AA2E0F)
@@ -2287,7 +2284,7 @@ I (..\..\GeneratedCode\_WidgetSetGaugeConfig.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_WidgetSetWidgetConfig.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_WidgetSetHorizontalValueBar.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_WidgetSetHorizontalValueBarConfig.h)(0x61AA2E0F)
-I (..\..\GeneratedCode\_WidgetSetPushButton.h)(0x61AA770A)
+I (..\..\GeneratedCode\_WidgetSetPushButton.h)(0x61AA98AC)
 I (..\..\GeneratedCode\_WidgetSetPushButtonConfig.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_WidgetSetToggleButton.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_WidgetSetToggleButtonConfig.h)(0x61AA2E0F)
@@ -2320,16 +2317,14 @@ I (..\..\GeneratedCode\_GraphicsCanvas.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\Resources.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\Views.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_ViewsRectangle.h)(0x61AA2E0F)
-I (..\..\GeneratedCode\WidgetSet.h)(0x61AA770A)
+I (..\..\GeneratedCode\WidgetSet.h)(0x61AA98AC)
+I (..\..\GeneratedCode\_WidgetSetGaugeNeedleMedium.h)(0x61AA98AC)
 I (..\..\GeneratedCode\_WidgetSetGaugeTrackMedium.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_WidgetSetHorizontalValueBarMedium.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_WidgetSetPushButtonMedium.h)(0x61AA2E0F)
 I (..\..\GeneratedCode\_WidgetSetSwitchMedium.h)(0x61AA2E0F)
-F (C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\Application\GeneratedCode\_ApplicationBlueNeedle.h)(0x61AA2E0F)()
 F (C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\Application\GeneratedCode\_ApplicationFont.h)(0x61AA2E0F)()
-F (C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\Application\GeneratedCode\_ApplicationHomeIcon.h)(0x61AA2E0F)()
 F (C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\Application\GeneratedCode\_ApplicationTitelFont.h)(0x61AA2E0F)()
-F (C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\Application\GeneratedCode\_ApplicationWarnSign.h)(0x61AA2E0F)()
 F (C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\Application\GeneratedCode\_ApplicationZhawLogo.h)(0x61AA2E0F)()
 F (C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\Application\GeneratedCode\_ResourcesFontLarge.h)(0x61AA2E0F)()
 F (C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\Application\GeneratedCode\_ResourcesFontMedium.h)(0x61AA2E0F)()
@@ -2337,6 +2332,7 @@ F (C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\Application\GeneratedCode\_Wid
 F (C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\Application\GeneratedCode\_WidgetSetHorizontalValueBarMedium.h)(0x61AA2E0F)()
 F (C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\Application\GeneratedCode\_WidgetSetPushButtonMedium.h)(0x61AA2E0F)()
 F (C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\Application\GeneratedCode\_WidgetSetSwitchMedium.h)(0x61AA2E0F)()
+F (C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\Application\GeneratedCode\_WidgetSetGaugeNeedleMedium.h)(0x61AA98AC)()
 F (C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\PlatformPackage\RGB565\ewextgfx.c)(0x61AA6F60)(-xc -std=gnu99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O2 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Inc -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/STM32F4xx_HAL_Driver/Inc -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/BSP/STM32F429I-Discovery -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/BSP/Components -I ../../../ThirdParty/STM32Cube_FW_F4/Drivers/CMSIS/Include -I ../../../TargetSpecific -I ../../GeneratedCode -I ../../Source -I ../../../ThirdParty/STM32Cube_FW_F4/MiddleWares/Third_Party/FreeRTOS/Source/include -I ../../../ThirdParty/STM32Cube_FW_F4/MiddleWares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I ../../../ThirdParty/STM32Cube_FW_F4/MiddleWares/Third_Party/FreeRTOS/Source/CMSIS_RTOS-I./RTE/_STM32F429-Discovery-IC:/Users/brudi/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.15.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include-IC:/Users/brudi/OneDrive/Dokumente/GitHub/ETPM3/PlatformPackage/RGB565-IC:/Users/brudi/OneDrive/Dokumente/GitHub/ETPM3/PlatformPackage/RTE-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F429xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F429xx -DUSE_STM32F429I_DISCO -DHSE_VALUE="8000000" -DEW_USE_FREE_RTOS="1"-o stm32f429-discovery/ewextgfx.o -MD)
 I (C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\PlatformPackage\RTE\ewrte.h)(0x61AA6F62)
 I (..\..\Source\ewconfig.h)(0x61AA2E0F)

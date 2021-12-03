@@ -77,44 +77,39 @@ static const XPoint _Const0003 = { 240, 0 };
 static const XPoint _Const0004 = { 240, 320 };
 static const XPoint _Const0005 = { 0, 320 };
 static const XColor _Const0006 = { 0xDC, 0xDC, 0xDC, 0xFF };
-static const XRect _Const0007 = {{ 56, 62 }, { 184, 211 }};
-static const XRect _Const0008 = {{ 0, 168 }, { 240, 254 }};
-static const XStringRes _Const0009 = { _StringsDefault0, 0x0002 };
-static const XColor _Const000A = { 0x00, 0x00, 0x00, 0xFF };
-static const XRect _Const000B = {{ 0, 0 }, { 240, 86 }};
-static const XStringRes _Const000C = { _StringsDefault0, 0x001A };
-static const XRect _Const000D = {{ 0, 270 }, { 50, 320 }};
-static const XRect _Const000E = {{ 0, 0 }, { 240, 80 }};
-static const XStringRes _Const000F = { _StringsDefault0, 0x0025 };
-static const XRect _Const0010 = {{ 0, 80 }, { 240, 261 }};
-static const XRect _Const0011 = {{ 83, 160 }, { 157, 192 }};
-static const XStringRes _Const0012 = { _StringsDefault0, 0x003B };
-static const XRect _Const0013 = {{ 0, 0 }, { 240, 51 }};
-static const XStringRes _Const0014 = { _StringsDefault0, 0x003F };
-static const XRect _Const0015 = {{ 45, 71 }, { 195, 121 }};
-static const XStringRes _Const0016 = { _StringsDefault0, 0x004A };
-static const XRect _Const0017 = {{ 45, 116 }, { 195, 166 }};
-static const XStringRes _Const0018 = { _StringsDefault0, 0x0050 };
-static const XRect _Const0019 = {{ 43, 160 }, { 193, 210 }};
-static const XRect _Const001A = {{ 0, 0 }, { 240, 81 }};
-static const XStringRes _Const001B = { _StringsDefault0, 0x005A };
-static const XRect _Const001C = {{ 25, 96 }, { 225, 146 }};
-static const XRect _Const001D = {{ 25, 176 }, { 225, 226 }};
-static const XRect _Const001E = {{ 71, 144 }, { 179, 176 }};
-static const XStringRes _Const001F = { _StringsDefault0, 0x0071 };
-static const XRect _Const0020 = {{ 73, 226 }, { 167, 258 }};
-static const XStringRes _Const0021 = { _StringsDefault0, 0x0076 };
-static const XStringRes _Const0022 = { _StringsDefault0, 0x007D };
-static const XRect _Const0023 = {{ 0, 225 }, { 120, 320 }};
-static const XStringRes _Const0024 = { _StringsDefault0, 0x0084 };
-static const XRect _Const0025 = {{ 120, 130 }, { 240, 225 }};
-static const XStringRes _Const0026 = { _StringsDefault0, 0x008E };
-static const XRect _Const0027 = {{ 0, 130 }, { 120, 225 }};
-static const XRect _Const0028 = {{ 120, 225 }, { 240, 320 }};
-static const XColor _Const0029 = { 0x00, 0x64, 0xA6, 0xFF };
-static const XPoint _Const002A = { -39, 12 };
-static const XPoint _Const002B = { 0, 10 };
-static const XPoint _Const002C = { 171, 151 };
+static const XRect _Const0007 = {{ 0, 168 }, { 240, 254 }};
+static const XStringRes _Const0008 = { _StringsDefault0, 0x0002 };
+static const XColor _Const0009 = { 0x00, 0x00, 0x00, 0xFF };
+static const XRect _Const000A = {{ 0, 0 }, { 240, 86 }};
+static const XStringRes _Const000B = { _StringsDefault0, 0x001A };
+static const XRect _Const000C = {{ 0, 270 }, { 50, 320 }};
+static const XRect _Const000D = {{ 0, 0 }, { 240, 80 }};
+static const XStringRes _Const000E = { _StringsDefault0, 0x0025 };
+static const XRect _Const000F = {{ 0, 80 }, { 240, 261 }};
+static const XRect _Const0010 = {{ 83, 160 }, { 157, 192 }};
+static const XStringRes _Const0011 = { _StringsDefault0, 0x003B };
+static const XRect _Const0012 = {{ 0, 0 }, { 240, 51 }};
+static const XStringRes _Const0013 = { _StringsDefault0, 0x003F };
+static const XRect _Const0014 = {{ 45, 71 }, { 195, 121 }};
+static const XStringRes _Const0015 = { _StringsDefault0, 0x004A };
+static const XRect _Const0016 = {{ 45, 116 }, { 195, 166 }};
+static const XStringRes _Const0017 = { _StringsDefault0, 0x0050 };
+static const XRect _Const0018 = {{ 43, 160 }, { 193, 210 }};
+static const XRect _Const0019 = {{ 0, 0 }, { 240, 81 }};
+static const XStringRes _Const001A = { _StringsDefault0, 0x005A };
+static const XRect _Const001B = {{ 25, 96 }, { 225, 146 }};
+static const XRect _Const001C = {{ 25, 176 }, { 225, 226 }};
+static const XRect _Const001D = {{ 71, 144 }, { 179, 176 }};
+static const XStringRes _Const001E = { _StringsDefault0, 0x0071 };
+static const XRect _Const001F = {{ 73, 226 }, { 167, 258 }};
+static const XStringRes _Const0020 = { _StringsDefault0, 0x0076 };
+static const XStringRes _Const0021 = { _StringsDefault0, 0x007D };
+static const XRect _Const0022 = {{ 0, 225 }, { 120, 320 }};
+static const XStringRes _Const0023 = { _StringsDefault0, 0x0084 };
+static const XRect _Const0024 = {{ 120, 130 }, { 240, 225 }};
+static const XStringRes _Const0025 = { _StringsDefault0, 0x008E };
+static const XRect _Const0026 = {{ 0, 130 }, { 120, 225 }};
+static const XRect _Const0027 = {{ 120, 225 }, { 240, 320 }};
 
 /* Initializer for the class 'Application::Application' */
 void ApplicationApplication__Init( ApplicationApplication _this, XObject aLink, XHandle aArg )
@@ -323,7 +318,6 @@ void ApplicationDetectorScreen__Init( ApplicationDetectorScreen _this, XObject a
 
   /* ... then construct all embedded objects */
   ViewsRectangle__Init( &_this->Rectangle, &_this->_.XObject, 0 );
-  ViewsImage__Init( &_this->Image, &_this->_.XObject, 0 );
   ViewsText__Init( &_this->Text, &_this->_.XObject, 0 );
   ViewsText__Init( &_this->Text1, &_this->_.XObject, 0 );
   WidgetSetPushButton__Init( &_this->PushButton, &_this->_.XObject, 0 );
@@ -335,28 +329,21 @@ void ApplicationDetectorScreen__Init( ApplicationDetectorScreen _this, XObject a
   CoreRectView__OnSetBounds( _this, _Const0000 );
   CoreRectView__OnSetBounds( &_this->Rectangle, _Const0000 );
   ViewsRectangle_OnSetColor( &_this->Rectangle, _Const0006 );
-  CoreView_OnSetLayout((CoreView)&_this->Image, CoreLayoutAlignToBottom | CoreLayoutAlignToLeft 
-  | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz | CoreLayoutResizeVert );
-  CoreRectView__OnSetBounds( &_this->Image, _Const0007 );
-  CoreRectView__OnSetBounds( &_this->Text, _Const0008 );
-  ViewsText_OnSetString( &_this->Text, EwLoadString( &_Const0009 ));
-  ViewsText_OnSetColor( &_this->Text, _Const000A );
-  CoreRectView__OnSetBounds( &_this->Text1, _Const000B );
-  ViewsText_OnSetString( &_this->Text1, EwLoadString( &_Const000C ));
-  ViewsText_OnSetColor( &_this->Text1, _Const000A );
-  CoreRectView__OnSetBounds( &_this->PushButton, _Const000D );
+  CoreRectView__OnSetBounds( &_this->Text, _Const0007 );
+  ViewsText_OnSetString( &_this->Text, EwLoadString( &_Const0008 ));
+  ViewsText_OnSetColor( &_this->Text, _Const0009 );
+  CoreRectView__OnSetBounds( &_this->Text1, _Const000A );
+  ViewsText_OnSetString( &_this->Text1, EwLoadString( &_Const000B ));
+  ViewsText_OnSetColor( &_this->Text1, _Const0009 );
+  CoreRectView__OnSetBounds( &_this->PushButton, _Const000C );
   WidgetSetPushButton_OnSetLabel( &_this->PushButton, 0 );
   CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->Rectangle ), 0 );
-  CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->Image ), 0 );
   CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->Text ), 0 );
   CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->Text1 ), 0 );
   CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->PushButton ), 0 );
-  ViewsImage_OnSetBitmap( &_this->Image, EwLoadResource( &ApplicationWarnSign, ResourcesBitmap ));
   ViewsText_OnSetFont( &_this->Text, EwLoadResource( &ApplicationFont, ResourcesFont ));
   ViewsText_OnSetFont( &_this->Text1, EwLoadResource( &ApplicationTitelFont, ResourcesFont ));
   _this->PushButton.OnRelease = EwNewSlot( _this, ApplicationDetectorScreen_UpdateViewMenu );
-  WidgetSetPushButton_OnSetIcon( &_this->PushButton, EwLoadResource( &ApplicationHomeIcon, 
-  ResourcesBitmap ));
   WidgetSetPushButton_OnSetAppearance( &_this->PushButton, EwGetAutoObject( &WidgetSetPushButton_Medium, 
   WidgetSetPushButtonConfig ));
 }
@@ -369,7 +356,6 @@ void ApplicationDetectorScreen__ReInit( ApplicationDetectorScreen _this )
 
   /* ... then re-construct all embedded objects */
   ViewsRectangle__ReInit( &_this->Rectangle );
-  ViewsImage__ReInit( &_this->Image );
   ViewsText__ReInit( &_this->Text );
   ViewsText__ReInit( &_this->Text1 );
   WidgetSetPushButton__ReInit( &_this->PushButton );
@@ -383,7 +369,6 @@ void ApplicationDetectorScreen__Done( ApplicationDetectorScreen _this )
 
   /* Finalize all embedded objects */
   ViewsRectangle__Done( &_this->Rectangle );
-  ViewsImage__Done( &_this->Image );
   ViewsText__Done( &_this->Text );
   ViewsText__Done( &_this->Text1 );
   WidgetSetPushButton__Done( &_this->PushButton );
@@ -454,17 +439,17 @@ void ApplicationCurrentMeasurement__Init( ApplicationCurrentMeasurement _this, X
   CoreRectView__OnSetBounds( _this, _Const0000 );
   CoreRectView__OnSetBounds( &_this->Rectangle, _Const0000 );
   ViewsRectangle_OnSetColor( &_this->Rectangle, _Const0006 );
-  CoreRectView__OnSetBounds( &_this->Text, _Const000E );
-  ViewsText_OnSetString( &_this->Text, EwLoadString( &_Const000F ));
-  ViewsText_OnSetColor( &_this->Text, _Const000A );
-  CoreRectView__OnSetBounds( &_this->Gauge, _Const0010 );
+  CoreRectView__OnSetBounds( &_this->Text, _Const000D );
+  ViewsText_OnSetString( &_this->Text, EwLoadString( &_Const000E ));
+  ViewsText_OnSetColor( &_this->Text, _Const0009 );
+  CoreRectView__OnSetBounds( &_this->Gauge, _Const000F );
   WidgetSetGauge_OnSetMaxValue( &_this->Gauge, 10 );
   WidgetSetGauge_OnSetCurrentValue( &_this->Gauge, 5 );
   CoreView_OnSetLayout((CoreView)&_this->ValueDisplay, 0 );
-  CoreRectView__OnSetBounds( &_this->ValueDisplay, _Const0011 );
-  WidgetSetValueDisplay_OnSetUnit( &_this->ValueDisplay, EwLoadString( &_Const0012 ));
+  CoreRectView__OnSetBounds( &_this->ValueDisplay, _Const0010 );
+  WidgetSetValueDisplay_OnSetUnit( &_this->ValueDisplay, EwLoadString( &_Const0011 ));
   WidgetSetValueDisplay_OnSetPrecision( &_this->ValueDisplay, 1 );
-  CoreRectView__OnSetBounds( &_this->PushButton, _Const000D );
+  CoreRectView__OnSetBounds( &_this->PushButton, _Const000C );
   WidgetSetPushButton_OnSetLabel( &_this->PushButton, 0 );
   CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->Rectangle ), 0 );
   CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->Text ), 0 );
@@ -472,13 +457,11 @@ void ApplicationCurrentMeasurement__Init( ApplicationCurrentMeasurement _this, X
   CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->ValueDisplay ), 0 );
   CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->PushButton ), 0 );
   ViewsText_OnSetFont( &_this->Text, EwLoadResource( &ApplicationTitelFont, ResourcesFont ));
-  WidgetSetGauge_OnSetAppearance( &_this->Gauge, EwGetAutoObject( &ApplicationBlueGauge, 
+  WidgetSetGauge_OnSetAppearance( &_this->Gauge, EwGetAutoObject( &WidgetSetGauge_Medium, 
   WidgetSetGaugeConfig ));
   WidgetSetValueDisplay_OnSetAppearance( &_this->ValueDisplay, EwGetAutoObject( 
   &WidgetSetValueDisplay_Medium, WidgetSetValueDisplayConfig ));
   _this->PushButton.OnRelease = EwNewSlot( _this, ApplicationCurrentMeasurement_UpdateViewMenu );
-  WidgetSetPushButton_OnSetIcon( &_this->PushButton, EwLoadResource( &ApplicationHomeIcon, 
-  ResourcesBitmap ));
   WidgetSetPushButton_OnSetAppearance( &_this->PushButton, EwGetAutoObject( &WidgetSetPushButton_Medium, 
   WidgetSetPushButtonConfig ));
 }
@@ -577,17 +560,17 @@ void ApplicationSettings__Init( ApplicationSettings _this, XObject aLink, XHandl
   CoreRectView__OnSetBounds( _this, _Const0000 );
   CoreRectView__OnSetBounds( &_this->Rectangle, _Const0000 );
   ViewsRectangle_OnSetColor( &_this->Rectangle, _Const0006 );
-  CoreRectView__OnSetBounds( &_this->Text, _Const0013 );
-  ViewsText_OnSetString( &_this->Text, EwLoadString( &_Const0014 ));
-  ViewsText_OnSetColor( &_this->Text, _Const000A );
-  CoreRectView__OnSetBounds( &_this->MenuButton, _Const000D );
+  CoreRectView__OnSetBounds( &_this->Text, _Const0012 );
+  ViewsText_OnSetString( &_this->Text, EwLoadString( &_Const0013 ));
+  ViewsText_OnSetColor( &_this->Text, _Const0009 );
+  CoreRectView__OnSetBounds( &_this->MenuButton, _Const000C );
   WidgetSetPushButton_OnSetLabel( &_this->MenuButton, 0 );
-  CoreRectView__OnSetBounds( &_this->ToggleButton, _Const0015 );
-  WidgetSetToggleButton_OnSetLabel( &_this->ToggleButton, EwLoadString( &_Const0016 ));
-  CoreRectView__OnSetBounds( &_this->ToggleButton1, _Const0017 );
-  WidgetSetToggleButton_OnSetLabel( &_this->ToggleButton1, EwLoadString( &_Const0018 ));
-  CoreRectView__OnSetBounds( &_this->ToggleButton2, _Const0019 );
-  WidgetSetToggleButton_OnSetLabel( &_this->ToggleButton2, EwLoadString( &_Const0018 ));
+  CoreRectView__OnSetBounds( &_this->ToggleButton, _Const0014 );
+  WidgetSetToggleButton_OnSetLabel( &_this->ToggleButton, EwLoadString( &_Const0015 ));
+  CoreRectView__OnSetBounds( &_this->ToggleButton1, _Const0016 );
+  WidgetSetToggleButton_OnSetLabel( &_this->ToggleButton1, EwLoadString( &_Const0017 ));
+  CoreRectView__OnSetBounds( &_this->ToggleButton2, _Const0018 );
+  WidgetSetToggleButton_OnSetLabel( &_this->ToggleButton2, EwLoadString( &_Const0017 ));
   CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->Rectangle ), 0 );
   CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->Text ), 0 );
   CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->MenuButton ), 0 );
@@ -596,8 +579,6 @@ void ApplicationSettings__Init( ApplicationSettings _this, XObject aLink, XHandl
   CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->ToggleButton2 ), 0 );
   ViewsText_OnSetFont( &_this->Text, EwLoadResource( &ApplicationTitelFont, ResourcesFont ));
   _this->MenuButton.OnRelease = EwNewSlot( _this, ApplicationSettings_UpdateViewMenu );
-  WidgetSetPushButton_OnSetIcon( &_this->MenuButton, EwLoadResource( &ApplicationHomeIcon, 
-  ResourcesBitmap ));
   WidgetSetPushButton_OnSetAppearance( &_this->MenuButton, EwGetAutoObject( &WidgetSetPushButton_Medium, 
   WidgetSetPushButtonConfig ));
   WidgetSetToggleButton_OnSetOutlet( &_this->ToggleButton, EwNewRef( EwGetAutoObject( 
@@ -707,18 +688,18 @@ void ApplicationDistanceMeasurement__Init( ApplicationDistanceMeasurement _this,
   CoreRectView__OnSetBounds( _this, _Const0000 );
   CoreRectView__OnSetBounds( &_this->Rectangle, _Const0000 );
   ViewsRectangle_OnSetColor( &_this->Rectangle, _Const0006 );
-  CoreRectView__OnSetBounds( &_this->Text, _Const001A );
-  ViewsText_OnSetString( &_this->Text, EwLoadString( &_Const001B ));
-  ViewsText_OnSetColor( &_this->Text, _Const000A );
-  CoreRectView__OnSetBounds( &_this->PushButton, _Const000D );
+  CoreRectView__OnSetBounds( &_this->Text, _Const0019 );
+  ViewsText_OnSetString( &_this->Text, EwLoadString( &_Const001A ));
+  ViewsText_OnSetColor( &_this->Text, _Const0009 );
+  CoreRectView__OnSetBounds( &_this->PushButton, _Const000C );
   WidgetSetPushButton_OnSetLabel( &_this->PushButton, 0 );
-  CoreRectView__OnSetBounds( &_this->HorizontalValueBar, _Const001C );
-  CoreRectView__OnSetBounds( &_this->HorizontalValueBar1, _Const001D );
-  CoreRectView__OnSetBounds( &_this->ValueDisplay, _Const001E );
-  WidgetSetValueDisplay_OnSetUnit( &_this->ValueDisplay, EwLoadString( &_Const001F ));
+  CoreRectView__OnSetBounds( &_this->HorizontalValueBar, _Const001B );
+  CoreRectView__OnSetBounds( &_this->HorizontalValueBar1, _Const001C );
+  CoreRectView__OnSetBounds( &_this->ValueDisplay, _Const001D );
+  WidgetSetValueDisplay_OnSetUnit( &_this->ValueDisplay, EwLoadString( &_Const001E ));
   WidgetSetValueDisplay_OnSetPrecision( &_this->ValueDisplay, 1 );
-  CoreRectView__OnSetBounds( &_this->ValueDisplay1, _Const0020 );
-  WidgetSetValueDisplay_OnSetUnit( &_this->ValueDisplay1, EwLoadString( &_Const0021 ));
+  CoreRectView__OnSetBounds( &_this->ValueDisplay1, _Const001F );
+  WidgetSetValueDisplay_OnSetUnit( &_this->ValueDisplay1, EwLoadString( &_Const0020 ));
   WidgetSetValueDisplay_OnSetPrecision( &_this->ValueDisplay1, 0 );
   CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->Rectangle ), 0 );
   CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->Text ), 0 );
@@ -729,8 +710,6 @@ void ApplicationDistanceMeasurement__Init( ApplicationDistanceMeasurement _this,
   CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->ValueDisplay1 ), 0 );
   ViewsText_OnSetFont( &_this->Text, EwLoadResource( &ApplicationTitelFont, ResourcesFont ));
   _this->PushButton.OnRelease = EwNewSlot( _this, ApplicationDistanceMeasurement_UpdateViewMenu );
-  WidgetSetPushButton_OnSetIcon( &_this->PushButton, EwLoadResource( &ApplicationHomeIcon, 
-  ResourcesBitmap ));
   WidgetSetPushButton_OnSetAppearance( &_this->PushButton, EwGetAutoObject( &WidgetSetPushButton_Medium, 
   WidgetSetPushButtonConfig ));
   WidgetSetHorizontalValueBar_OnSetAppearance( &_this->HorizontalValueBar, EwGetAutoObject( 
@@ -823,12 +802,6 @@ EW_END_OF_CLASS( ApplicationDistanceMeasurement )
 /* Table with links to derived variants of the bitmap resource : 'Application::ZhawLogo' */
 EW_RES_WITHOUT_VARIANTS( ApplicationZhawLogo )
 
-/* Include a file containing the bitmap resource : 'Application::WarnSign' */
-#include "_ApplicationWarnSign.h"
-
-/* Table with links to derived variants of the bitmap resource : 'Application::WarnSign' */
-EW_RES_WITHOUT_VARIANTS( ApplicationWarnSign )
-
 /* Initializer for the class 'Application::Menu' */
 void ApplicationMenu__Init( ApplicationMenu _this, XObject aLink, XHandle aArg )
 {
@@ -853,17 +826,17 @@ void ApplicationMenu__Init( ApplicationMenu _this, XObject aLink, XHandle aArg )
   CoreRectView__OnSetBounds( _this, _Const0000 );
   CoreRectView__OnSetBounds( &_this->Rectangle, _Const0000 );
   ViewsRectangle_OnSetColor( &_this->Rectangle, _Const0006 );
-  CoreRectView__OnSetBounds( &_this->Text, _Const0013 );
-  ViewsText_OnSetString( &_this->Text, EwLoadString( &_Const0022 ));
-  ViewsText_OnSetColor( &_this->Text, _Const000A );
-  CoreRectView__OnSetBounds( &_this->CurrentButton, _Const0023 );
-  WidgetSetPushButton_OnSetLabel( &_this->CurrentButton, EwLoadString( &_Const0024 ));
-  CoreRectView__OnSetBounds( &_this->DistanceButton, _Const0025 );
-  WidgetSetPushButton_OnSetLabel( &_this->DistanceButton, EwLoadString( &_Const0026 ));
-  CoreRectView__OnSetBounds( &_this->DetectorButton, _Const0027 );
-  WidgetSetPushButton_OnSetLabel( &_this->DetectorButton, EwLoadString( &_Const000C ));
-  CoreRectView__OnSetBounds( &_this->SettingsButton, _Const0028 );
-  WidgetSetPushButton_OnSetLabel( &_this->SettingsButton, EwLoadString( &_Const0014 ));
+  CoreRectView__OnSetBounds( &_this->Text, _Const0012 );
+  ViewsText_OnSetString( &_this->Text, EwLoadString( &_Const0021 ));
+  ViewsText_OnSetColor( &_this->Text, _Const0009 );
+  CoreRectView__OnSetBounds( &_this->CurrentButton, _Const0022 );
+  WidgetSetPushButton_OnSetLabel( &_this->CurrentButton, EwLoadString( &_Const0023 ));
+  CoreRectView__OnSetBounds( &_this->DistanceButton, _Const0024 );
+  WidgetSetPushButton_OnSetLabel( &_this->DistanceButton, EwLoadString( &_Const0025 ));
+  CoreRectView__OnSetBounds( &_this->DetectorButton, _Const0026 );
+  WidgetSetPushButton_OnSetLabel( &_this->DetectorButton, EwLoadString( &_Const000B ));
+  CoreRectView__OnSetBounds( &_this->SettingsButton, _Const0027 );
+  WidgetSetPushButton_OnSetLabel( &_this->SettingsButton, EwLoadString( &_Const0013 ));
   CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->Rectangle ), 0 );
   CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->Text ), 0 );
   CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->CurrentButton ), 0 );
@@ -1162,45 +1135,5 @@ void ApplicationDevice__Init( ApplicationDeviceClass _this )
 /* Table with links to derived variants of the auto object : 'Application::Device' */
 EW_DEFINE_AUTOOBJECT_VARIANTS( ApplicationDevice )
 EW_END_OF_AUTOOBJECT_VARIANTS( ApplicationDevice )
-
-/* This autoobject provides the default customization for the 'analog gauge' widget 
-   (WidgetSet::Gauge) in its medium size variant. */
-EW_DEFINE_AUTOOBJECT( ApplicationBlueGauge, WidgetSetGaugeConfig )
-
-/* Initializer for the auto object 'Application::BlueGauge' */
-void ApplicationBlueGauge__Init( WidgetSetGaugeConfig _this )
-{
-  WidgetSetGaugeConfig_OnSetSwingElastic( _this, 0 );
-  WidgetSetGaugeConfig_OnSetSwingDuration( _this, 300 );
-  WidgetSetGaugeConfig_OnSetTrackLeftRoundedStart( _this, 1 );
-  WidgetSetGaugeConfig_OnSetTrackLeftColor( _this, _Const0029 );
-  WidgetSetGaugeConfig_OnSetTrackLeftThickness( _this, 21.000000f );
-  WidgetSetGaugeConfig_OnSetTrackLeftRadius( _this, 70.000000f );
-  WidgetSetGaugeConfig_OnSetNeedleMaxAngle( _this, -45.000000f );
-  WidgetSetGaugeConfig_OnSetNeedleMinAngle( _this, 225.000000f );
-  WidgetSetGaugeConfig_OnSetNeedlePivot( _this, _Const002A );
-  WidgetSetGaugeConfig_OnSetNeedle( _this, EwLoadResource( &ApplicationBlueNeedle, 
-  ResourcesBitmap ));
-  WidgetSetGaugeConfig_OnSetCenterOffset( _this, _Const002B );
-  WidgetSetGaugeConfig_OnSetScale( _this, EwLoadResource( &WidgetSetGaugeTrackMedium, 
-  ResourcesBitmap ));
-  WidgetSetGaugeConfig_OnSetWidgetMinSize( _this, _Const002C );
-}
-
-/* Table with links to derived variants of the auto object : 'Application::BlueGauge' */
-EW_DEFINE_AUTOOBJECT_VARIANTS( ApplicationBlueGauge )
-EW_END_OF_AUTOOBJECT_VARIANTS( ApplicationBlueGauge )
-
-/* Include a file containing the bitmap resource : 'Application::HomeIcon' */
-#include "_ApplicationHomeIcon.h"
-
-/* Table with links to derived variants of the bitmap resource : 'Application::HomeIcon' */
-EW_RES_WITHOUT_VARIANTS( ApplicationHomeIcon )
-
-/* Include a file containing the bitmap resource : 'Application::BlueNeedle' */
-#include "_ApplicationBlueNeedle.h"
-
-/* Table with links to derived variants of the bitmap resource : 'Application::BlueNeedle' */
-EW_RES_WITHOUT_VARIANTS( ApplicationBlueNeedle )
 
 /* Embedded Wizard */

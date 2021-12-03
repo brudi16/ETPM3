@@ -145,16 +145,6 @@ EW_DEFINE_FIELDS( ViewsImage, CoreRectView )
      with different transparencies. */
   EW_PROPERTY( Color,           XColor )
 
-  /* The property 'Alignment' determines how the view should display the bitmap 
-     if its size differ from the size of the view. Depending on the value of this 
-     property the bitmap can be aligned or stretched within the view's @Bounds area.
-     Please note, the orientation of the area in context of which the bitmap is 
-     aligned is affected by the property @Orientation. For example, if the view 
-     is configured to rotate the displayed bitmap 90 degrees counter-clockwise and 
-     to align it to the left edge, the bitmap will be arranged consequently at the 
-     bottom edge of the view. */
-  EW_PROPERTY( Alignment,       XSet )
-
   /* The property 'FrameNumber' determines the bitmap frame to display in this view. 
      Each bitmap consists of either one or more frames (images). The first frame 
      has the number 0, the second frame has the number 1, and so far. Bitmaps containing 
@@ -374,9 +364,6 @@ void ViewsImage_OnSetColor( ViewsImage _this, XColor value );
 
 /* 'C' function for method : 'Views::Image.OnSetAnimated()' */
 void ViewsImage_OnSetAnimated( ViewsImage _this, XBool value );
-
-/* 'C' function for method : 'Views::Image.OnSetAlignment()' */
-void ViewsImage_OnSetAlignment( ViewsImage _this, XSet value );
 
 /* 'C' function for method : 'Views::Image.OnSetFrameNumber()' */
 void ViewsImage_OnSetFrameNumber( ViewsImage _this, XInt32 value );

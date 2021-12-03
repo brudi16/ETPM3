@@ -77,22 +77,10 @@
 #define _EffectsFader_
 #endif
 
-/* Forward declaration of the class Resources::Bitmap */
-#ifndef _ResourcesBitmap_
-  EW_DECLARE_CLASS( ResourcesBitmap )
-#define _ResourcesBitmap_
-#endif
-
 /* Forward declaration of the class Views::Frame */
 #ifndef _ViewsFrame_
   EW_DECLARE_CLASS( ViewsFrame )
 #define _ViewsFrame_
-#endif
-
-/* Forward declaration of the class Views::Image */
-#ifndef _ViewsImage_
-  EW_DECLARE_CLASS( ViewsImage )
-#define _ViewsImage_
 #endif
 
 /* Forward declaration of the class Views::Text */
@@ -169,23 +157,7 @@
    of WidgetSet::PushButtonConfig class. */
 EW_DEFINE_FIELDS( WidgetSetPushButton, CoreGroup )
   EW_VARIABLE( textView,        ViewsText )
-  EW_VARIABLE( imageView,       ViewsImage )
   EW_VARIABLE( frameView,       ViewsFrame )
-
-  /* The property 'Icon' refers to the bitmap object to display as icon in this 
-     push button widget. If the bitmap consists of more than one frame, the desired 
-     frame number can be determined by using the the property @IconFrame or individually 
-     for every button state by using the properties @IconFrameDefault, @IconFrameFocused, 
-     @IconFrameActive and @IconFrameDisabled.
-     If the bitmap is animated and the property @IconFrameDefault, @IconFrameFocused, 
-     @IconFrameActive or @IconFrameDisabled is initialized with the value -1, the 
-     animation will start automatically as soon as the button enters the corresponding 
-     state.
-     Per default, the icon is displayed centered within the push button area. You 
-     can modify the alignment of the icon, its margins, its opacity as well as its 
-     colors (if the specified bitmap is Alpha8) by specifying them in the configuration 
-     object assigned to the property @Appearance. */
-  EW_PROPERTY( Icon,            ResourcesBitmap )
 
   /* The property 'Appearance' refers to a 'Push Button Config' object containing 
      bitmaps, colors, fonts and further configuration attributes to customize this 
@@ -463,9 +435,6 @@ void WidgetSetPushButton_onReleaseTouch( WidgetSetPushButton _this, XObject send
 
 /* 'C' function for method : 'WidgetSet::PushButton.onPressTouch()' */
 void WidgetSetPushButton_onPressTouch( WidgetSetPushButton _this, XObject sender );
-
-/* 'C' function for method : 'WidgetSet::PushButton.OnSetIcon()' */
-void WidgetSetPushButton_OnSetIcon( WidgetSetPushButton _this, ResourcesBitmap value );
 
 /* 'C' function for method : 'WidgetSet::PushButton.OnSetLabel()' */
 void WidgetSetPushButton_OnSetLabel( WidgetSetPushButton _this, XString value );

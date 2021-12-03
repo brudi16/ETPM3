@@ -15,7 +15,7 @@
         <command>C:\Program Files (x86)\Embedded Wizard 11.00\EmbeddedWizard.exe</command> 
         <workingDir>C:\Program Files (x86)\Embedded Wizard 11.00</workingDir> 
         <arguments> 
-          <argument>C:\Users\yvesroehrig\Documents\Embedded Wizard Projects\CableMonitor\CableMonitor.ewp</argument> 
+          <argument>C:\Users\brudi\OneDrive\Dokumente\GitHub\ETPM3\Embedded Wizard\CableMonitor.ewp</argument> 
         </arguments> 
         <gpdsc name="$P../../GeneratedCode/ewfiles.gpdsc"/> 
       </generator> 
@@ -39,14 +39,12 @@
         <file category="source" name="Templates.c"/>  
         <file category="source" name="Views.c"/>  
         <file category="source" name="WidgetSet.c"/>  
-        <file category="source" name="_ApplicationBlueNeedle.h"/>  
         <file category="source" name="_ApplicationFont.h"/>  
-        <file category="source" name="_ApplicationHomeIcon.h"/>  
         <file category="source" name="_ApplicationTitelFont.h"/>  
-        <file category="source" name="_ApplicationWarnSign.h"/>  
         <file category="source" name="_ApplicationZhawLogo.h"/>  
         <file category="source" name="_ResourcesFontLarge.h"/>  
         <file category="source" name="_ResourcesFontMedium.h"/>  
+        <file category="source" name="_WidgetSetGaugeNeedleMedium.h"/>  
         <file category="source" name="_WidgetSetGaugeTrackMedium.h"/>  
         <file category="source" name="_WidgetSetHorizontalValueBarMedium.h"/>  
         <file category="source" name="_WidgetSetPushButtonMedium.h"/>  
