@@ -27,6 +27,13 @@ attr search_WildCards = false;
 view Project
 {
   attr enableWireMode = false;
-  attr scrollTo = <-7,-151>;
+  attr scrollTo = <-343,-151>;
+  attr zoom = 1.0;
+}
+
+view unit Application
+{
+  attr enableWireMode = false;
+  attr scrollTo = <-7,-583>;
   attr zoom = 1.0;
 }
