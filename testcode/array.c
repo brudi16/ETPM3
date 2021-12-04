@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <math.h>
 
 #define ARRAYSIZE   60
 
@@ -10,9 +11,10 @@ void removeMean(int32_t array[], uint16_t size);
 void rectify(int32_t array[], uint16_t size);
 void forTestLoops(uint8_t pram1, uint8_t param2);
 uint32_t calc_peakToPeak_av(int32_t ADC_samples[], uint16_t size);
+uint32_t calc_RMSValue (int32_t ADC_samples[], uint16_t size);
 
 int main(){
-    int32_t sum, mean, peakPeak;
+    int32_t sum, mean, peakPeak, rmsValue;
 
     int32_t array[] = {1000,1259,1447,1511,1433,1236,973,718,540,491,582,789,1054,1305,1471,1506,1402,1186,919,674,519,498,615,840,1108,1347,1489,1496,1366,1134,866,634,504,511,653,892,1160,1385,1502,1481,1326,1081,814,598,494,529,695,946,1211,1418,1509,1460,1282,1027,764,567,489,553,741,1000};
     printArray(array, ARRAYSIZE);
@@ -27,15 +29,19 @@ int main(){
     printArray(array, ARRAYSIZE);
     printf("Adress: %p\n", array);
 
-    rectify(array, ARRAYSIZE);
-    printf("\nRectified:\n");
-    printArray(array, ARRAYSIZE);
-    printf("Adress: %p\n", array);
+    //rectify(array, ARRAYSIZE);
+    //printf("\nRectified:\n");
+    //printArray(array, ARRAYSIZE);
+    //printf("Adress: %p\n", array);
 
     //forTestLoops(4,5);
 
     peakPeak = calc_peakToPeak_av(array, (sizeof(array)/(sizeof(uint32_t))));
     printf("\nPeak to Peak Value in average: %d\n",peakPeak);
+
+    rmsValue = calc_RMSValue(array, (sizeof(array)/(sizeof(uint32_t))));
+    printf("\nRMS-Value: %d", rmsValue);
+
     return 0;
 }
 
@@ -119,10 +125,27 @@ uint32_t calc_peakToPeak_av(int32_t ADC_samples[], uint16_t size){
 	}
 	
 
-    max = max / ((uint32_t)nPeriods);
-    min = min / ((uint32_t)nPeriods);
+    max = max / ((int32_t)nPeriods);
+    min = min / ((int32_t)nPeriods);
 
 	peakToPeakValue = (uint32_t)(max - min);
 
     return peakToPeakValue;
+}
+
+uint32_t calc_RMSValue (int32_t ADC_samples[], uint16_t size){
+    uint32_t rmsValue = 0;
+    uint16_t i;
+    int32_t tmp;
+    float tmpfloat = 0;
+
+    for(i=0;i<size; i++){
+        tmp = ADC_samples[i];
+        tmpfloat = tmpfloat + (tmp * tmp);
+    }
+    tmpfloat = tmpfloat / size;
+    tmpfloat = sqrtf(tmpfloat);
+    rmsValue = (uint32_t)tmpfloat;
+    //rmsValue = (uint32_t)(sqrt(((double)tmp)/size));
+    return rmsValue;
 }

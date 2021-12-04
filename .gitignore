@@ -71,3 +71,4 @@ Doxyfile
 *.cproject
 *.project
 *.DS_Store
+*.html
