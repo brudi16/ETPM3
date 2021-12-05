@@ -63,17 +63,6 @@
 
 #include "measuring.h"
 
-/******************************************************************************
- * Defines
- *****************************************************************************/
-#define ADC_DAC_RES		12			///< Resolution
-#define ADC_FS			600			///< Sampling freq. => 12 samples for a 50Hz period
-#define ADC_CLOCK		84000000	///< APB2 peripheral clock frequency
-#define ADC_CLOCKS_PS	15			///< Clocks/sample: 3 hold + 12 conversion
-#define TIM_CLOCK		84000000	///< APB1 timer clock frequency
-#define TIM_TOP			9			///< Timer top value
-#define TIM_PRESCALE	(TIM_CLOCK/ADC_FS/(TIM_TOP+1)-1) ///< Clock prescaler
-
 
 /******************************************************************************
  * Variables
@@ -96,56 +85,56 @@ static uint32_t DAC_sample = 0;			///< DAC output value
  * @brief Configure GPIOs in analog mode.
  *
  * @note The input number for the ADCs is not equal to the GPIO pin number!
- * - ADC3_IN4 = GPIO PF6
- * - ADC123_IN13 = GPIO PC3
- * - ADC12_IN5 = GPIO PA5
- * - DAC_OUT2 = GPIO PA5 (= same GPIO as ADC12_IN5)
+ * - ADC3_IN4 = GPIO PF6 (PAD 1)
+ * - ADC3_IN6 = GPIO PF8 (PAD 2)
+ * - ADC123_IN11 = GPIO PC1 (Hall Sensor 1)
+ * - ADC123_IN13 = GPIO PC3 (Hall Sensor 4)
  *****************************************************************************/
 void MEAS_GPIO_analog_init(void)
 {
 	__HAL_RCC_GPIOF_CLK_ENABLE();		// Enable Clock for GPIO port F
 	GPIOF->MODER |= (GPIO_MODER_MODER6_Msk);// Analog mode for PF6 = ADC3_IN4
+	GPIOF->MODER |= (GPIO_MODER_MODER8_Msk);// Analog mode for PF8 = ADC3_IN6
 	__HAL_RCC_GPIOC_CLK_ENABLE();		// Enable Clock for GPIO port C
+	GPIOC->MODER |= (GPIO_MODER_MODER1_Msk);// Analog mode for PC3 = ADC123_IN11
 	GPIOC->MODER |= (GPIO_MODER_MODER3_Msk);// Analog mode for PC3 = ADC123_IN13
-	__HAL_RCC_GPIOA_CLK_ENABLE();		// Enable Clock for GPIO port A
-	GPIOA->MODER |= (GPIO_MODER_MODER5_Msk);// Analog mode for PA5 ADC12_IN5
 }
 
 
-/** ***************************************************************************
- * @brief Resets the DAC
- *
- * when it is no longer used.
- *****************************************************************************/
-void DAC_reset(void) {
-	RCC->APB1RSTR |= RCC_APB1RSTR_DACRST;	// Reset the DAC
-	RCC->APB1RSTR &= ~RCC_APB1RSTR_DACRST;	// Release reset of the DAC
-}
+// /** ***************************************************************************
+//  * @brief Resets the DAC
+//  *
+//  * when it is no longer used.
+//  *****************************************************************************/
+// void DAC_reset(void) {
+// 	RCC->APB1RSTR |= RCC_APB1RSTR_DACRST;	// Reset the DAC
+// 	RCC->APB1RSTR &= ~RCC_APB1RSTR_DACRST;	// Release reset of the DAC
+// }
 
 
-/** ***************************************************************************
- * @brief Initialize the DAC
- *
- * The output used is DAC_OUT2 = GPIO PA5
- * @n As DAC_OUT2 = GPIO PA5 (= same GPIO as ADC12_IN5)
- * it is possible to monitor the output voltage DAC_OUT2 by the input ADC12_IN5.
- *****************************************************************************/
-void DAC_init(void)
-{
-	__HAL_RCC_DAC_CLK_ENABLE();			// Enable Clock for DAC
-	DAC->CR |= DAC_CR_EN2;				// Enable DAC output 2
-}
+// /** ***************************************************************************
+//  * @brief Initialize the DAC
+//  *
+//  * The output used is DAC_OUT2 = GPIO PA5
+//  * @n As DAC_OUT2 = GPIO PA5 (= same GPIO as ADC12_IN5)
+//  * it is possible to monitor the output voltage DAC_OUT2 by the input ADC12_IN5.
+//  *****************************************************************************/
+// void DAC_init(void)
+// {
+// 	__HAL_RCC_DAC_CLK_ENABLE();			// Enable Clock for DAC
+// 	DAC->CR |= DAC_CR_EN2;				// Enable DAC output 2
+// }
 
 
-/** ***************************************************************************
- * @brief Increment the DAC value and write it to the output
- *
- *****************************************************************************/
-void DAC_increment(void) {
-	DAC_sample += 20;				// Increment DAC output
-	if (DAC_sample >= (1UL << ADC_DAC_RES)) { DAC_sample = 0; }	// Go to 0
-	DAC->DHR12R2 = DAC_sample;		// Write new DAC output value
-}
+// /** ***************************************************************************
+//  * @brief Increment the DAC value and write it to the output
+//  *
+//  *****************************************************************************/
+// void DAC_increment(void) {
+// 	DAC_sample += 20;				// Increment DAC output
+// 	if (DAC_sample >= (1UL << ADC_DAC_RES)) { DAC_sample = 0; }	// Go to 0
+// 	DAC->DHR12R2 = DAC_sample;		// Write new DAC output value
+// }
 
 
 /** ***************************************************************************
@@ -456,19 +445,19 @@ void ADC3_IN13_IN4_scan_start(void)
 }
 
 
-/** ***************************************************************************
- * @brief Interrupt handler for the timer 2
- *
- * @note This interrupt handler was only used for debugging purposes
- * and to increment the DAC value.
- *****************************************************************************/
-void TIM2_IRQHandler(void)
-{
-	TIM2->SR &= ~TIM_SR_UIF;			// Clear pending interrupt flag
-	if (DAC_active) {
-		DAC_increment();
-	}
-}
+// /** ***************************************************************************
+//  * @brief Interrupt handler for the timer 2
+//  *
+//  * @note This interrupt handler was only used for debugging purposes
+//  * and to increment the DAC value.
+//  *****************************************************************************/
+// void TIM2_IRQHandler(void)
+// {
+// 	TIM2->SR &= ~TIM_SR_UIF;			// Clear pending interrupt flag
+// 	if (DAC_active) {
+// 		DAC_increment();
+// 	}
+// }
 
 
 /** ***************************************************************************

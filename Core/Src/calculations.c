@@ -22,6 +22,13 @@
 
 
 /******************************************************************************
+ * Defines
+ *****************************************************************************/
+#define NUM_PERIODS		= ((ADC_NUMS/ADC_FS)/(1/50))
+#define VALS_PER_PERIOD = (ADC_NUMS/NUM_PERIODS)
+
+
+/******************************************************************************
  * Functions
  *****************************************************************************/
 
@@ -126,4 +133,8 @@ uint32_t calc_RMSValue (int32_t ADC_samples[], uint16_t size){
     tmpfloat = sqrtf(tmpfloat);
     rmsValue = (uint32_t)tmpfloat;
     return rmsValue;
+}
+
+uint32_t calc_distance(int32_t ADC_samples[], uint16_t size){
+	;
 }
