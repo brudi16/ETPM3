@@ -72,3 +72,4 @@ Doxyfile
 *.project
 *.DS_Store
 *.html
+*.csv

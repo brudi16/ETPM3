@@ -25,6 +25,7 @@
 #include "menu.h"
 #include "measuring.h"
 #include "led.h"
+#include "LUT.h"
 
 
 /******************************************************************************

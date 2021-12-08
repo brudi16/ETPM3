@@ -11,7 +11,6 @@
  * - ADC combined with DMA (Direct Memory Access) to fill a buffer
  * - Dual mode = simultaneous sampling of two inputs by two ADCs
  * - Scan mode = sequential sampling of two inputs by one ADC
- * - Simple DAC output is demonstrated as well
  * - Analog mode configuration for GPIOs
  * - Display recorded data on the graphics display
  *
@@ -69,11 +68,11 @@
  *****************************************************************************/
 bool MEAS_data_ready = false;			///< New data is ready
 uint32_t MEAS_input_count = 1;			///< 1 or 2 input channels?
-bool DAC_active = false;				///< DAC output active?
+//bool DAC_active = false;				///< DAC output active?
 
 static uint32_t ADC_sample_count = 0;	///< Index for buffer
 static int32_t ADC_samples[2*ADC_NUMS];///< ADC values of max. 2 input channels
-static uint32_t DAC_sample = 0;			///< DAC output value
+//static uint32_t DAC_sample = 0;			///< DAC output value
 
 
 /******************************************************************************

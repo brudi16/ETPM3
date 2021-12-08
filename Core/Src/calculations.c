@@ -14,18 +14,19 @@
  *****************************************************************************/
 #include "stm32f4xx.h"
 #include "stm32f429i_discovery.h"
-#include "stm32f429i_discovery_lcd.h"
 #include "stm32f429i_discovery_ts.h"
 
 #include "calculations.h"
 #include "measuring.h"
+#include "LUT.h"
 
 
 /******************************************************************************
  * Defines
  *****************************************************************************/
-#define NUM_PERIODS		= ((ADC_NUMS/ADC_FS)/(1/50))
-#define VALS_PER_PERIOD = (ADC_NUMS/NUM_PERIODS)
+// Signal
+#define NUM_PERIODS		= ((ADC_NUMS/ADC_FS)/(1/50))	///< Number of periods
+#define VALS_PER_PERIOD = (ADC_NUMS/NUM_PERIODS)		///< Number of values in a period
 
 
 /******************************************************************************
@@ -102,22 +103,13 @@ uint32_t calc_peakToPeak_av(int32_t ADC_samples[], uint16_t size){
 }
 
 /** ***************************************************************************
- * @brief
- *
- *
- * @n
- *****************************************************************************/
-int32_t calc_rmsValue(int32_t ADC_samples[], uint16_t size){
-	int32_t rmsValue = 0;
-
-	return rmsValue;
-}
-
-/** ***************************************************************************
  * @brief calculate RMS value
  * Calculates the RMS value of an array of measured Data.
  * IMPORTANT!!! The DC Value first has to be removed.
- * @n
+ * 
+ * @param ADC_samples 
+ * @param size 
+ * @return uint32_t 
  *****************************************************************************/
 uint32_t calc_RMSValue (int32_t ADC_samples[], uint16_t size){
     uint32_t rmsValue = 0;
@@ -134,7 +126,23 @@ uint32_t calc_RMSValue (int32_t ADC_samples[], uint16_t size){
     rmsValue = (uint32_t)tmpfloat;
     return rmsValue;
 }
+/** ***************************************************************************
+ * @brief Linear interpolation between 2 given points
+ * 
+ * With two given points and the x-value of the searched point the corresponding
+ * y-value is calculated with the linear interpolation method.
+ * 
+ * @param x0 X-Coordinate of the first point
+ * @param y0 Y-Coordinate of the first point
+ * @param x1 X-Coordinate of the second point
+ * @param y1 Y-Coordinate of the second point
+ * @param xp X-Coordinate of the searched point
+ * @return int32_t yp Y-Coordinate of the searched point 
+ *****************************************************************************/
 
-uint32_t calc_distance(int32_t ADC_samples[], uint16_t size){
-	;
+int32_t LinearInterpol(int32_t x0, int32_t y0, int32_t x1, int32_t y1, int32_t xp){
+    float yp = 0;
+    yp = ((float)y0 - (((float)y0-(float)y1)/((float)x1-(float)x0)) * ((float)xp - (float)x0));
+
+    return (int32_t)yp;
 }
