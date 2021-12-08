@@ -1,18 +1,44 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <math.h>
+#include <stdbool.h>
+
+
 
 #define ARRAYSIZE   60
+#define LUT_SIZE    200
+#define CAL_SIZE    7
 
+// Prototypes
 int32_t arrayMean(int32_t array[], uint16_t size);
 void printArray(int32_t array[], uint16_t size);
 void removeMean(int32_t array[], uint16_t size);
 void rectify(int32_t array[], uint16_t size);
 void forTestLoops(uint8_t pram1, uint8_t param2);
 uint32_t calc_peakToPeak_av(int32_t ADC_samples[], uint16_t size);
+uint32_t calc_RMSValue (int32_t ADC_samples[], uint16_t size);
+float calc_distance (int32_t ADC_samples[], uint16_t size);
+float calc_current(int32_t ADC_samples[], uint16_t size);
+int32_t LinearInterpol(int32_t x0, int32_t x1, int32_t y0, int32_t y1, int32_t xp);
+int32_t interpolCalValues(int16_t x[], int16_t y[],int32_t xySize ,int32_t lut[]);
+void init_LUT(void);
+
+// Global variables
+const int32_t padLutStartValues[LUT_SIZE] = {
+    #include "lutPad.csv"
+    };
+const int32_t hallLutStartValues[LUT_SIZE] = {
+    //#include "lutHall.csv"
+};
+
+int32_t padLut[LUT_SIZE];
+
+int16_t measCalDistance[] = {2,       5,   10,  50, 100, 150, 200};
+int16_t testInterpol[]    = {4093, 2048, 1517, 946, 814, 753, 715};
 
 int main(){
-    int32_t sum, mean, peakPeak;
+    int32_t sum, mean, peakPeak, rmsValue, interpol;
 
     int32_t array[] = {1000,1259,1447,1511,1433,1236,973,718,540,491,582,789,1054,1305,1471,1506,1402,1186,919,674,519,498,615,840,1108,1347,1489,1496,1366,1134,866,634,504,511,653,892,1160,1385,1502,1481,1326,1081,814,598,494,529,695,946,1211,1418,1509,1460,1282,1027,764,567,489,553,741,1000};
     printArray(array, ARRAYSIZE);
@@ -27,15 +53,27 @@ int main(){
     printArray(array, ARRAYSIZE);
     printf("Adress: %p\n", array);
 
-    rectify(array, ARRAYSIZE);
-    printf("\nRectified:\n");
-    printArray(array, ARRAYSIZE);
-    printf("Adress: %p\n", array);
+    //rectify(array, ARRAYSIZE);
+    //printf("\nRectified:\n");
+    //printArray(array, ARRAYSIZE);
+    //printf("Adress: %p\n", array);
 
     //forTestLoops(4,5);
 
     peakPeak = calc_peakToPeak_av(array, (sizeof(array)/(sizeof(uint32_t))));
     printf("\nPeak to Peak Value in average: %d\n",peakPeak);
+
+    rmsValue = calc_RMSValue(array, (sizeof(array)/(sizeof(uint32_t))));
+    printf("\nRMS-Value: %d\n", rmsValue);
+
+    //printArray(padLutStartValues,LUT_SIZE);
+    //init_LUT();
+    //printArray(padLut, LUT_SIZE);
+
+    interpol = LinearInterpol(100, 814, 200, 715, 150);
+    printf("\nInterpolated Value for 20: %d\n", interpol);
+    
+    interpolCalValues(measCalDistance,testInterpol, CAL_SIZE, padLut);
     return 0;
 }
 
@@ -119,10 +157,82 @@ uint32_t calc_peakToPeak_av(int32_t ADC_samples[], uint16_t size){
 	}
 	
 
-    max = max / ((uint32_t)nPeriods);
-    min = min / ((uint32_t)nPeriods);
+    max = max / ((int32_t)nPeriods);
+    min = min / ((int32_t)nPeriods);
 
 	peakToPeakValue = (uint32_t)(max - min);
 
     return peakToPeakValue;
+}
+
+uint32_t calc_RMSValue (int32_t ADC_samples[], uint16_t size){
+    uint32_t rmsValue = 0;
+    uint16_t i;
+    int32_t tmp;
+    float tmpfloat = 0;
+
+    for(i=0;i<size; i++){
+        tmp = ADC_samples[i];
+        tmpfloat = tmpfloat + (tmp * tmp);
+    }
+    tmpfloat = tmpfloat / size;
+    tmpfloat = sqrtf(tmpfloat);
+    rmsValue = (uint32_t)tmpfloat;
+    //rmsValue = (uint32_t)(sqrt(((double)tmp)/size));
+    return rmsValue;
+}
+
+float calc_distance (int32_t ADC_samples[], uint16_t size){
+    return 0;
+}
+
+float calc_current(int32_t ADC_samples[], uint16_t size){
+    return 0;
+}
+
+void init_LUT(void){
+    uint16_t i;
+    for(i=0;i<LUT_SIZE;i++){
+        padLut[i] = padLutStartValues[i];
+    }
+}
+/**
+ * @brief Linear Interpolation between 2 points
+ * 
+ * @param x0 
+ * @param x1 
+ * @param y0 
+ * @param y1 
+ * @param xp Searched Value
+ * @return int32_t 
+ */
+
+int32_t LinearInterpol(int32_t x0, int32_t y0, int32_t x1, int32_t y1, int32_t xp){
+    float yp = 0;
+    yp = ((float)y0 - (((float)y0-(float)y1)/((float)x1-(float)x0)) * ((float)xp - (float)x0));
+
+    return (int32_t)yp;
+}
+
+int32_t interpolCalValues(int16_t x[], int16_t y[],int32_t xySize ,int32_t array[]){
+    int16_t i,j,k;
+    int32_t interpVal = 0;
+    bool l;
+    
+
+    for(i=0;i<xySize;i++){
+        l = false;
+        for(j=0;j<x[i];j++){
+            if(i>0 && l == false){
+                j = x[i-1];
+                l = true;
+            }
+            if(j == x[i]){
+                array[j] = y[i];
+            }
+            printf("i: %d\tj: %d\tx: %d\ty: %d\n",i,j,array[j],y[i]);
+            
+        }
+    }
+    return 0;
 }
