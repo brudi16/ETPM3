@@ -79,3 +79,5 @@ Doxyfile
 *.csv
 *.dep
 *.htm
+*.txt
+*.ld
