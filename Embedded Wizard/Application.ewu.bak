@@ -1530,8 +1530,6 @@ inline Inline
       void Your_Middleware_Some_Function( int aSomeArg );
 
   */
-
-  #include "DeviceDriver.h"
 }
 
 $rect <80,110,280,150>
