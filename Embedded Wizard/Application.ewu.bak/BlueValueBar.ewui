@@ -1,0 +1,14 @@
+﻿$version 11.00
+
+// This autoobject provides the default customization for the 'horizontal value bar' \
+// widget (WidgetSet::HorizontalValueBar) in its medium size variant.
+$rect <830,-150,1130,-110>
+$output false
+autoobject WidgetSet::HorizontalValueBarConfig BlueValueBar
+{
+  preset TrackRightFrame = 0;
+  preset TrackRight = WidgetSet::HorizontalValueBarMedium;
+  preset TrackLeftFrame = 1;
+  preset TrackLeft = WidgetSet::HorizontalValueBarMedium;
+  preset WidgetMinSize = <45,30>;
+}

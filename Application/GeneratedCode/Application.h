@@ -62,27 +62,8 @@ EW_DECLARE_FONT_RES( ApplicationTitelFont )
 /* Bitmap resource : 'Application::ZhawLogo' */
 EW_DECLARE_BITMAP_RES( ApplicationZhawLogo )
 
-/* Bitmap resource : 'Application::WarnSign' */
-EW_DECLARE_BITMAP_RES( ApplicationWarnSign )
-
-/* Bitmap resource : 'Application::HomeIcon' */
-EW_DECLARE_BITMAP_RES( ApplicationHomeIcon )
-
-/* Bitmap resource : 'Application::BlueNeedle' */
-EW_DECLARE_BITMAP_RES( ApplicationBlueNeedle )
-
-/* Forward declaration of the class WidgetSet::GaugeConfig */
-#ifndef _WidgetSetGaugeConfig_
-  EW_DECLARE_CLASS( WidgetSetGaugeConfig )
-#define _WidgetSetGaugeConfig_
-#endif
-
 /* User defined auto object: 'Application::Device' */
 EW_DECLARE_AUTOOBJECT( ApplicationDevice, ApplicationDeviceClass )
-
-/* This autoobject provides the default customization for the 'analog gauge' widget 
-   (WidgetSet::Gauge) in its medium size variant. */
-EW_DECLARE_AUTOOBJECT( ApplicationBlueGauge, WidgetSetGaugeConfig )
 
 #ifdef __cplusplus
   }

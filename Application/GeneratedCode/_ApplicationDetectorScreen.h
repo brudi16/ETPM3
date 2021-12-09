@@ -43,7 +43,6 @@
 #endif
 
 #include "_CoreGroup.h"
-#include "_ViewsImage.h"
 #include "_ViewsRectangle.h"
 #include "_ViewsText.h"
 #include "_WidgetSetPushButton.h"
@@ -94,7 +93,6 @@
 /* Deklaration of class : 'Application::DetectorScreen' */
 EW_DEFINE_FIELDS( ApplicationDetectorScreen, CoreGroup )
   EW_OBJECT  ( Rectangle,       ViewsRectangle )
-  EW_OBJECT  ( Image,           ViewsImage )
   EW_OBJECT  ( Text,            ViewsText )
   EW_OBJECT  ( Text1,           ViewsText )
   EW_OBJECT  ( PushButton,      WidgetSetPushButton )

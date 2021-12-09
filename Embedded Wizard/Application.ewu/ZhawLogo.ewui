@@ -1,0 +1,13 @@
+﻿$version 11.00
+
+$rect <550,-120,750,-80>
+$output false
+resource Resources::Bitmap ZhawLogo
+{
+  attr bitmapfile FileName = .\pictures\ZHAW_Logo.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}

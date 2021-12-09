@@ -587,7 +587,6 @@ void ViewsImage__Init( ViewsImage _this, XObject aLink, XHandle aArg )
 
   /* ... and initialize objects, variables, properties, etc. */
   _this->Color = _Const0000;
-  _this->Alignment = ViewsImageAlignmentAlignHorzCenter | ViewsImageAlignmentAlignVertCenter;
 }
 
 /* Re-Initializer for the class 'Views::Image' */
@@ -796,19 +795,6 @@ void ViewsImage_OnSetAnimated( ViewsImage _this, XBool value )
     CoreGroup__InvalidateArea( _this->Super2.Owner, _this->Super1.Bounds );
 }
 
-/* 'C' function for method : 'Views::Image.OnSetAlignment()' */
-void ViewsImage_OnSetAlignment( ViewsImage _this, XSet value )
-{
-  if ( value == _this->Alignment )
-    return;
-
-  _this->Alignment = value;
-
-  if (( _this->Super2.Owner != 0 ) && (( _this->Super2.viewState & CoreViewStateVisible ) 
-      == CoreViewStateVisible ))
-    CoreGroup__InvalidateArea( _this->Super2.Owner, _this->Super1.Bounds );
-}
-
 /* 'C' function for method : 'Views::Image.OnSetFrameNumber()' */
 void ViewsImage_OnSetFrameNumber( ViewsImage _this, XInt32 value )
 {
@@ -876,7 +862,6 @@ void ViewsImage_OnSetEmbedded( ViewsImage _this, XBool value )
    @Alignment or @ScrollOffset. */
 XRect ViewsImage_GetContentArea( ViewsImage _this )
 {
-  XSet align;
   XPoint size;
   XRect bounds;
   XInt32 width;
@@ -887,7 +872,6 @@ XRect ViewsImage_GetContentArea( ViewsImage _this )
   if ( _this->Bitmap == 0 )
     return _Const0002;
 
-  align = _this->Alignment;
   size = _this->Bitmap->FrameSize;
   bounds = _this->Super1.Bounds;
   width = EwGetRectW( bounds );
@@ -898,55 +882,15 @@ XRect ViewsImage_GetContentArea( ViewsImage _this )
 
   rd = EwNewRect( 0, 0, width, height );
   rs = rd;
-
-  if ((( align & ViewsImageAlignmentScaleToFill ) == ViewsImageAlignmentScaleToFill ))
-  {
-    XInt32 scaleX = (( EwGetRectW( rd ) << 16 ) + ( size.X / 2 )) / size.X;
-    XInt32 scaleY = (( EwGetRectH( rd ) << 16 ) + ( size.Y / 2 )) / size.Y;
-    XInt32 scale = scaleX;
-
-    if ( scaleY > scale )
-      scale = scaleY;
-
-    rs = EwSetRectW( rs, (( size.X * scale ) + 32768 ) >> 16 );
-    rs = EwSetRectH( rs, (( size.Y * scale ) + 32768 ) >> 16 );
-  }
-  else
-    if ((( align & ViewsImageAlignmentScaleToFit ) == ViewsImageAlignmentScaleToFit ))
-    {
-      XInt32 scaleX = (( EwGetRectW( rd ) << 16 ) + ( size.X / 2 )) / size.X;
-      XInt32 scaleY = (( EwGetRectH( rd ) << 16 ) + ( size.Y / 2 )) / size.Y;
-      XInt32 scale = scaleX;
-
-      if ( scaleY < scale )
-        scale = scaleY;
-
-      rs = EwSetRectW( rs, (( size.X * scale ) + 32768 ) >> 16 );
-      rs = EwSetRectH( rs, (( size.Y * scale ) + 32768 ) >> 16 );
-    }
-    else
-      if ( !(( align & ViewsImageAlignmentStretchToFill ) == ViewsImageAlignmentStretchToFill ))
-        rs = EwSetRectSize( rs, size );
+  rs = EwSetRectSize( rs, size );
 
   if ( EwGetRectW( rs ) != EwGetRectW( rd ))
-  {
-    if ((( align & ViewsImageAlignmentAlignHorzRight ) == ViewsImageAlignmentAlignHorzRight ))
-      rs = EwSetRectX( rs, rd.Point2.X - EwGetRectW( rs ));
-    else
-      if ((( align & ViewsImageAlignmentAlignHorzCenter ) == ViewsImageAlignmentAlignHorzCenter ))
-        rs = EwSetRectX( rs, ( rd.Point1.X + ( EwGetRectW( rd ) / 2 )) - ( EwGetRectW( 
-        rs ) / 2 ));
-  }
+    rs = EwSetRectX( rs, ( rd.Point1.X + ( EwGetRectW( rd ) / 2 )) - ( EwGetRectW( 
+    rs ) / 2 ));
 
   if ( EwGetRectH( rs ) != EwGetRectH( rd ))
-  {
-    if ((( align & ViewsImageAlignmentAlignVertBottom ) == ViewsImageAlignmentAlignVertBottom ))
-      rs = EwSetRectY( rs, rd.Point2.Y - EwGetRectH( rs ));
-    else
-      if ((( align & ViewsImageAlignmentAlignVertCenter ) == ViewsImageAlignmentAlignVertCenter ))
-        rs = EwSetRectY( rs, ( rd.Point1.Y + ( EwGetRectH( rd ) / 2 )) - ( EwGetRectH( 
-        rs ) / 2 ));
-  }
+    rs = EwSetRectY( rs, ( rd.Point1.Y + ( EwGetRectH( rd ) / 2 )) - ( EwGetRectH( 
+    rs ) / 2 ));
 
   rs = EwMoveRectPos( rs, bounds.Point1 );
   return rs;
