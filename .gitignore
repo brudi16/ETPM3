@@ -53,7 +53,15 @@ dkms.conf
 *.log
 
 # Ignored Folders
+.metadata/
+.settings/
 .vscode/
+Debug/
+html/
+Utilities/
+Doxygen/
+project/
+FlashDownload/
 ThirdParty/
 TargetSpecific/
 PlatformPackage/
@@ -61,3 +69,15 @@ PlatformPackage/
 Doxyfile
 *.DS_Store
 *.bat
+*.launch
+*.cfg
+*.lnk
+*.cproject
+*.project
+*.DS_Store
+*.html
+*.csv
+*.dep
+*.htm
+*.txt
+*.ld
