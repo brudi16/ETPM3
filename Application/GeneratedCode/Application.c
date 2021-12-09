@@ -26,7 +26,9 @@
 
 #include "ewlocale.h"
 #include "_ApplicationApplication.h"
+#include "_ApplicationCalibration.h"
 #include "_ApplicationCurrentMeasurement.h"
+#include "_ApplicationDebug.h"
 #include "_ApplicationDetectorScreen.h"
 #include "_ApplicationDeviceClass.h"
 #include "_ApplicationDistanceMeasurement.h"
@@ -59,14 +61,16 @@
 /* Compressed strings for the language 'Default'. */
 EW_CONST_STRING_PRAGMA static const unsigned int _StringsDefault0[] =
 {
-  0x00000132, /* ratio 60.13 % */
+  0x000001B0, /* ratio 58.33 % */
   0xB8003100, 0x8009A452, 0x00D20030, 0x0E600370, 0x86001000, 0x0620041C, 0x65001B00,
   0x40002800, 0x3A002304, 0xF47CC71E, 0x80043208, 0x16060B93, 0x641198E9, 0xDF209146,
   0x12739000, 0x12950580, 0x99DCCCEB, 0x8DC82191, 0x74223306, 0xC66693A8, 0xD67D1E36,
-  0x4832A024, 0xA70494CD, 0x90A91C90, 0x358699E1, 0x0264A80D, 0x9AC708A0, 0x444A091B,
-  0x002A8708, 0x5E4F0C99, 0xA151D950, 0x19089043, 0xD408CC8A, 0x450050E3, 0x39ED223D,
-  0x950164F2, 0x3C9E9148, 0x4EC8F2A0, 0x126A6484, 0x21741826, 0x1F38B05E, 0x18EA34D3,
-  0x09B64A24, 0x3C75C2B1, 0x80E7A6B7, 0x00000000
+  0x4832A024, 0xA70494CD, 0x90A91C90, 0x4F8699E1, 0x88993255, 0x8CC8CE14, 0x749E410E,
+  0x114015A0, 0x90010F8E, 0xEBD58849, 0x6A798445, 0x11282592, 0x158545E1, 0xA9042269,
+  0x93C32650, 0xA4B25408, 0xD5E74008, 0xB3041793, 0xA1913B0D, 0x3D408CC8, 0x13CC2D0E,
+  0x239ED200, 0x8950164F, 0x04C9E914, 0x355E338A, 0x01E4F1EA, 0x52174195, 0x2E91B93E,
+  0x95A49A65, 0x90AC54A2, 0xA5C74231, 0x88260401, 0x8BC5E264, 0x2EEE6A31, 0x45AEDBD2,
+  0x9E6A3200, 0xE2650826, 0x55A6E0DA, 0x36B84736, 0x019ACD79, 0x00000001, 0x00000000
 };
 
 /* Constant values used in this 'C' module only. */
@@ -91,30 +95,41 @@ static const XRect _Const0011 = {{ 83, 160 }, { 157, 192 }};
 static const XStringRes _Const0012 = { _StringsDefault0, 0x003B };
 static const XRect _Const0013 = {{ 0, 0 }, { 240, 51 }};
 static const XStringRes _Const0014 = { _StringsDefault0, 0x003F };
-static const XRect _Const0015 = {{ 45, 71 }, { 195, 121 }};
+static const XRect _Const0015 = {{ 25, 64 }, { 215, 114 }};
 static const XStringRes _Const0016 = { _StringsDefault0, 0x004A };
-static const XRect _Const0017 = {{ 45, 116 }, { 195, 166 }};
-static const XStringRes _Const0018 = { _StringsDefault0, 0x0050 };
-static const XRect _Const0019 = {{ 43, 160 }, { 193, 210 }};
-static const XRect _Const001A = {{ 0, 0 }, { 240, 81 }};
-static const XStringRes _Const001B = { _StringsDefault0, 0x005A };
-static const XRect _Const001C = {{ 25, 96 }, { 225, 146 }};
-static const XRect _Const001D = {{ 25, 176 }, { 225, 226 }};
-static const XRect _Const001E = {{ 71, 144 }, { 179, 176 }};
-static const XStringRes _Const001F = { _StringsDefault0, 0x0071 };
-static const XRect _Const0020 = {{ 73, 226 }, { 167, 258 }};
-static const XStringRes _Const0021 = { _StringsDefault0, 0x0076 };
-static const XStringRes _Const0022 = { _StringsDefault0, 0x007D };
-static const XRect _Const0023 = {{ 0, 225 }, { 120, 320 }};
-static const XStringRes _Const0024 = { _StringsDefault0, 0x0084 };
-static const XRect _Const0025 = {{ 120, 130 }, { 240, 225 }};
-static const XStringRes _Const0026 = { _StringsDefault0, 0x008E };
-static const XRect _Const0027 = {{ 0, 130 }, { 120, 225 }};
-static const XRect _Const0028 = {{ 120, 225 }, { 240, 320 }};
-static const XColor _Const0029 = { 0x00, 0x64, 0xA6, 0xFF };
-static const XPoint _Const002A = { -39, 12 };
-static const XPoint _Const002B = { 0, 10 };
-static const XPoint _Const002C = { 171, 151 };
+static const XRect _Const0017 = {{ 25, 110 }, { 215, 160 }};
+static const XStringRes _Const0018 = { _StringsDefault0, 0x0055 };
+static const XRect _Const0019 = {{ 45, 160 }, { 195, 210 }};
+static const XStringRes _Const001A = { _StringsDefault0, 0x0063 };
+static const XRect _Const001B = {{ 45, 216 }, { 195, 266 }};
+static const XStringRes _Const001C = { _StringsDefault0, 0x0071 };
+static const XRect _Const001D = {{ 0, 0 }, { 240, 81 }};
+static const XStringRes _Const001E = { _StringsDefault0, 0x0079 };
+static const XRect _Const001F = {{ 25, 96 }, { 225, 146 }};
+static const XRect _Const0020 = {{ 25, 176 }, { 225, 226 }};
+static const XRect _Const0021 = {{ 47, 144 }, { 194, 176 }};
+static const XStringRes _Const0022 = { _StringsDefault0, 0x0090 };
+static const XRect _Const0023 = {{ 42, 226 }, { 198, 258 }};
+static const XStringRes _Const0024 = { _StringsDefault0, 0x0095 };
+static const XStringRes _Const0025 = { _StringsDefault0, 0x009E };
+static const XRect _Const0026 = {{ 0, 225 }, { 120, 320 }};
+static const XStringRes _Const0027 = { _StringsDefault0, 0x00A5 };
+static const XRect _Const0028 = {{ 120, 130 }, { 240, 225 }};
+static const XStringRes _Const0029 = { _StringsDefault0, 0x00AF };
+static const XRect _Const002A = {{ 0, 130 }, { 120, 225 }};
+static const XRect _Const002B = {{ 120, 225 }, { 240, 320 }};
+static const XColor _Const002C = { 0x00, 0x64, 0xA6, 0xFF };
+static const XPoint _Const002D = { -39, 12 };
+static const XPoint _Const002E = { 0, 10 };
+static const XPoint _Const002F = { 171, 151 };
+static const XRect _Const0030 = {{ 20, 74 }, { 220, 106 }};
+static const XStringRes _Const0031 = { _StringsDefault0, 0x00BA };
+static const XRect _Const0032 = {{ 20, 115 }, { 220, 147 }};
+static const XStringRes _Const0033 = { _StringsDefault0, 0x00C2 };
+static const XRect _Const0034 = {{ 20, 160 }, { 220, 192 }};
+static const XStringRes _Const0035 = { _StringsDefault0, 0x00CA };
+static const XRect _Const0036 = {{ 20, 199 }, { 220, 231 }};
+static const XStringRes _Const0037 = { _StringsDefault0, 0x00D1 };
 
 /* Initializer for the class 'Application::Application' */
 void ApplicationApplication__Init( ApplicationApplication _this, XObject aLink, XHandle aArg )
@@ -458,6 +473,7 @@ void ApplicationCurrentMeasurement__Init( ApplicationCurrentMeasurement _this, X
   ViewsText_OnSetString( &_this->Text, EwLoadString( &_Const000F ));
   ViewsText_OnSetColor( &_this->Text, _Const000A );
   CoreRectView__OnSetBounds( &_this->Gauge, _Const0010 );
+  CoreGroup_OnSetEnabled((CoreGroup)&_this->Gauge, 1 );
   WidgetSetGauge_OnSetMaxValue( &_this->Gauge, 10 );
   WidgetSetGauge_OnSetCurrentValue( &_this->Gauge, 5 );
   CoreView_OnSetLayout((CoreView)&_this->ValueDisplay, 0 );
@@ -472,8 +488,13 @@ void ApplicationCurrentMeasurement__Init( ApplicationCurrentMeasurement _this, X
   CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->ValueDisplay ), 0 );
   CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->PushButton ), 0 );
   ViewsText_OnSetFont( &_this->Text, EwLoadResource( &ApplicationTitelFont, ResourcesFont ));
+  WidgetSetGauge_OnSetOutlet( &_this->Gauge, EwNewRef( EwGetAutoObject( &ApplicationDevice, 
+  ApplicationDeviceClass ), ApplicationDeviceClass_OnGetCurrent, ApplicationDeviceClass_OnSetCurrent ));
   WidgetSetGauge_OnSetAppearance( &_this->Gauge, EwGetAutoObject( &ApplicationBlueGauge, 
   WidgetSetGaugeConfig ));
+  WidgetSetValueDisplay_OnSetOutlet( &_this->ValueDisplay, EwNewRef( EwGetAutoObject( 
+  &ApplicationDevice, ApplicationDeviceClass ), ApplicationDeviceClass_OnGetCurrent, 
+  ApplicationDeviceClass_OnSetCurrent ));
   WidgetSetValueDisplay_OnSetAppearance( &_this->ValueDisplay, EwGetAutoObject( 
   &WidgetSetValueDisplay_Medium, WidgetSetValueDisplayConfig ));
   _this->PushButton.OnRelease = EwNewSlot( _this, ApplicationCurrentMeasurement_UpdateViewMenu );
@@ -568,7 +589,8 @@ void ApplicationSettings__Init( ApplicationSettings _this, XObject aLink, XHandl
   WidgetSetPushButton__Init( &_this->MenuButton, &_this->_.XObject, 0 );
   WidgetSetToggleButton__Init( &_this->ToggleButton, &_this->_.XObject, 0 );
   WidgetSetToggleButton__Init( &_this->ToggleButton1, &_this->_.XObject, 0 );
-  WidgetSetToggleButton__Init( &_this->ToggleButton2, &_this->_.XObject, 0 );
+  WidgetSetPushButton__Init( &_this->PushButton, &_this->_.XObject, 0 );
+  WidgetSetPushButton__Init( &_this->PushButton1, &_this->_.XObject, 0 );
 
   /* Setup the VMT pointer */
   _this->_.VMT = EW_CLASS( ApplicationSettings );
@@ -585,21 +607,26 @@ void ApplicationSettings__Init( ApplicationSettings _this, XObject aLink, XHandl
   CoreRectView__OnSetBounds( &_this->ToggleButton, _Const0015 );
   WidgetSetToggleButton_OnSetLabel( &_this->ToggleButton, EwLoadString( &_Const0016 ));
   CoreRectView__OnSetBounds( &_this->ToggleButton1, _Const0017 );
+  WidgetSetToggleButton_OnSetChecked( &_this->ToggleButton1, 1 );
   WidgetSetToggleButton_OnSetLabel( &_this->ToggleButton1, EwLoadString( &_Const0018 ));
-  CoreRectView__OnSetBounds( &_this->ToggleButton2, _Const0019 );
-  WidgetSetToggleButton_OnSetLabel( &_this->ToggleButton2, EwLoadString( &_Const0018 ));
+  CoreRectView__OnSetBounds( &_this->PushButton, _Const0019 );
+  WidgetSetPushButton_OnSetLabel( &_this->PushButton, EwLoadString( &_Const001A ));
+  CoreRectView__OnSetBounds( &_this->PushButton1, _Const001B );
+  WidgetSetPushButton_OnSetLabel( &_this->PushButton1, EwLoadString( &_Const001C ));
   CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->Rectangle ), 0 );
   CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->Text ), 0 );
   CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->MenuButton ), 0 );
   CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->ToggleButton ), 0 );
   CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->ToggleButton1 ), 0 );
-  CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->ToggleButton2 ), 0 );
+  CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->PushButton ), 0 );
+  CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->PushButton1 ), 0 );
   ViewsText_OnSetFont( &_this->Text, EwLoadResource( &ApplicationTitelFont, ResourcesFont ));
   _this->MenuButton.OnRelease = EwNewSlot( _this, ApplicationSettings_UpdateViewMenu );
   WidgetSetPushButton_OnSetIcon( &_this->MenuButton, EwLoadResource( &ApplicationHomeIcon, 
   ResourcesBitmap ));
   WidgetSetPushButton_OnSetAppearance( &_this->MenuButton, EwGetAutoObject( &WidgetSetPushButton_Medium, 
   WidgetSetPushButtonConfig ));
+  _this->Device = EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass );
   WidgetSetToggleButton_OnSetOutlet( &_this->ToggleButton, EwNewRef( EwGetAutoObject( 
   &ApplicationDevice, ApplicationDeviceClass ), ApplicationDeviceClass_OnGetLamptest, 
   ApplicationDeviceClass_OnSetLamptest ));
@@ -607,8 +634,12 @@ void ApplicationSettings__Init( ApplicationSettings _this, XObject aLink, XHandl
   &WidgetSetSwitch_Medium, WidgetSetToggleButtonConfig ));
   WidgetSetToggleButton_OnSetAppearance( &_this->ToggleButton1, EwGetAutoObject( 
   &WidgetSetSwitch_Medium, WidgetSetToggleButtonConfig ));
-  WidgetSetToggleButton_OnSetAppearance( &_this->ToggleButton2, EwGetAutoObject( 
-  &WidgetSetSwitch_Medium, WidgetSetToggleButtonConfig ));
+  _this->PushButton.OnRelease = EwNewSlot( _this, ApplicationSettings_UpdateViewCalibration );
+  WidgetSetPushButton_OnSetAppearance( &_this->PushButton, EwGetAutoObject( &WidgetSetPushButton_Medium, 
+  WidgetSetPushButtonConfig ));
+  _this->PushButton1.OnRelease = EwNewSlot( _this, ApplicationSettings_UpdateViewDebug );
+  WidgetSetPushButton_OnSetAppearance( &_this->PushButton1, EwGetAutoObject( &WidgetSetPushButton_Medium, 
+  WidgetSetPushButtonConfig ));
 }
 
 /* Re-Initializer for the class 'Application::Settings' */
@@ -623,7 +654,8 @@ void ApplicationSettings__ReInit( ApplicationSettings _this )
   WidgetSetPushButton__ReInit( &_this->MenuButton );
   WidgetSetToggleButton__ReInit( &_this->ToggleButton );
   WidgetSetToggleButton__ReInit( &_this->ToggleButton1 );
-  WidgetSetToggleButton__ReInit( &_this->ToggleButton2 );
+  WidgetSetPushButton__ReInit( &_this->PushButton );
+  WidgetSetPushButton__ReInit( &_this->PushButton1 );
 }
 
 /* Finalizer method for the class 'Application::Settings' */
@@ -638,7 +670,8 @@ void ApplicationSettings__Done( ApplicationSettings _this )
   WidgetSetPushButton__Done( &_this->MenuButton );
   WidgetSetToggleButton__Done( &_this->ToggleButton );
   WidgetSetToggleButton__Done( &_this->ToggleButton1 );
-  WidgetSetToggleButton__Done( &_this->ToggleButton2 );
+  WidgetSetPushButton__Done( &_this->PushButton );
+  WidgetSetPushButton__Done( &_this->PushButton1 );
 
   /* Don't forget to deinitialize the super class ... */
   CoreGroup__Done( &_this->_.Super );
@@ -655,13 +688,36 @@ void ApplicationSettings_UpdateViewMenu( ApplicationSettings _this, XObject send
     EwNullSlot, EwNullSlot, 1 );
 }
 
+/* 'C' function for method : 'Application::Settings.UpdateViewCalibration()' */
+void ApplicationSettings_UpdateViewCalibration( ApplicationSettings _this, XObject 
+  sender )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  if ( CoreGroup__IsActiveDialog( _this, 1 ))
+    CoreGroup_PresentDialog((CoreGroup)CoreView__GetRoot( _this ), ((CoreGroup)EwNewObject( 
+    ApplicationCalibration, 0 )), 0, 0, 0, 0, 0, 0, EwNullSlot, EwNullSlot, 0 );
+}
+
+/* 'C' function for method : 'Application::Settings.UpdateViewDebug()' */
+void ApplicationSettings_UpdateViewDebug( ApplicationSettings _this, XObject sender )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  if ( CoreGroup__IsActiveDialog( _this, 1 ))
+    CoreGroup_PresentDialog((CoreGroup)CoreView__GetRoot( _this ), ((CoreGroup)EwNewObject( 
+    ApplicationDebug, 0 )), 0, 0, 0, 0, 0, 0, EwNullSlot, EwNullSlot, 0 );
+}
+
 /* Variants derived from the class : 'Application::Settings' */
 EW_DEFINE_CLASS_VARIANTS( ApplicationSettings )
 EW_END_OF_CLASS_VARIANTS( ApplicationSettings )
 
 /* Virtual Method Table (VMT) for the class : 'Application::Settings' */
-EW_DEFINE_CLASS( ApplicationSettings, CoreGroup, Rectangle, Rectangle, Rectangle, 
-                 Rectangle, _.VMT, _.VMT, "Application::Settings" )
+EW_DEFINE_CLASS( ApplicationSettings, CoreGroup, Device, Rectangle, Rectangle, Rectangle, 
+                 _.VMT, _.VMT, "Application::Settings" )
   CoreRectView_initLayoutContext,
   CoreView_GetRoot,
   CoreGroup_Draw,
@@ -707,18 +763,20 @@ void ApplicationDistanceMeasurement__Init( ApplicationDistanceMeasurement _this,
   CoreRectView__OnSetBounds( _this, _Const0000 );
   CoreRectView__OnSetBounds( &_this->Rectangle, _Const0000 );
   ViewsRectangle_OnSetColor( &_this->Rectangle, _Const0006 );
-  CoreRectView__OnSetBounds( &_this->Text, _Const001A );
-  ViewsText_OnSetString( &_this->Text, EwLoadString( &_Const001B ));
+  CoreRectView__OnSetBounds( &_this->Text, _Const001D );
+  ViewsText_OnSetString( &_this->Text, EwLoadString( &_Const001E ));
   ViewsText_OnSetColor( &_this->Text, _Const000A );
   CoreRectView__OnSetBounds( &_this->PushButton, _Const000D );
   WidgetSetPushButton_OnSetLabel( &_this->PushButton, 0 );
-  CoreRectView__OnSetBounds( &_this->HorizontalValueBar, _Const001C );
-  CoreRectView__OnSetBounds( &_this->HorizontalValueBar1, _Const001D );
-  CoreRectView__OnSetBounds( &_this->ValueDisplay, _Const001E );
-  WidgetSetValueDisplay_OnSetUnit( &_this->ValueDisplay, EwLoadString( &_Const001F ));
-  WidgetSetValueDisplay_OnSetPrecision( &_this->ValueDisplay, 1 );
-  CoreRectView__OnSetBounds( &_this->ValueDisplay1, _Const0020 );
-  WidgetSetValueDisplay_OnSetUnit( &_this->ValueDisplay1, EwLoadString( &_Const0021 ));
+  CoreRectView__OnSetBounds( &_this->HorizontalValueBar, _Const001F );
+  WidgetSetHorizontalValueBar_OnSetMaxValue( &_this->HorizontalValueBar, 200 );
+  CoreRectView__OnSetBounds( &_this->HorizontalValueBar1, _Const0020 );
+  WidgetSetHorizontalValueBar_OnSetMaxValue( &_this->HorizontalValueBar1, 90 );
+  CoreRectView__OnSetBounds( &_this->ValueDisplay, _Const0021 );
+  WidgetSetValueDisplay_OnSetUnit( &_this->ValueDisplay, EwLoadString( &_Const0022 ));
+  WidgetSetValueDisplay_OnSetPrecision( &_this->ValueDisplay, 0 );
+  CoreRectView__OnSetBounds( &_this->ValueDisplay1, _Const0023 );
+  WidgetSetValueDisplay_OnSetUnit( &_this->ValueDisplay1, EwLoadString( &_Const0024 ));
   WidgetSetValueDisplay_OnSetPrecision( &_this->ValueDisplay1, 0 );
   CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->Rectangle ), 0 );
   CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->Text ), 0 );
@@ -733,12 +791,24 @@ void ApplicationDistanceMeasurement__Init( ApplicationDistanceMeasurement _this,
   ResourcesBitmap ));
   WidgetSetPushButton_OnSetAppearance( &_this->PushButton, EwGetAutoObject( &WidgetSetPushButton_Medium, 
   WidgetSetPushButtonConfig ));
+  WidgetSetHorizontalValueBar_OnSetOutlet( &_this->HorizontalValueBar, EwNewRef( 
+  EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass ), ApplicationDeviceClass_OnGetDistance, 
+  ApplicationDeviceClass_OnSetDistance ));
   WidgetSetHorizontalValueBar_OnSetAppearance( &_this->HorizontalValueBar, EwGetAutoObject( 
   &WidgetSetHorizontalValueBar_Medium, WidgetSetHorizontalValueBarConfig ));
+  WidgetSetHorizontalValueBar_OnSetOutlet( &_this->HorizontalValueBar1, EwNewRef( 
+  EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass ), ApplicationDeviceClass_OnGetAngle, 
+  ApplicationDeviceClass_OnSetAngle ));
   WidgetSetHorizontalValueBar_OnSetAppearance( &_this->HorizontalValueBar1, EwGetAutoObject( 
   &WidgetSetHorizontalValueBar_Medium, WidgetSetHorizontalValueBarConfig ));
+  WidgetSetValueDisplay_OnSetOutlet( &_this->ValueDisplay, EwNewRef( EwGetAutoObject( 
+  &ApplicationDevice, ApplicationDeviceClass ), ApplicationDeviceClass_OnGetDistance, 
+  ApplicationDeviceClass_OnSetDistance ));
   WidgetSetValueDisplay_OnSetAppearance( &_this->ValueDisplay, EwGetAutoObject( 
   &WidgetSetValueDisplay_Medium, WidgetSetValueDisplayConfig ));
+  WidgetSetValueDisplay_OnSetOutlet( &_this->ValueDisplay1, EwNewRef( EwGetAutoObject( 
+  &ApplicationDevice, ApplicationDeviceClass ), ApplicationDeviceClass_OnGetAngle, 
+  ApplicationDeviceClass_OnSetAngle ));
   WidgetSetValueDisplay_OnSetAppearance( &_this->ValueDisplay1, EwGetAutoObject( 
   &WidgetSetValueDisplay_Medium, WidgetSetValueDisplayConfig ));
 }
@@ -854,15 +924,15 @@ void ApplicationMenu__Init( ApplicationMenu _this, XObject aLink, XHandle aArg )
   CoreRectView__OnSetBounds( &_this->Rectangle, _Const0000 );
   ViewsRectangle_OnSetColor( &_this->Rectangle, _Const0006 );
   CoreRectView__OnSetBounds( &_this->Text, _Const0013 );
-  ViewsText_OnSetString( &_this->Text, EwLoadString( &_Const0022 ));
+  ViewsText_OnSetString( &_this->Text, EwLoadString( &_Const0025 ));
   ViewsText_OnSetColor( &_this->Text, _Const000A );
-  CoreRectView__OnSetBounds( &_this->CurrentButton, _Const0023 );
-  WidgetSetPushButton_OnSetLabel( &_this->CurrentButton, EwLoadString( &_Const0024 ));
-  CoreRectView__OnSetBounds( &_this->DistanceButton, _Const0025 );
-  WidgetSetPushButton_OnSetLabel( &_this->DistanceButton, EwLoadString( &_Const0026 ));
-  CoreRectView__OnSetBounds( &_this->DetectorButton, _Const0027 );
+  CoreRectView__OnSetBounds( &_this->CurrentButton, _Const0026 );
+  WidgetSetPushButton_OnSetLabel( &_this->CurrentButton, EwLoadString( &_Const0027 ));
+  CoreRectView__OnSetBounds( &_this->DistanceButton, _Const0028 );
+  WidgetSetPushButton_OnSetLabel( &_this->DistanceButton, EwLoadString( &_Const0029 ));
+  CoreRectView__OnSetBounds( &_this->DetectorButton, _Const002A );
   WidgetSetPushButton_OnSetLabel( &_this->DetectorButton, EwLoadString( &_Const000C ));
-  CoreRectView__OnSetBounds( &_this->SettingsButton, _Const0028 );
+  CoreRectView__OnSetBounds( &_this->SettingsButton, _Const002B );
   WidgetSetPushButton_OnSetLabel( &_this->SettingsButton, EwLoadString( &_Const0014 ));
   CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->Rectangle ), 0 );
   CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->Text ), 0 );
@@ -1129,16 +1199,232 @@ void ApplicationDeviceClass_OnSetLamptest( ApplicationDeviceClass _this, XBool v
   {
     if(value){
       DeviceDriver_SetLampTest();
+    } else {
+      DeviceDriver_DisableLampTest();
     }
   }
   EwNotifyRefObservers( EwNewRef( _this, ApplicationDeviceClass_OnGetLamptest, ApplicationDeviceClass_OnSetLamptest ), 
     0 );
 }
 
+/* 'C' function for method : 'Application::DeviceClass.UpdateCurrent()' */
+void ApplicationDeviceClass_UpdateCurrent( ApplicationDeviceClass _this, XInt32 
+  aNewValue )
+{
+  if ( aNewValue != _this->Current )
+  {
+    _this->Current = aNewValue;
+    EwNotifyRefObservers( EwNewRef( _this, ApplicationDeviceClass_OnGetCurrent, 
+      ApplicationDeviceClass_OnSetCurrent ), 0 );
+  }
+}
+
+/* Wrapper function for the non virtual method : 'Application::DeviceClass.UpdateCurrent()' */
+void ApplicationDeviceClass__UpdateCurrent( void* _this, XInt32 aNewValue )
+{
+  ApplicationDeviceClass_UpdateCurrent((ApplicationDeviceClass)_this, aNewValue );
+}
+
+/* 'C' function for method : 'Application::DeviceClass.UpdateDistance()' */
+void ApplicationDeviceClass_UpdateDistance( ApplicationDeviceClass _this, XInt32 
+  aNewValue )
+{
+  if ( aNewValue != _this->Distance )
+  {
+    _this->Distance = aNewValue;
+    EwNotifyRefObservers( EwNewRef( _this, ApplicationDeviceClass_OnGetDistance, 
+      ApplicationDeviceClass_OnSetDistance ), 0 );
+  }
+}
+
+/* Wrapper function for the non virtual method : 'Application::DeviceClass.UpdateDistance()' */
+void ApplicationDeviceClass__UpdateDistance( void* _this, XInt32 aNewValue )
+{
+  ApplicationDeviceClass_UpdateDistance((ApplicationDeviceClass)_this, aNewValue );
+}
+
+/* 'C' function for method : 'Application::DeviceClass.UpdateAngle()' */
+void ApplicationDeviceClass_UpdateAngle( ApplicationDeviceClass _this, XInt32 aNewValue )
+{
+  if ( aNewValue != _this->Angle )
+  {
+    _this->Angle = aNewValue;
+    EwNotifyRefObservers( EwNewRef( _this, ApplicationDeviceClass_OnGetAngle, ApplicationDeviceClass_OnSetAngle ), 
+      0 );
+  }
+}
+
+/* Wrapper function for the non virtual method : 'Application::DeviceClass.UpdateAngle()' */
+void ApplicationDeviceClass__UpdateAngle( void* _this, XInt32 aNewValue )
+{
+  ApplicationDeviceClass_UpdateAngle((ApplicationDeviceClass)_this, aNewValue );
+}
+
+/* 'C' function for method : 'Application::DeviceClass.UpdateDebugHall1()' */
+void ApplicationDeviceClass_UpdateDebugHall1( ApplicationDeviceClass _this, XInt32 
+  aNewValue )
+{
+  if ( aNewValue != _this->DebugHall1 )
+  {
+    _this->DebugHall1 = aNewValue;
+    EwNotifyRefObservers( EwNewRef( _this, ApplicationDeviceClass_OnGetDebugHall1, 
+      ApplicationDeviceClass_OnSetDebugHall1 ), 0 );
+  }
+}
+
+/* Wrapper function for the non virtual method : 'Application::DeviceClass.UpdateDebugHall1()' */
+void ApplicationDeviceClass__UpdateDebugHall1( void* _this, XInt32 aNewValue )
+{
+  ApplicationDeviceClass_UpdateDebugHall1((ApplicationDeviceClass)_this, aNewValue );
+}
+
+/* 'C' function for method : 'Application::DeviceClass.UpdateDebugHall2()' */
+void ApplicationDeviceClass_UpdateDebugHall2( ApplicationDeviceClass _this, XInt32 
+  aNewValue )
+{
+  if ( aNewValue != _this->DebugHall2 )
+  {
+    _this->DebugHall2 = aNewValue;
+    EwNotifyRefObservers( EwNewRef( _this, ApplicationDeviceClass_OnGetDebugHall2, 
+      ApplicationDeviceClass_OnSetDebugHall2 ), 0 );
+  }
+}
+
+/* Wrapper function for the non virtual method : 'Application::DeviceClass.UpdateDebugHall2()' */
+void ApplicationDeviceClass__UpdateDebugHall2( void* _this, XInt32 aNewValue )
+{
+  ApplicationDeviceClass_UpdateDebugHall2((ApplicationDeviceClass)_this, aNewValue );
+}
+
+/* 'C' function for method : 'Application::DeviceClass.UpdateDebugPad1()' */
+void ApplicationDeviceClass_UpdateDebugPad1( ApplicationDeviceClass _this, XInt32 
+  aNewValue )
+{
+  if ( aNewValue != _this->DebugPad1 )
+  {
+    _this->DebugPad1 = aNewValue;
+    EwNotifyRefObservers( EwNewRef( _this, ApplicationDeviceClass_OnGetDebugPad1, 
+      ApplicationDeviceClass_OnSetDebugPad1 ), 0 );
+  }
+}
+
+/* Wrapper function for the non virtual method : 'Application::DeviceClass.UpdateDebugPad1()' */
+void ApplicationDeviceClass__UpdateDebugPad1( void* _this, XInt32 aNewValue )
+{
+  ApplicationDeviceClass_UpdateDebugPad1((ApplicationDeviceClass)_this, aNewValue );
+}
+
+/* 'C' function for method : 'Application::DeviceClass.UpdateDebugPad2()' */
+void ApplicationDeviceClass_UpdateDebugPad2( ApplicationDeviceClass _this, XInt32 
+  aNewValue )
+{
+  if ( aNewValue != _this->DebugPad2 )
+  {
+    _this->DebugPad2 = aNewValue;
+    EwNotifyRefObservers( EwNewRef( _this, ApplicationDeviceClass_OnGetDebugPad2, 
+      ApplicationDeviceClass_OnSetDebugPad2 ), 0 );
+  }
+}
+
+/* Wrapper function for the non virtual method : 'Application::DeviceClass.UpdateDebugPad2()' */
+void ApplicationDeviceClass__UpdateDebugPad2( void* _this, XInt32 aNewValue )
+{
+  ApplicationDeviceClass_UpdateDebugPad2((ApplicationDeviceClass)_this, aNewValue );
+}
+
 /* Default onget method for the property 'Lamptest' */
 XBool ApplicationDeviceClass_OnGetLamptest( ApplicationDeviceClass _this )
 {
   return _this->Lamptest;
+}
+
+/* Default onget method for the property 'Current' */
+XInt32 ApplicationDeviceClass_OnGetCurrent( ApplicationDeviceClass _this )
+{
+  return _this->Current;
+}
+
+/* Default onset method for the property 'Current' */
+void ApplicationDeviceClass_OnSetCurrent( ApplicationDeviceClass _this, XInt32 value )
+{
+  _this->Current = value;
+}
+
+/* Default onget method for the property 'Distance' */
+XInt32 ApplicationDeviceClass_OnGetDistance( ApplicationDeviceClass _this )
+{
+  return _this->Distance;
+}
+
+/* Default onset method for the property 'Distance' */
+void ApplicationDeviceClass_OnSetDistance( ApplicationDeviceClass _this, XInt32 
+  value )
+{
+  _this->Distance = value;
+}
+
+/* Default onget method for the property 'Angle' */
+XInt32 ApplicationDeviceClass_OnGetAngle( ApplicationDeviceClass _this )
+{
+  return _this->Angle;
+}
+
+/* Default onset method for the property 'Angle' */
+void ApplicationDeviceClass_OnSetAngle( ApplicationDeviceClass _this, XInt32 value )
+{
+  _this->Angle = value;
+}
+
+/* Default onget method for the property 'DebugHall1' */
+XInt32 ApplicationDeviceClass_OnGetDebugHall1( ApplicationDeviceClass _this )
+{
+  return _this->DebugHall1;
+}
+
+/* Default onset method for the property 'DebugHall1' */
+void ApplicationDeviceClass_OnSetDebugHall1( ApplicationDeviceClass _this, XInt32 
+  value )
+{
+  _this->DebugHall1 = value;
+}
+
+/* Default onget method for the property 'DebugHall2' */
+XInt32 ApplicationDeviceClass_OnGetDebugHall2( ApplicationDeviceClass _this )
+{
+  return _this->DebugHall2;
+}
+
+/* Default onset method for the property 'DebugHall2' */
+void ApplicationDeviceClass_OnSetDebugHall2( ApplicationDeviceClass _this, XInt32 
+  value )
+{
+  _this->DebugHall2 = value;
+}
+
+/* Default onget method for the property 'DebugPad1' */
+XInt32 ApplicationDeviceClass_OnGetDebugPad1( ApplicationDeviceClass _this )
+{
+  return _this->DebugPad1;
+}
+
+/* Default onset method for the property 'DebugPad1' */
+void ApplicationDeviceClass_OnSetDebugPad1( ApplicationDeviceClass _this, XInt32 
+  value )
+{
+  _this->DebugPad1 = value;
+}
+
+/* Default onget method for the property 'DebugPad2' */
+XInt32 ApplicationDeviceClass_OnGetDebugPad2( ApplicationDeviceClass _this )
+{
+  return _this->DebugPad2;
+}
+
+/* Default onset method for the property 'DebugPad2' */
+void ApplicationDeviceClass_OnSetDebugPad2( ApplicationDeviceClass _this, XInt32 
+  value )
+{
+  _this->DebugPad2 = value;
 }
 
 /* Variants derived from the class : 'Application::DeviceClass' */
@@ -1173,18 +1459,18 @@ void ApplicationBlueGauge__Init( WidgetSetGaugeConfig _this )
   WidgetSetGaugeConfig_OnSetSwingElastic( _this, 0 );
   WidgetSetGaugeConfig_OnSetSwingDuration( _this, 300 );
   WidgetSetGaugeConfig_OnSetTrackLeftRoundedStart( _this, 1 );
-  WidgetSetGaugeConfig_OnSetTrackLeftColor( _this, _Const0029 );
+  WidgetSetGaugeConfig_OnSetTrackLeftColor( _this, _Const002C );
   WidgetSetGaugeConfig_OnSetTrackLeftThickness( _this, 21.000000f );
   WidgetSetGaugeConfig_OnSetTrackLeftRadius( _this, 70.000000f );
   WidgetSetGaugeConfig_OnSetNeedleMaxAngle( _this, -45.000000f );
   WidgetSetGaugeConfig_OnSetNeedleMinAngle( _this, 225.000000f );
-  WidgetSetGaugeConfig_OnSetNeedlePivot( _this, _Const002A );
+  WidgetSetGaugeConfig_OnSetNeedlePivot( _this, _Const002D );
   WidgetSetGaugeConfig_OnSetNeedle( _this, EwLoadResource( &ApplicationBlueNeedle, 
   ResourcesBitmap ));
-  WidgetSetGaugeConfig_OnSetCenterOffset( _this, _Const002B );
+  WidgetSetGaugeConfig_OnSetCenterOffset( _this, _Const002E );
   WidgetSetGaugeConfig_OnSetScale( _this, EwLoadResource( &WidgetSetGaugeTrackMedium, 
   ResourcesBitmap ));
-  WidgetSetGaugeConfig_OnSetWidgetMinSize( _this, _Const002C );
+  WidgetSetGaugeConfig_OnSetWidgetMinSize( _this, _Const002F );
 }
 
 /* Table with links to derived variants of the auto object : 'Application::BlueGauge' */
@@ -1202,5 +1488,260 @@ EW_RES_WITHOUT_VARIANTS( ApplicationHomeIcon )
 
 /* Table with links to derived variants of the bitmap resource : 'Application::BlueNeedle' */
 EW_RES_WITHOUT_VARIANTS( ApplicationBlueNeedle )
+
+/* Initializer for the class 'Application::Debug' */
+void ApplicationDebug__Init( ApplicationDebug _this, XObject aLink, XHandle aArg )
+{
+  /* At first initialize the super class ... */
+  CoreGroup__Init( &_this->_.Super, aLink, aArg );
+
+  /* Allow the Immediate Garbage Collection to evalute the members of this class. */
+  _this->_.XObject._.GCT = EW_CLASS_GCT( ApplicationDebug );
+
+  /* ... then construct all embedded objects */
+  ViewsRectangle__Init( &_this->Rectangle, &_this->_.XObject, 0 );
+  ViewsText__Init( &_this->Text, &_this->_.XObject, 0 );
+  WidgetSetPushButton__Init( &_this->MenuButton, &_this->_.XObject, 0 );
+  WidgetSetValueDisplay__Init( &_this->ValueDisplay, &_this->_.XObject, 0 );
+  WidgetSetValueDisplay__Init( &_this->ValueDisplay1, &_this->_.XObject, 0 );
+  WidgetSetValueDisplay__Init( &_this->ValueDisplay2, &_this->_.XObject, 0 );
+  WidgetSetValueDisplay__Init( &_this->ValueDisplay3, &_this->_.XObject, 0 );
+
+  /* Setup the VMT pointer */
+  _this->_.VMT = EW_CLASS( ApplicationDebug );
+
+  /* ... and initialize objects, variables, properties, etc. */
+  CoreRectView__OnSetBounds( _this, _Const0000 );
+  CoreRectView__OnSetBounds( &_this->Rectangle, _Const0000 );
+  ViewsRectangle_OnSetColor( &_this->Rectangle, _Const0006 );
+  CoreRectView__OnSetBounds( &_this->Text, _Const0013 );
+  ViewsText_OnSetString( &_this->Text, EwLoadString( &_Const001C ));
+  ViewsText_OnSetColor( &_this->Text, _Const000A );
+  CoreRectView__OnSetBounds( &_this->MenuButton, _Const000D );
+  WidgetSetPushButton_OnSetLabel( &_this->MenuButton, 0 );
+  CoreRectView__OnSetBounds( &_this->ValueDisplay, _Const0030 );
+  WidgetSetValueDisplay_OnSetUnit( &_this->ValueDisplay, EwLoadString( &_Const0031 ));
+  WidgetSetValueDisplay_OnSetPrecision( &_this->ValueDisplay, 0 );
+  CoreRectView__OnSetBounds( &_this->ValueDisplay1, _Const0032 );
+  WidgetSetValueDisplay_OnSetUnit( &_this->ValueDisplay1, EwLoadString( &_Const0033 ));
+  WidgetSetValueDisplay_OnSetPrecision( &_this->ValueDisplay1, 0 );
+  CoreRectView__OnSetBounds( &_this->ValueDisplay2, _Const0034 );
+  WidgetSetValueDisplay_OnSetUnit( &_this->ValueDisplay2, EwLoadString( &_Const0035 ));
+  WidgetSetValueDisplay_OnSetPrecision( &_this->ValueDisplay2, 0 );
+  CoreRectView__OnSetBounds( &_this->ValueDisplay3, _Const0036 );
+  WidgetSetValueDisplay_OnSetUnit( &_this->ValueDisplay3, EwLoadString( &_Const0037 ));
+  WidgetSetValueDisplay_OnSetPrecision( &_this->ValueDisplay3, 0 );
+  CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->Rectangle ), 0 );
+  CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->Text ), 0 );
+  CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->MenuButton ), 0 );
+  CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->ValueDisplay ), 0 );
+  CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->ValueDisplay1 ), 0 );
+  CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->ValueDisplay2 ), 0 );
+  CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->ValueDisplay3 ), 0 );
+  ViewsText_OnSetFont( &_this->Text, EwLoadResource( &ApplicationTitelFont, ResourcesFont ));
+  _this->MenuButton.OnRelease = EwNewSlot( _this, ApplicationDebug_UpdateViewMenu );
+  WidgetSetPushButton_OnSetIcon( &_this->MenuButton, EwLoadResource( &ApplicationHomeIcon, 
+  ResourcesBitmap ));
+  WidgetSetPushButton_OnSetAppearance( &_this->MenuButton, EwGetAutoObject( &WidgetSetPushButton_Medium, 
+  WidgetSetPushButtonConfig ));
+  _this->Device = EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass );
+  WidgetSetValueDisplay_OnSetOutlet( &_this->ValueDisplay, EwNewRef( EwGetAutoObject( 
+  &ApplicationDevice, ApplicationDeviceClass ), ApplicationDeviceClass_OnGetDebugHall1, 
+  ApplicationDeviceClass_OnSetDebugHall1 ));
+  WidgetSetValueDisplay_OnSetAppearance( &_this->ValueDisplay, EwGetAutoObject( 
+  &WidgetSetValueDisplay_Medium, WidgetSetValueDisplayConfig ));
+  WidgetSetValueDisplay_OnSetOutlet( &_this->ValueDisplay1, EwNewRef( EwGetAutoObject( 
+  &ApplicationDevice, ApplicationDeviceClass ), ApplicationDeviceClass_OnGetDebugHall2, 
+  ApplicationDeviceClass_OnSetDebugHall2 ));
+  WidgetSetValueDisplay_OnSetAppearance( &_this->ValueDisplay1, EwGetAutoObject( 
+  &WidgetSetValueDisplay_Medium, WidgetSetValueDisplayConfig ));
+  WidgetSetValueDisplay_OnSetOutlet( &_this->ValueDisplay2, EwNewRef( EwGetAutoObject( 
+  &ApplicationDevice, ApplicationDeviceClass ), ApplicationDeviceClass_OnGetDebugPad1, 
+  ApplicationDeviceClass_OnSetDebugPad1 ));
+  WidgetSetValueDisplay_OnSetAppearance( &_this->ValueDisplay2, EwGetAutoObject( 
+  &WidgetSetValueDisplay_Medium, WidgetSetValueDisplayConfig ));
+  WidgetSetValueDisplay_OnSetOutlet( &_this->ValueDisplay3, EwNewRef( EwGetAutoObject( 
+  &ApplicationDevice, ApplicationDeviceClass ), ApplicationDeviceClass_OnGetDebugPad2, 
+  ApplicationDeviceClass_OnSetDebugPad2 ));
+  WidgetSetValueDisplay_OnSetAppearance( &_this->ValueDisplay3, EwGetAutoObject( 
+  &WidgetSetValueDisplay_Medium, WidgetSetValueDisplayConfig ));
+}
+
+/* Re-Initializer for the class 'Application::Debug' */
+void ApplicationDebug__ReInit( ApplicationDebug _this )
+{
+  /* At first re-initialize the super class ... */
+  CoreGroup__ReInit( &_this->_.Super );
+
+  /* ... then re-construct all embedded objects */
+  ViewsRectangle__ReInit( &_this->Rectangle );
+  ViewsText__ReInit( &_this->Text );
+  WidgetSetPushButton__ReInit( &_this->MenuButton );
+  WidgetSetValueDisplay__ReInit( &_this->ValueDisplay );
+  WidgetSetValueDisplay__ReInit( &_this->ValueDisplay1 );
+  WidgetSetValueDisplay__ReInit( &_this->ValueDisplay2 );
+  WidgetSetValueDisplay__ReInit( &_this->ValueDisplay3 );
+}
+
+/* Finalizer method for the class 'Application::Debug' */
+void ApplicationDebug__Done( ApplicationDebug _this )
+{
+  /* Finalize this class */
+  _this->_.Super._.VMT = EW_CLASS( CoreGroup );
+
+  /* Finalize all embedded objects */
+  ViewsRectangle__Done( &_this->Rectangle );
+  ViewsText__Done( &_this->Text );
+  WidgetSetPushButton__Done( &_this->MenuButton );
+  WidgetSetValueDisplay__Done( &_this->ValueDisplay );
+  WidgetSetValueDisplay__Done( &_this->ValueDisplay1 );
+  WidgetSetValueDisplay__Done( &_this->ValueDisplay2 );
+  WidgetSetValueDisplay__Done( &_this->ValueDisplay3 );
+
+  /* Don't forget to deinitialize the super class ... */
+  CoreGroup__Done( &_this->_.Super );
+}
+
+/* 'C' function for method : 'Application::Debug.UpdateViewMenu()' */
+void ApplicationDebug_UpdateViewMenu( ApplicationDebug _this, XObject sender )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  if ( CoreGroup__IsActiveDialog( _this, 1 ))
+    CoreGroup_DismissDialog( _this->Super3.Owner, ((CoreGroup)_this ), 0, 0, 0, 
+    EwNullSlot, EwNullSlot, 1 );
+}
+
+/* Variants derived from the class : 'Application::Debug' */
+EW_DEFINE_CLASS_VARIANTS( ApplicationDebug )
+EW_END_OF_CLASS_VARIANTS( ApplicationDebug )
+
+/* Virtual Method Table (VMT) for the class : 'Application::Debug' */
+EW_DEFINE_CLASS( ApplicationDebug, CoreGroup, Device, Rectangle, Rectangle, Rectangle, 
+                 _.VMT, _.VMT, "Application::Debug" )
+  CoreRectView_initLayoutContext,
+  CoreView_GetRoot,
+  CoreGroup_Draw,
+  CoreView_HandleEvent,
+  CoreGroup_CursorHitTest,
+  CoreRectView_ArrangeView,
+  CoreRectView_MoveView,
+  CoreRectView_GetExtent,
+  CoreGroup_ChangeViewState,
+  CoreGroup_OnSetBounds,
+  CoreGroup_OnSetFocus,
+  CoreGroup_OnSetOpacity,
+  CoreGroup_IsCurrentDialog,
+  CoreGroup_IsActiveDialog,
+  CoreGroup_DispatchEvent,
+  CoreGroup_BroadcastEvent,
+  CoreGroup_UpdateViewState,
+  CoreGroup_InvalidateArea,
+EW_END_OF_CLASS( ApplicationDebug )
+
+/* Initializer for the class 'Application::Calibration' */
+void ApplicationCalibration__Init( ApplicationCalibration _this, XObject aLink, XHandle aArg )
+{
+  /* At first initialize the super class ... */
+  CoreGroup__Init( &_this->_.Super, aLink, aArg );
+
+  /* Allow the Immediate Garbage Collection to evalute the members of this class. */
+  _this->_.XObject._.GCT = EW_CLASS_GCT( ApplicationCalibration );
+
+  /* ... then construct all embedded objects */
+  ViewsRectangle__Init( &_this->Rectangle, &_this->_.XObject, 0 );
+  ViewsText__Init( &_this->Text, &_this->_.XObject, 0 );
+  WidgetSetPushButton__Init( &_this->MenuButton, &_this->_.XObject, 0 );
+
+  /* Setup the VMT pointer */
+  _this->_.VMT = EW_CLASS( ApplicationCalibration );
+
+  /* ... and initialize objects, variables, properties, etc. */
+  CoreRectView__OnSetBounds( _this, _Const0000 );
+  CoreRectView__OnSetBounds( &_this->Rectangle, _Const0000 );
+  ViewsRectangle_OnSetColor( &_this->Rectangle, _Const0006 );
+  CoreRectView__OnSetBounds( &_this->Text, _Const0013 );
+  ViewsText_OnSetString( &_this->Text, EwLoadString( &_Const001A ));
+  ViewsText_OnSetColor( &_this->Text, _Const000A );
+  CoreRectView__OnSetBounds( &_this->MenuButton, _Const000D );
+  WidgetSetPushButton_OnSetLabel( &_this->MenuButton, 0 );
+  CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->Rectangle ), 0 );
+  CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->Text ), 0 );
+  CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->MenuButton ), 0 );
+  ViewsText_OnSetFont( &_this->Text, EwLoadResource( &ApplicationTitelFont, ResourcesFont ));
+  _this->MenuButton.OnRelease = EwNewSlot( _this, ApplicationCalibration_UpdateViewMenu );
+  WidgetSetPushButton_OnSetIcon( &_this->MenuButton, EwLoadResource( &ApplicationHomeIcon, 
+  ResourcesBitmap ));
+  WidgetSetPushButton_OnSetAppearance( &_this->MenuButton, EwGetAutoObject( &WidgetSetPushButton_Medium, 
+  WidgetSetPushButtonConfig ));
+  _this->Device = EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass );
+}
+
+/* Re-Initializer for the class 'Application::Calibration' */
+void ApplicationCalibration__ReInit( ApplicationCalibration _this )
+{
+  /* At first re-initialize the super class ... */
+  CoreGroup__ReInit( &_this->_.Super );
+
+  /* ... then re-construct all embedded objects */
+  ViewsRectangle__ReInit( &_this->Rectangle );
+  ViewsText__ReInit( &_this->Text );
+  WidgetSetPushButton__ReInit( &_this->MenuButton );
+}
+
+/* Finalizer method for the class 'Application::Calibration' */
+void ApplicationCalibration__Done( ApplicationCalibration _this )
+{
+  /* Finalize this class */
+  _this->_.Super._.VMT = EW_CLASS( CoreGroup );
+
+  /* Finalize all embedded objects */
+  ViewsRectangle__Done( &_this->Rectangle );
+  ViewsText__Done( &_this->Text );
+  WidgetSetPushButton__Done( &_this->MenuButton );
+
+  /* Don't forget to deinitialize the super class ... */
+  CoreGroup__Done( &_this->_.Super );
+}
+
+/* 'C' function for method : 'Application::Calibration.UpdateViewMenu()' */
+void ApplicationCalibration_UpdateViewMenu( ApplicationCalibration _this, XObject 
+  sender )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  if ( CoreGroup__IsActiveDialog( _this, 1 ))
+    CoreGroup_DismissDialog( _this->Super3.Owner, ((CoreGroup)_this ), 0, 0, 0, 
+    EwNullSlot, EwNullSlot, 1 );
+}
+
+/* Variants derived from the class : 'Application::Calibration' */
+EW_DEFINE_CLASS_VARIANTS( ApplicationCalibration )
+EW_END_OF_CLASS_VARIANTS( ApplicationCalibration )
+
+/* Virtual Method Table (VMT) for the class : 'Application::Calibration' */
+EW_DEFINE_CLASS( ApplicationCalibration, CoreGroup, Device, Rectangle, Rectangle, 
+                 Rectangle, _.VMT, _.VMT, "Application::Calibration" )
+  CoreRectView_initLayoutContext,
+  CoreView_GetRoot,
+  CoreGroup_Draw,
+  CoreView_HandleEvent,
+  CoreGroup_CursorHitTest,
+  CoreRectView_ArrangeView,
+  CoreRectView_MoveView,
+  CoreRectView_GetExtent,
+  CoreGroup_ChangeViewState,
+  CoreGroup_OnSetBounds,
+  CoreGroup_OnSetFocus,
+  CoreGroup_OnSetOpacity,
+  CoreGroup_IsCurrentDialog,
+  CoreGroup_IsActiveDialog,
+  CoreGroup_DispatchEvent,
+  CoreGroup_BroadcastEvent,
+  CoreGroup_UpdateViewState,
+  CoreGroup_InvalidateArea,
+EW_END_OF_CLASS( ApplicationCalibration )
 
 /* Embedded Wizard */

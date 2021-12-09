@@ -19,6 +19,7 @@
  *****************************************************************************/
 void ExtLedInit(void);
 void ExtLedSet(uint8_t ledNum, bool status);
-void ExtLedLamptest(uint16_t time);
+void ExtLedSetLamptest(void);
+void ExtLedDisableLamptest(void);
 
 #endif /* INC_LED_H_ */

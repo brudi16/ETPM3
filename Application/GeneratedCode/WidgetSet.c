@@ -58,6 +58,13 @@
 #include "Views.h"
 #include "WidgetSet.h"
 
+/* Compressed strings for the language 'Default'. */
+EW_CONST_STRING_PRAGMA static const unsigned int _StringsDefault0[] =
+{
+  0x0000000C, /* ratio 166.67 % */
+  0xB8000900, 0x8005A452, 0x04010883, 0x00000004, 0x00000000
+};
+
 /* Constant values used in this 'C' module only. */
 static const XPoint _Const0000 = { 45, 30 };
 static const XColor _Const0001 = { 0xA7, 0xA9, 0xAC, 0xFF };
@@ -71,13 +78,14 @@ static const XColor _Const0008 = { 0xFF, 0xFF, 0xFF, 0xFF };
 static const XPoint _Const0009 = { 34, 34 };
 static const XColor _Const000A = { 0x00, 0x00, 0x00, 0xFF };
 static const XRect _Const000B = {{ 0, 0 }, { 200, 30 }};
-static const XRect _Const000C = {{ 0, 0 }, { 200, 50 }};
-static const XRect _Const000D = {{ 0, 0 }, { 120, 120 }};
-static const XRect _Const000E = {{ 0, 0 }, { 150, 50 }};
-static const XPoint _Const000F = { 0, 50 };
-static const XPoint _Const0010 = { 150, 50 };
-static const XPoint _Const0011 = { 150, 0 };
-static const XPoint _Const0012 = { 0, 0 };
+static const XStringRes _Const000C = { _StringsDefault0, 0x0002 };
+static const XRect _Const000D = {{ 0, 0 }, { 200, 50 }};
+static const XRect _Const000E = {{ 0, 0 }, { 120, 120 }};
+static const XRect _Const000F = {{ 0, 0 }, { 150, 50 }};
+static const XPoint _Const0010 = { 0, 50 };
+static const XPoint _Const0011 = { 150, 50 };
+static const XPoint _Const0012 = { 150, 0 };
+static const XPoint _Const0013 = { 0, 0 };
 
 /* Include a file containing the bitmap resource : 'WidgetSet::GaugeTrackMedium' */
 #include "_WidgetSetGaugeTrackMedium.h"
@@ -1750,7 +1758,11 @@ void WidgetSetValueDisplay_UpdateViewState( WidgetSetValueDisplay _this, XSet aS
   {
     XColor clr;
     XRect r = area;
-    clr = _this->Appearance->ValueColorPositive;
+
+    if ( _this->isNegative )
+      clr = _this->Appearance->ValueColorNegative;
+    else
+      clr = _this->Appearance->ValueColorPositive;
 
     if (( _this->Appearance->Layout == WidgetSetValueDisplayLayoutAlignUnitLeftToValue ) 
         || ( _this->Appearance->Layout == WidgetSetValueDisplayLayoutAlignUnitRightToValue ))
@@ -1780,7 +1792,11 @@ void WidgetSetValueDisplay_UpdateViewState( WidgetSetValueDisplay _this, XSet aS
   {
     XColor clr;
     XRect r = area;
-    clr = _this->Appearance->UnitColorPositive;
+
+    if ( _this->isNegative )
+      clr = _this->Appearance->UnitColorNegative;
+    else
+      clr = _this->Appearance->UnitColorPositive;
 
     if (( _this->Appearance->Layout == WidgetSetValueDisplayLayoutAlignValueLeftToUnit ) 
         || ( _this->Appearance->Layout == WidgetSetValueDisplayLayoutAlignValueRightToUnit ))
@@ -1825,18 +1841,30 @@ void WidgetSetValueDisplay_onFormatValue( WidgetSetValueDisplay _this, XObject s
 
   if ( _this->Appearance != 0 )
   {
+    XFloat theValue = (XFloat)_this->CurrentValue;
     XInt32 noOfDigits = 0;
     XString newValueString;
 
     if ( _this->Precision > 0 )
       noOfDigits = 1;
 
-    newValueString = EwNewStringFloat( 0.000000f, noOfDigits, _this->Precision );
-    newValueString = EwConcatString( _this->Appearance->FormatPlusSign, newValueString );
+    if ( theValue < 0.000000f )
+      noOfDigits = noOfDigits + 1;
+
+    newValueString = EwNewStringFloat( theValue, noOfDigits, _this->Precision );
+
+    if ( theValue < 0.000000f )
+      newValueString = EwStringRemove( newValueString, 0, 1 );
+
+    if ( theValue >= 0.000000f )
+      newValueString = EwConcatString( _this->Appearance->FormatPlusSign, newValueString );
+    else
+      newValueString = EwConcatString( EwLoadString( &_Const000C ), newValueString );
 
     if ( EwCompString( newValueString, _this->valueString ) != 0 )
     {
       _this->valueString = EwShareString( newValueString );
+      _this->isNegative = (XBool)( theValue < 0.000000f );
       CoreGroup_InvalidateViewState((CoreGroup)_this );
     }
   }
@@ -1862,6 +1890,36 @@ void WidgetSetValueDisplay_onConfigChanged( WidgetSetValueDisplay _this, XObject
   CoreGroup_InvalidateViewState((CoreGroup)_this );
 }
 
+/* 'C' function for method : 'WidgetSet::ValueDisplay.onOutlet()' */
+void WidgetSetValueDisplay_onOutlet( WidgetSetValueDisplay _this, XObject sender )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  if ( _this->Outlet.Object != 0 )
+    WidgetSetValueDisplay_OnSetCurrentValue( _this, EwOnGetInt32( _this->Outlet ));
+}
+
+/* 'C' function for method : 'WidgetSet::ValueDisplay.OnSetOutlet()' */
+void WidgetSetValueDisplay_OnSetOutlet( WidgetSetValueDisplay _this, XRef value )
+{
+  if ( !EwCompRef( _this->Outlet, value ))
+    return;
+
+  if ( _this->Outlet.Object != 0 )
+    EwDetachRefObserver( EwNewSlot( _this, WidgetSetValueDisplay_onOutlet ), _this->Outlet, 
+      0 );
+
+  _this->Outlet = value;
+
+  if ( value.Object != 0 )
+    EwAttachRefObserver( EwNewSlot( _this, WidgetSetValueDisplay_onOutlet ), value, 
+      0 );
+
+  if ( value.Object != 0 )
+    EwPostSignal( EwNewSlot( _this, WidgetSetValueDisplay_onOutlet ), ((XObject)_this ));
+}
+
 /* 'C' function for method : 'WidgetSet::ValueDisplay.OnSetUnit()' */
 void WidgetSetValueDisplay_OnSetUnit( WidgetSetValueDisplay _this, XString value )
 {
@@ -1879,6 +1937,17 @@ void WidgetSetValueDisplay_OnSetPrecision( WidgetSetValueDisplay _this, XInt32 v
     return;
 
   _this->Precision = value;
+  EwPostSignal( EwNewSlot( _this, WidgetSetValueDisplay_onFormatValue ), ((XObject)_this ));
+}
+
+/* 'C' function for method : 'WidgetSet::ValueDisplay.OnSetCurrentValue()' */
+void WidgetSetValueDisplay_OnSetCurrentValue( WidgetSetValueDisplay _this, XInt32 
+  value )
+{
+  if ( _this->CurrentValue == value )
+    return;
+
+  _this->CurrentValue = value;
   EwPostSignal( EwNewSlot( _this, WidgetSetValueDisplay_onFormatValue ), ((XObject)_this ));
 }
 
@@ -1907,8 +1976,8 @@ EW_DEFINE_CLASS_VARIANTS( WidgetSetValueDisplay )
 EW_END_OF_CLASS_VARIANTS( WidgetSetValueDisplay )
 
 /* Virtual Method Table (VMT) for the class : 'WidgetSet::ValueDisplay' */
-EW_DEFINE_CLASS( WidgetSetValueDisplay, CoreGroup, textView2, valueString, valueString, 
-                 valueString, valueString, Precision, "WidgetSet::ValueDisplay" )
+EW_DEFINE_CLASS( WidgetSetValueDisplay, CoreGroup, textView2, Outlet, Outlet, valueString, 
+                 valueString, Precision, "WidgetSet::ValueDisplay" )
   CoreRectView_initLayoutContext,
   CoreView_GetRoot,
   CoreGroup_Draw,
@@ -1945,10 +2014,12 @@ void WidgetSetHorizontalValueBar__Init( WidgetSetHorizontalValueBar _this, XObje
   _this->_.VMT = EW_CLASS( WidgetSetHorizontalValueBar );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const000C );
+  CoreRectView__OnSetBounds( _this, _Const000D );
   _this->setupCurrentPos = 1;
   EffectsEffect_OnSetTiming((EffectsEffect)&_this->FloatEffect, EffectsTimingBack_Out );
   EffectsEffect_OnSetNoOfCycles((EffectsEffect)&_this->FloatEffect, 1 );
+  _this->MaxValue = 100;
+  _this->CurrentValue = 50;
   _this->FloatEffect.Super1.OnFinished = EwNewSlot( _this, WidgetSetHorizontalValueBar_onEndFloatEffect );
   _this->FloatEffect.Super1.OnAnimate = EwNewSlot( _this, WidgetSetHorizontalValueBar_onFloatEffect );
 }
@@ -2179,18 +2250,21 @@ void WidgetSetHorizontalValueBar_onUpdatePos( WidgetSetHorizontalValueBar _this,
   /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
   EW_UNUSED_ARG( sender );
 
+  newPos = _this->currentPos;
   swingDuration = 0;
 
   if ( _this->Appearance != 0 )
     swingDuration = 500;
 
-  if ( _this->setupCurrentPos )
+  if ( _this->setupCurrentPos && ( _this->MaxValue != 0 ))
   {
     _this->currentPos = 0.000000f;
+    newPos = _this->currentPos;
     _this->setupCurrentPos = 0;
   }
 
-  newPos = (XFloat)WidgetSetHorizontalValueBar_OnGetCurrentValue( _this ) / 100.000000f;
+  if ( _this->MaxValue != 0 )
+    newPos = (XFloat)WidgetSetHorizontalValueBar_OnGetCurrentValue( _this ) / (XFloat)_this->MaxValue;
 
   if ( newPos == _this->currentPos )
     return;
@@ -2252,13 +2326,83 @@ void WidgetSetHorizontalValueBar_onConfigChanged( WidgetSetHorizontalValueBar _t
   CoreGroup_InvalidateViewState((CoreGroup)_this );
 }
 
+/* 'C' function for method : 'WidgetSet::HorizontalValueBar.onOutlet()' */
+void WidgetSetHorizontalValueBar_onOutlet( WidgetSetHorizontalValueBar _this, XObject 
+  sender )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  if ( _this->Outlet.Object != 0 )
+    WidgetSetHorizontalValueBar_OnSetCurrentValue( _this, EwOnGetInt32( _this->Outlet ));
+}
+
+/* 'C' function for method : 'WidgetSet::HorizontalValueBar.OnSetOutlet()' */
+void WidgetSetHorizontalValueBar_OnSetOutlet( WidgetSetHorizontalValueBar _this, 
+  XRef value )
+{
+  if ( !EwCompRef( _this->Outlet, value ))
+    return;
+
+  if ( _this->Outlet.Object != 0 )
+    EwDetachRefObserver( EwNewSlot( _this, WidgetSetHorizontalValueBar_onOutlet ), 
+      _this->Outlet, 0 );
+
+  _this->Outlet = value;
+
+  if ( value.Object != 0 )
+    EwAttachRefObserver( EwNewSlot( _this, WidgetSetHorizontalValueBar_onOutlet ), 
+      value, 0 );
+
+  if ( value.Object != 0 )
+    EwPostSignal( EwNewSlot( _this, WidgetSetHorizontalValueBar_onOutlet ), ((XObject)_this ));
+}
+
+/* 'C' function for method : 'WidgetSet::HorizontalValueBar.OnSetMaxValue()' */
+void WidgetSetHorizontalValueBar_OnSetMaxValue( WidgetSetHorizontalValueBar _this, 
+  XInt32 value )
+{
+  if ( _this->MaxValue == value )
+    return;
+
+  _this->MaxValue = value;
+  EwPostSignal( EwNewSlot( _this, WidgetSetHorizontalValueBar_onUpdatePos ), ((XObject)_this ));
+}
+
 /* 'C' function for method : 'WidgetSet::HorizontalValueBar.OnGetCurrentValue()' */
 XInt32 WidgetSetHorizontalValueBar_OnGetCurrentValue( WidgetSetHorizontalValueBar _this )
 {
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( _this );
+  XInt32 value = _this->CurrentValue;
 
-  return 50;
+  if ( 0 > _this->MaxValue )
+  {
+    if ( value < _this->MaxValue )
+      value = _this->MaxValue;
+
+    if ( value > 0 )
+      value = 0;
+  }
+  else
+  {
+    if ( value < 0 )
+      value = 0;
+
+    if ( value > _this->MaxValue )
+      value = _this->MaxValue;
+  }
+
+  return value;
+}
+
+/* 'C' function for method : 'WidgetSet::HorizontalValueBar.OnSetCurrentValue()' */
+void WidgetSetHorizontalValueBar_OnSetCurrentValue( WidgetSetHorizontalValueBar _this, 
+  XInt32 value )
+{
+  if ( _this->CurrentValue == value )
+    return;
+
+  _this->CurrentValue = value;
+  EwPostSignal( EwNewSlot( _this, WidgetSetHorizontalValueBar_onUpdatePos ), ((XObject)_this ));
 }
 
 /* 'C' function for method : 'WidgetSet::HorizontalValueBar.OnSetAppearance()' */
@@ -2287,8 +2431,8 @@ EW_DEFINE_CLASS_VARIANTS( WidgetSetHorizontalValueBar )
 EW_END_OF_CLASS_VARIANTS( WidgetSetHorizontalValueBar )
 
 /* Virtual Method Table (VMT) for the class : 'WidgetSet::HorizontalValueBar' */
-EW_DEFINE_CLASS( WidgetSetHorizontalValueBar, CoreGroup, frameView3, FloatEffect, 
-                 FloatEffect, FloatEffect, currentPos, currentPos, "WidgetSet::HorizontalValueBar" )
+EW_DEFINE_CLASS( WidgetSetHorizontalValueBar, CoreGroup, frameView3, Outlet, Outlet, 
+                 FloatEffect, currentPos, currentPos, "WidgetSet::HorizontalValueBar" )
   CoreRectView_initLayoutContext,
   CoreView_GetRoot,
   CoreGroup_Draw,
@@ -2325,7 +2469,7 @@ void WidgetSetGauge__Init( WidgetSetGauge _this, XObject aLink, XHandle aArg )
   _this->_.VMT = EW_CLASS( WidgetSetGauge );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const000D );
+  CoreRectView__OnSetBounds( _this, _Const000E );
   CoreGroup_OnSetEnabled((CoreGroup)_this, 0 );
   _this->setupCurrentAngle = 1;
   EffectsEffect_OnSetTiming((EffectsEffect)&_this->FloatEffect, EffectsTimingBack_Out );
@@ -2646,6 +2790,35 @@ void WidgetSetGauge_onConfigChanged( WidgetSetGauge _this, XObject sender )
   CoreGroup_InvalidateViewState((CoreGroup)_this );
 }
 
+/* 'C' function for method : 'WidgetSet::Gauge.onOutlet()' */
+void WidgetSetGauge_onOutlet( WidgetSetGauge _this, XObject sender )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  if ( _this->Outlet.Object != 0 )
+    WidgetSetGauge_OnSetCurrentValue( _this, EwOnGetInt32( _this->Outlet ));
+}
+
+/* 'C' function for method : 'WidgetSet::Gauge.OnSetOutlet()' */
+void WidgetSetGauge_OnSetOutlet( WidgetSetGauge _this, XRef value )
+{
+  if ( !EwCompRef( _this->Outlet, value ))
+    return;
+
+  if ( _this->Outlet.Object != 0 )
+    EwDetachRefObserver( EwNewSlot( _this, WidgetSetGauge_onOutlet ), _this->Outlet, 
+      0 );
+
+  _this->Outlet = value;
+
+  if ( value.Object != 0 )
+    EwAttachRefObserver( EwNewSlot( _this, WidgetSetGauge_onOutlet ), value, 0 );
+
+  if ( value.Object != 0 )
+    EwPostSignal( EwNewSlot( _this, WidgetSetGauge_onOutlet ), ((XObject)_this ));
+}
+
 /* 'C' function for method : 'WidgetSet::Gauge.OnSetMaxValue()' */
 void WidgetSetGauge_OnSetMaxValue( WidgetSetGauge _this, XInt32 value )
 {
@@ -2716,8 +2889,8 @@ EW_DEFINE_CLASS_VARIANTS( WidgetSetGauge )
 EW_END_OF_CLASS_VARIANTS( WidgetSetGauge )
 
 /* Virtual Method Table (VMT) for the class : 'WidgetSet::Gauge' */
-EW_DEFINE_CLASS( WidgetSetGauge, CoreGroup, imageView1, FloatEffect, FloatEffect, 
-                 FloatEffect, currentAngle, currentAngle, "WidgetSet::Gauge" )
+EW_DEFINE_CLASS( WidgetSetGauge, CoreGroup, imageView1, Outlet, Outlet, FloatEffect, 
+                 currentAngle, currentAngle, "WidgetSet::Gauge" )
   CoreRectView_initLayoutContext,
   CoreView_GetRoot,
   CoreGroup_Draw,
@@ -2756,17 +2929,17 @@ void WidgetSetToggleButton__Init( WidgetSetToggleButton _this, XObject aLink, XH
   _this->_.VMT = EW_CLASS( WidgetSetToggleButton );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const000E );
+  CoreRectView__OnSetBounds( _this, _Const000F );
   CoreTimer_OnSetPeriod( &_this->FlashTimer, 0 );
   CoreTimer_OnSetBegin( &_this->FlashTimer, 50 );
   _this->KeyHandler.Filter = CoreKeyCodeEnter;
   CoreView_OnSetLayout((CoreView)&_this->TouchHandler, CoreLayoutAlignToBottom | 
   CoreLayoutAlignToLeft | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz 
   | CoreLayoutResizeVert );
-  CoreQuadView__OnSetPoint4( &_this->TouchHandler, _Const000F );
-  CoreQuadView__OnSetPoint3( &_this->TouchHandler, _Const0010 );
-  CoreQuadView__OnSetPoint2( &_this->TouchHandler, _Const0011 );
-  CoreQuadView__OnSetPoint1( &_this->TouchHandler, _Const0012 );
+  CoreQuadView__OnSetPoint4( &_this->TouchHandler, _Const0010 );
+  CoreQuadView__OnSetPoint3( &_this->TouchHandler, _Const0011 );
+  CoreQuadView__OnSetPoint2( &_this->TouchHandler, _Const0012 );
+  CoreQuadView__OnSetPoint1( &_this->TouchHandler, _Const0013 );
   CoreSimpleTouchHandler_OnSetRetargetOffset( &_this->TouchHandler, 16 );
   CoreSimpleTouchHandler_OnSetMaxStrikeCount( &_this->TouchHandler, 100 );
   CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->TouchHandler ), 0 );
@@ -3387,17 +3560,17 @@ void WidgetSetPushButton__Init( WidgetSetPushButton _this, XObject aLink, XHandl
   _this->_.VMT = EW_CLASS( WidgetSetPushButton );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const000E );
+  CoreRectView__OnSetBounds( _this, _Const000F );
   CoreTimer_OnSetPeriod( &_this->FlashTimer, 0 );
   CoreTimer_OnSetBegin( &_this->FlashTimer, 50 );
   _this->KeyHandler.Filter = CoreKeyCodeEnter;
   CoreView_OnSetLayout((CoreView)&_this->TouchHandler, CoreLayoutAlignToBottom | 
   CoreLayoutAlignToLeft | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz 
   | CoreLayoutResizeVert );
-  CoreQuadView__OnSetPoint4( &_this->TouchHandler, _Const000F );
-  CoreQuadView__OnSetPoint3( &_this->TouchHandler, _Const0010 );
-  CoreQuadView__OnSetPoint2( &_this->TouchHandler, _Const0011 );
-  CoreQuadView__OnSetPoint1( &_this->TouchHandler, _Const0012 );
+  CoreQuadView__OnSetPoint4( &_this->TouchHandler, _Const0010 );
+  CoreQuadView__OnSetPoint3( &_this->TouchHandler, _Const0011 );
+  CoreQuadView__OnSetPoint2( &_this->TouchHandler, _Const0012 );
+  CoreQuadView__OnSetPoint1( &_this->TouchHandler, _Const0013 );
   CoreSimpleTouchHandler_OnSetRetargetOffset( &_this->TouchHandler, 16 );
   CoreSimpleTouchHandler_OnSetMaxStrikeCount( &_this->TouchHandler, 100 );
   CoreGroup_Add((CoreGroup)_this, ((CoreView)&_this->TouchHandler ), 0 );

@@ -112,15 +112,17 @@ void ExtLedSet(uint8_t ledNum, bool status){
 	}
 }
 
-void ExtLedLamptest(uint16_t time){
+void ExtLedSetLamptest(void){
 	uint8_t i;
 
 	for (i=0; i<8; i++){
 		ExtLedSet(i, true);
 	}
+}
 
-	HAL_Delay(time);
-
+void ExtLedDisableLamptest(void){
+	uint8_t i;
+	
 	for (i=0; i<8; i++){
 		ExtLedSet(i, false);
 	}

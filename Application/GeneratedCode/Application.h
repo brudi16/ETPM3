@@ -43,7 +43,9 @@
 #endif
 
 #include "_ApplicationApplication.h"
+#include "_ApplicationCalibration.h"
 #include "_ApplicationCurrentMeasurement.h"
+#include "_ApplicationDebug.h"
 #include "_ApplicationDetectorScreen.h"
 #include "_ApplicationDeviceClass.h"
 #include "_ApplicationDistanceMeasurement.h"

@@ -276,7 +276,7 @@
               <OCR_RVCT4>
                 <Type>1</Type>
                 <StartAddress>0x8000000</StartAddress>
-                <Size>0x200000</Size>
+                <Size>0x2000000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
                 <Type>1</Type>
@@ -597,6 +597,11 @@
               <FileName>led.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\Source\led.c</FilePath>
+            </File>
+            <File>
+              <FileName>API.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Source\API.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -38,6 +38,7 @@
 "stm32f429-discovery\devicedriver.o"
 "stm32f429-discovery\ewmain.o"
 "stm32f429-discovery\led.o"
+"stm32f429-discovery\api.o"
 "stm32f429-discovery\list.o"
 "stm32f429-discovery\queue.o"
 "stm32f429-discovery\tasks.o"

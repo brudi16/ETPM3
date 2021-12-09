@@ -159,6 +159,15 @@ EW_DEFINE_FIELDS( WidgetSetValueDisplay, CoreGroup )
      display widgets (connected actually to it) are notified and updated to assume 
      the new appearance. */
   EW_PROPERTY( Appearance,      WidgetSetValueDisplayConfig )
+
+  /* The property 'Outlet' can refer to any other 'int32' property the widget should 
+     remain synchronized with. When the referred property is modified, the widget 
+     is automatically notified to remain in sync with the property (the property 
+     @CurrentValue is updated to the value of the property referred in Outlet).
+     This approach follows the Model-View-Controller (MVC) programming paradigm. 
+     Here the value display widget represents the 'View' and the property referred 
+     via 'Outlet' can be seen as a part of the 'Model'. */
+  EW_PROPERTY( Outlet,          XRef )
   EW_VARIABLE( valueString,     XString )
 
   /* The property 'Unit' specifies the text to display as unit in this widget. The 
@@ -181,6 +190,18 @@ EW_DEFINE_FIELDS( WidgetSetValueDisplay, CoreGroup )
      to the property @Appearance. The total number of digits to display is determined 
      in the property @NoOfDigits. */
   EW_PROPERTY( Precision,       XInt32 )
+
+  /* The property 'CurrentValue' stores the momentary value of the widget. You can 
+     use the properties @CurrentFactor and @CurrentBias to simply convert this value 
+     to the expected range before it is formatted and displayed. The conversion 
+     follows the equation below:
+     ValueToDisplay = ( CurrentValue * @CurrentFactor ) + @CurrentBias
+     With the properties @NoOfDigits and @Precision you can control how the resulting 
+     value should be formatted. Localization specific aspects (e.g. decimal sign, 
+     digit group sign, etc.) are determined in the configuration object stored in 
+     the property @Appearance. */
+  EW_PROPERTY( CurrentValue,    XInt32 )
+  EW_VARIABLE( isNegative,      XBool )
 EW_END_OF_FIELDS( WidgetSetValueDisplay )
 
 /* Virtual Method Table (VMT) for the class : 'WidgetSet::ValueDisplay' */
@@ -410,11 +431,21 @@ void WidgetSetValueDisplay_onFormatValue( WidgetSetValueDisplay _this, XObject s
 void WidgetSetValueDisplay_onConfigChanged( WidgetSetValueDisplay _this, XObject 
   sender );
 
+/* 'C' function for method : 'WidgetSet::ValueDisplay.onOutlet()' */
+void WidgetSetValueDisplay_onOutlet( WidgetSetValueDisplay _this, XObject sender );
+
+/* 'C' function for method : 'WidgetSet::ValueDisplay.OnSetOutlet()' */
+void WidgetSetValueDisplay_OnSetOutlet( WidgetSetValueDisplay _this, XRef value );
+
 /* 'C' function for method : 'WidgetSet::ValueDisplay.OnSetUnit()' */
 void WidgetSetValueDisplay_OnSetUnit( WidgetSetValueDisplay _this, XString value );
 
 /* 'C' function for method : 'WidgetSet::ValueDisplay.OnSetPrecision()' */
 void WidgetSetValueDisplay_OnSetPrecision( WidgetSetValueDisplay _this, XInt32 value );
+
+/* 'C' function for method : 'WidgetSet::ValueDisplay.OnSetCurrentValue()' */
+void WidgetSetValueDisplay_OnSetCurrentValue( WidgetSetValueDisplay _this, XInt32 
+  value );
 
 /* 'C' function for method : 'WidgetSet::ValueDisplay.OnSetAppearance()' */
 void WidgetSetValueDisplay_OnSetAppearance( WidgetSetValueDisplay _this, WidgetSetValueDisplayConfig 
