@@ -1,7 +1,0 @@
-﻿$version 11.00
-
-// Device Interface
-note group Note
-{
-  attr Bounds = <50,60,510,260>;
-}

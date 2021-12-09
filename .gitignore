@@ -62,6 +62,7 @@ Utilities/
 Doxygen/
 project/
 FlashDownload/
+Application/GeneratedCode/
 ThirdParty/
 TargetSpecific/
 PlatformPackage/
