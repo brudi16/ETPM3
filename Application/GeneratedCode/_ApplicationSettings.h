@@ -48,6 +48,12 @@
 #include "_WidgetSetPushButton.h"
 #include "_WidgetSetToggleButton.h"
 
+/* Forward declaration of the class Application::DeviceClass */
+#ifndef _ApplicationDeviceClass_
+  EW_DECLARE_CLASS( ApplicationDeviceClass )
+#define _ApplicationDeviceClass_
+#endif
+
 /* Forward declaration of the class Application::Settings */
 #ifndef _ApplicationSettings_
   EW_DECLARE_CLASS( ApplicationSettings )
@@ -93,6 +99,10 @@
 
 /* Deklaration of class : 'Application::Settings' */
 EW_DEFINE_FIELDS( ApplicationSettings, CoreGroup )
+  /* Variable to reference the device class the entire lifetime of the application. 
+     This avoids that the device class will be deleted by the Garbage Collector. */
+  EW_VARIABLE( Device,          ApplicationDeviceClass )
+
   /* This is a filled rectangle view. */
   EW_OBJECT  ( Rectangle,       ViewsRectangle )
 
@@ -101,7 +111,8 @@ EW_DEFINE_FIELDS( ApplicationSettings, CoreGroup )
   EW_OBJECT  ( MenuButton,      WidgetSetPushButton )
   EW_OBJECT  ( ToggleButton,    WidgetSetToggleButton )
   EW_OBJECT  ( ToggleButton1,   WidgetSetToggleButton )
-  EW_OBJECT  ( ToggleButton2,   WidgetSetToggleButton )
+  EW_OBJECT  ( PushButton,      WidgetSetPushButton )
+  EW_OBJECT  ( PushButton1,     WidgetSetPushButton )
 EW_END_OF_FIELDS( ApplicationSettings )
 
 /* Virtual Method Table (VMT) for the class : 'Application::Settings' */
@@ -304,6 +315,13 @@ EW_END_OF_METHODS( ApplicationSettings )
 
 /* 'C' function for method : 'Application::Settings.UpdateViewMenu()' */
 void ApplicationSettings_UpdateViewMenu( ApplicationSettings _this, XObject sender );
+
+/* 'C' function for method : 'Application::Settings.UpdateViewCalibration()' */
+void ApplicationSettings_UpdateViewCalibration( ApplicationSettings _this, XObject 
+  sender );
+
+/* 'C' function for method : 'Application::Settings.UpdateViewDebug()' */
+void ApplicationSettings_UpdateViewDebug( ApplicationSettings _this, XObject sender );
 
 #ifdef __cplusplus
   }

@@ -155,6 +155,7 @@ void DeviceDriver_SetTime( XUInt32 aTime );
 *
 *******************************************************************************/
 void DeviceDriver_SetLampTest( void );
+void DeviceDriver_DisableLampTest( void );
 
 
 #ifdef __cplusplus

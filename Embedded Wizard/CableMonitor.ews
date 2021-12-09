@@ -1,7 +1,12 @@
 $version 1.0
 
 attr callStackMonitor_Show = false;
-attr connectInspectors = true;
+attr codeColSelect = false;
+attr codeFirstPos = <0,2>;
+attr codeInspector = Application::Inline;
+attr codeSelEnd = <17,13>;
+attr codeSelStart = <17,13>;
+attr connectInspectors = false;
 attr debug_TrackUpdates = false;
 attr extractDoc_ClassOverview = true;
 attr extractDoc_DeleteOldFiles = false;
@@ -26,14 +31,78 @@ attr search_WildCards = false;
 
 view Project
 {
+  attr enableGrid = true;
   attr enableWireMode = false;
-  attr scrollTo = <-343,-151>;
-  attr zoom = 1.0;
+  attr grid = 10;
+  attr scrollTo = <-7,41>;
+  attr zoom = 0.75;
 }
 
 view unit Application
 {
+  attr codeColSelect = false;
+  attr codeFirstPos = <0,2>;
+  attr codeInspector = Inline;
+  attr codeSelEnd = <17,13>;
+  attr codeSelStart = <17,13>;
+  attr enableGrid = true;
   attr enableWireMode = false;
-  attr scrollTo = <-7,-583>;
+  attr grid = 10;
+  attr scrollTo = <-7,-547>;
+  attr zoom = 0.75;
+}
+
+view class Application::Menu
+{
+  attr codeColSelect = false;
+  attr codeFirstPos = <0,0>;
+  attr codeInspector = UpdateViewDetector;
+  attr codeSelEnd = <0,0>;
+  attr codeSelStart = <0,0>;
+  attr enableWireMode = false;
+  attr scrollTo = <-7,-87>;
+  attr zoom = 1.0;
+}
+
+view class Application::Settings
+{
+  attr codeColSelect = false;
+  attr codeFirstPos = <0,0>;
+  attr codeInspector = UpdateViewDebug;
+  attr codeSelEnd = <49,1>;
+  attr codeSelStart = <49,1>;
+  attr enableWireMode = false;
+  attr scrollTo = <-7,-196>;
+  attr zoom = 1.0;
+}
+
+view class Application::Debug
+{
+  attr codeColSelect = false;
+  attr codeFirstPos = <0,0>;
+  attr codeInspector = UpdateViewMenu;
+  attr codeSelEnd = <0,0>;
+  attr codeSelStart = <0,0>;
+  attr enableWireMode = false;
+  attr scrollTo = <-7,-7>;
+  attr zoom = 1.0;
+}
+
+view class Application::DeviceClass
+{
+  attr codeColSelect = false;
+  attr codeFirstPos = <0,0>;
+  attr codeInspector = UpdateDebugPad2;
+  attr codeSelEnd = <0,0>;
+  attr codeSelStart = <0,0>;
+  attr enableWireMode = false;
+  attr scrollTo = <-60,-5>;
+  attr zoom = 1.0;
+}
+
+view class Application::Calibration
+{
+  attr enableWireMode = false;
+  attr scrollTo = <-7,-7>;
   attr zoom = 1.0;
 }
