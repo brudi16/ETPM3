@@ -142,6 +142,8 @@ void DeviceDriver_Initialize( void )
 
   cmInitAll();
 
+  adcInit();
+
 #ifdef _ApplicationDeviceClass_
 
   /*
@@ -468,6 +470,7 @@ void DeviceDriver_SetLampTest( void )
      BSP / driver function.
   */
     cmSetLampTest();
+    adcMeas();
 }
 
 void DeviceDriver_DisableLampTest( void )
