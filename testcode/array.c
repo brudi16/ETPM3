@@ -23,6 +23,7 @@ float calc_current(int32_t ADC_samples[], uint16_t size);
 int32_t LinearInterpol(int32_t x0, int32_t x1, int32_t y0, int32_t y1, int32_t xp);
 void interpolCalValuesDistance(int16_t x[], int16_t y[], int16_t xySize);
 void init_LUT(void);
+float calcStdDev(int32_t array[], int32_t size);
 
 // Global variables
 const int32_t padLutStartValues[LUT_SIZE] = {
@@ -39,6 +40,7 @@ int16_t testInterpol[]    = {3972, 2048, 1517, 1204, 946, 814, 715};
 
 int main(){
     int32_t sum, mean, peakPeak, rmsValue, interpol, x;
+    float stdDev;
 
     int32_t array[] = {1000,1259,1447,1511,1433,1236,973,718,540,491,582,789,1054,1305,1471,1506,1402,1186,919,674,519,498,615,840,1108,1347,1489,1496,1366,1134,866,634,504,511,653,892,1160,1385,1502,1481,1326,1081,814,598,494,529,695,946,1211,1418,1509,1460,1282,1027,764,567,489,553,741,1000};
     // printArray(array, ARRAYSIZE);
@@ -71,13 +73,16 @@ int main(){
     //printArray(padLut, LUT_SIZE);
     init_LUT();
 
-    interpol = LinearInterpol(100, 814, 200, 715, 150);
-    printf("\nInterpolated Value for 150: %d\n", interpol);
+    //interpol = LinearInterpol(100, 814, 200, 715, 150);
+    //printf("\nInterpolated Value for 150: %d\n", interpol);
     
-    interpolCalValuesDistance(measCalDistance,testInterpol, CAL_SIZE);
+    //interpolCalValuesDistance(measCalDistance,testInterpol, CAL_SIZE);
 
-    x = getXFromY(padLut, LUT_SIZE, 1200);
-    printf("\nDistance: %d\n",x);
+    //x = getXFromY(padLut, LUT_SIZE, 1200);
+    //printf("\nDistance: %d\n",x);
+
+    stdDev = calcStdDev(array, ARRAYSIZE);
+    printf("Standart deviation: %.6f",stdDev);
     return 0;
 }
 
