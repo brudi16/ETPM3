@@ -11,7 +11,6 @@
  * - ADC combined with DMA (Direct Memory Access) to fill a buffer
  * - Dual mode = simultaneous sampling of two inputs by two ADCs
  * - Scan mode = sequential sampling of two inputs by one ADC
- * - Simple DAC output is demonstrated as well
  * - Analog mode configuration for GPIOs
  * - Display recorded data on the graphics display
  *
@@ -63,28 +62,17 @@
 
 #include "measuring.h"
 
-/******************************************************************************
- * Defines
- *****************************************************************************/
-#define ADC_DAC_RES		12			///< Resolution
-#define ADC_FS			600			///< Sampling freq. => 12 samples for a 50Hz period
-#define ADC_CLOCK		84000000	///< APB2 peripheral clock frequency
-#define ADC_CLOCKS_PS	15			///< Clocks/sample: 3 hold + 12 conversion
-#define TIM_CLOCK		84000000	///< APB1 timer clock frequency
-#define TIM_TOP			9			///< Timer top value
-#define TIM_PRESCALE	(TIM_CLOCK/ADC_FS/(TIM_TOP+1)-1) ///< Clock prescaler
-
 
 /******************************************************************************
  * Variables
  *****************************************************************************/
 bool MEAS_data_ready = false;			///< New data is ready
 uint32_t MEAS_input_count = 1;			///< 1 or 2 input channels?
-bool DAC_active = false;				///< DAC output active?
+//bool DAC_active = false;				///< DAC output active?
 
 static uint32_t ADC_sample_count = 0;	///< Index for buffer
 static int32_t ADC_samples[2*ADC_NUMS];///< ADC values of max. 2 input channels
-static uint32_t DAC_sample = 0;			///< DAC output value
+//static uint32_t DAC_sample = 0;			///< DAC output value
 
 
 /******************************************************************************
@@ -96,56 +84,56 @@ static uint32_t DAC_sample = 0;			///< DAC output value
  * @brief Configure GPIOs in analog mode.
  *
  * @note The input number for the ADCs is not equal to the GPIO pin number!
- * - ADC3_IN4 = GPIO PF6
- * - ADC123_IN13 = GPIO PC3
- * - ADC12_IN5 = GPIO PA5
- * - DAC_OUT2 = GPIO PA5 (= same GPIO as ADC12_IN5)
+ * - ADC3_IN4 = GPIO PF6 (PAD 1)
+ * - ADC3_IN6 = GPIO PF8 (PAD 2)
+ * - ADC123_IN11 = GPIO PC1 (Hall Sensor 1)
+ * - ADC123_IN13 = GPIO PC3 (Hall Sensor 4)
  *****************************************************************************/
 void MEAS_GPIO_analog_init(void)
 {
 	__HAL_RCC_GPIOF_CLK_ENABLE();		// Enable Clock for GPIO port F
 	GPIOF->MODER |= (GPIO_MODER_MODER6_Msk);// Analog mode for PF6 = ADC3_IN4
+	GPIOF->MODER |= (GPIO_MODER_MODER8_Msk);// Analog mode for PF8 = ADC3_IN6
 	__HAL_RCC_GPIOC_CLK_ENABLE();		// Enable Clock for GPIO port C
+	GPIOC->MODER |= (GPIO_MODER_MODER1_Msk);// Analog mode for PC3 = ADC123_IN11
 	GPIOC->MODER |= (GPIO_MODER_MODER3_Msk);// Analog mode for PC3 = ADC123_IN13
-	__HAL_RCC_GPIOA_CLK_ENABLE();		// Enable Clock for GPIO port A
-	GPIOA->MODER |= (GPIO_MODER_MODER5_Msk);// Analog mode for PA5 ADC12_IN5
 }
 
 
-/** ***************************************************************************
- * @brief Resets the DAC
- *
- * when it is no longer used.
- *****************************************************************************/
-void DAC_reset(void) {
-	RCC->APB1RSTR |= RCC_APB1RSTR_DACRST;	// Reset the DAC
-	RCC->APB1RSTR &= ~RCC_APB1RSTR_DACRST;	// Release reset of the DAC
-}
+// /** ***************************************************************************
+//  * @brief Resets the DAC
+//  *
+//  * when it is no longer used.
+//  *****************************************************************************/
+// void DAC_reset(void) {
+// 	RCC->APB1RSTR |= RCC_APB1RSTR_DACRST;	// Reset the DAC
+// 	RCC->APB1RSTR &= ~RCC_APB1RSTR_DACRST;	// Release reset of the DAC
+// }
 
 
-/** ***************************************************************************
- * @brief Initialize the DAC
- *
- * The output used is DAC_OUT2 = GPIO PA5
- * @n As DAC_OUT2 = GPIO PA5 (= same GPIO as ADC12_IN5)
- * it is possible to monitor the output voltage DAC_OUT2 by the input ADC12_IN5.
- *****************************************************************************/
-void DAC_init(void)
-{
-	__HAL_RCC_DAC_CLK_ENABLE();			// Enable Clock for DAC
-	DAC->CR |= DAC_CR_EN2;				// Enable DAC output 2
-}
+// /** ***************************************************************************
+//  * @brief Initialize the DAC
+//  *
+//  * The output used is DAC_OUT2 = GPIO PA5
+//  * @n As DAC_OUT2 = GPIO PA5 (= same GPIO as ADC12_IN5)
+//  * it is possible to monitor the output voltage DAC_OUT2 by the input ADC12_IN5.
+//  *****************************************************************************/
+// void DAC_init(void)
+// {
+// 	__HAL_RCC_DAC_CLK_ENABLE();			// Enable Clock for DAC
+// 	DAC->CR |= DAC_CR_EN2;				// Enable DAC output 2
+// }
 
 
-/** ***************************************************************************
- * @brief Increment the DAC value and write it to the output
- *
- *****************************************************************************/
-void DAC_increment(void) {
-	DAC_sample += 20;				// Increment DAC output
-	if (DAC_sample >= (1UL << ADC_DAC_RES)) { DAC_sample = 0; }	// Go to 0
-	DAC->DHR12R2 = DAC_sample;		// Write new DAC output value
-}
+// /** ***************************************************************************
+//  * @brief Increment the DAC value and write it to the output
+//  *
+//  *****************************************************************************/
+// void DAC_increment(void) {
+// 	DAC_sample += 20;				// Increment DAC output
+// 	if (DAC_sample >= (1UL << ADC_DAC_RES)) { DAC_sample = 0; }	// Go to 0
+// 	DAC->DHR12R2 = DAC_sample;		// Write new DAC output value
+// }
 
 
 /** ***************************************************************************
@@ -160,36 +148,36 @@ void ADC_reset(void) {
 }
 
 
-/** ***************************************************************************
- * @brief Initialize the ADC in single conversion mode
- *
- * The input is ADC3_IN4 = GPIO PF6
- *****************************************************************************/
-void ADC3_IN4_single_init(void)
-{
-	MEAS_input_count = 1;				// Only 1 input is converted
-	__HAL_RCC_ADC3_CLK_ENABLE();		// Enable Clock for ADC3
-	ADC3->SQR3 |= (4UL << ADC_SQR3_SQ1_Pos);	// Input 4 = first conversion
-}
+// /** ***************************************************************************
+//  * @brief Initialize the ADC in single conversion mode
+//  *
+//  * The input is ADC3_IN4 = GPIO PF6
+//  *****************************************************************************/
+// void ADC3_IN4_single_init(void)
+// {
+// 	MEAS_input_count = 1;				// Only 1 input is converted
+// 	__HAL_RCC_ADC3_CLK_ENABLE();		// Enable Clock for ADC3
+// 	ADC3->SQR3 |= (4UL << ADC_SQR3_SQ1_Pos);	// Input 4 = first conversion
+// }
 
 
-/** ***************************************************************************
- * @brief Read one single value of the ADC in single conversion mode
- *
- * Start the conversion, wait in a while loop for end of conversion, read data.
- *****************************************************************************/
-void ADC3_IN4_single_read(void)
-{
-	ADC3->CR2 |= ADC_CR2_ADON;			// Enable ADC3
-	HAL_Delay(1);						// ADC needs some time to stabilize
-	ADC3->CR2 |= ADC_CR2_SWSTART;
-	while (!(ADC3->SR & ADC_SR_EOC)) { ; }	// Wait for end of conversion
-	ADC_samples[0] = ADC3->DR;			// Read the converted value
-	ADC3->CR2 &= ~ADC_CR2_ADON;			// Disable ADC3
+// /** ***************************************************************************
+//  * @brief Read one single value of the ADC in single conversion mode
+//  *
+//  * Start the conversion, wait in a while loop for end of conversion, read data.
+//  *****************************************************************************/
+// void ADC3_IN4_single_read(void)
+// {
+// 	ADC3->CR2 |= ADC_CR2_ADON;			// Enable ADC3
+// 	HAL_Delay(1);						// ADC needs some time to stabilize
+// 	ADC3->CR2 |= ADC_CR2_SWSTART;
+// 	while (!(ADC3->SR & ADC_SR_EOC)) { ; }	// Wait for end of conversion
+// 	ADC_samples[0] = ADC3->DR;			// Read the converted value
+// 	ADC3->CR2 &= ~ADC_CR2_ADON;			// Disable ADC3
 
-	ADC_reset();
-	MEAS_data_ready = true;
-}
+// 	ADC_reset();
+// 	MEAS_data_ready = true;
+// }
 
 
 /** ***************************************************************************
@@ -210,39 +198,39 @@ void MEAS_timer_init(void)
 }
 
 
-/** ***************************************************************************
- * @brief Initialize the ADC to be triggered by a timer
- *
- * The ADC3 trigger is set to TIM2 TRGO event
- * and the timer starts the ADC directly without CPU intervention.
- * @n The ADC is configured for end of conversion interrupt.
- * @n The input is ADC3_IN4 = GPIO PF6
- *****************************************************************************/
-void ADC3_IN4_timer_init(void)
-{
-	MEAS_input_count = 1;				// Only 1 input is converted
-	__HAL_RCC_ADC3_CLK_ENABLE();		// Enable Clock for ADC3
-	ADC3->SQR3 |= (4UL << ADC_SQR3_SQ1_Pos);	// Input 4 = first conversion
-	ADC3->CR1 |= ADC_CR1_EOCIE;			// Enable end of conversion interrupt
-	ADC3->CR2 |= (1UL << ADC_CR2_EXTEN_Pos);	// En. ext. trigger on rising e.
-	ADC3->CR2 |= (6UL << ADC_CR2_EXTSEL_Pos);	// Timer 2 TRGO event
+// /** ***************************************************************************
+//  * @brief Initialize the ADC to be triggered by a timer
+//  *
+//  * The ADC3 trigger is set to TIM2 TRGO event
+//  * and the timer starts the ADC directly without CPU intervention.
+//  * @n The ADC is configured for end of conversion interrupt.
+//  * @n The input is ADC3_IN4 = GPIO PF6
+//  *****************************************************************************/
+// void ADC3_IN4_timer_init(void)
+// {
+// 	MEAS_input_count = 1;				// Only 1 input is converted
+// 	__HAL_RCC_ADC3_CLK_ENABLE();		// Enable Clock for ADC3
+// 	ADC3->SQR3 |= (4UL << ADC_SQR3_SQ1_Pos);	// Input 4 = first conversion
+// 	ADC3->CR1 |= ADC_CR1_EOCIE;			// Enable end of conversion interrupt
+// 	ADC3->CR2 |= (1UL << ADC_CR2_EXTEN_Pos);	// En. ext. trigger on rising e.
+// 	ADC3->CR2 |= (6UL << ADC_CR2_EXTSEL_Pos);	// Timer 2 TRGO event
 
-}
+// }
 
 
-/** ***************************************************************************
- * @brief Start the ADC and the timer
- *
- * The ADC isues an end of conversion interrupt.
- * The converted value can be read in the associated interrupt handler.
- *****************************************************************************/
-void ADC3_IN4_timer_start(void)
-{
-	NVIC_ClearPendingIRQ(ADC_IRQn);		// Clear pending interrupt on line 0
-	NVIC_EnableIRQ(ADC_IRQn);			// Enable interrupt line 0 in the NVIC
-	ADC3->CR2 |= ADC_CR2_ADON;			// Enable ADC3
-	TIM2->CR1 |= TIM_CR1_CEN;			// Enable timer
-}
+// /** ***************************************************************************
+//  * @brief Start the ADC and the timer
+//  *
+//  * The ADC isues an end of conversion interrupt.
+//  * The converted value can be read in the associated interrupt handler.
+//  *****************************************************************************/
+// void ADC3_IN4_timer_start(void)
+// {
+// 	NVIC_ClearPendingIRQ(ADC_IRQn);		// Clear pending interrupt on line 0
+// 	NVIC_EnableIRQ(ADC_IRQn);			// Enable interrupt line 0 in the NVIC
+// 	ADC3->CR2 |= ADC_CR2_ADON;			// Enable ADC3
+// 	TIM2->CR1 |= TIM_CR1_CEN;			// Enable timer
+// }
 
 
 /** ***************************************************************************
@@ -456,19 +444,19 @@ void ADC3_IN13_IN4_scan_start(void)
 }
 
 
-/** ***************************************************************************
- * @brief Interrupt handler for the timer 2
- *
- * @note This interrupt handler was only used for debugging purposes
- * and to increment the DAC value.
- *****************************************************************************/
-void TIM2_IRQHandler(void)
-{
-	TIM2->SR &= ~TIM_SR_UIF;			// Clear pending interrupt flag
-	if (DAC_active) {
-		DAC_increment();
-	}
-}
+// /** ***************************************************************************
+//  * @brief Interrupt handler for the timer 2
+//  *
+//  * @note This interrupt handler was only used for debugging purposes
+//  * and to increment the DAC value.
+//  *****************************************************************************/
+// void TIM2_IRQHandler(void)
+// {
+// 	TIM2->SR &= ~TIM_SR_UIF;			// Clear pending interrupt flag
+// 	if (DAC_active) {
+// 		DAC_increment();
+// 	}
+// }
 
 
 /** ***************************************************************************

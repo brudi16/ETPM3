@@ -145,6 +145,15 @@ void DeviceDriver_PrintMessage( XString aText );
 *******************************************************************************/
 void DeviceDriver_SetTime( XUInt32 aTime );
 
+/*******************************************************************************
+* FUNCTION:
+*   DeviceDriver_SetLampTest
+*
+* DESCRIPTION:
+*   This is a function to test all LEDs on the external Hardware
+*   
+*
+*******************************************************************************/
 void DeviceDriver_SetLampTest( void );
 void DeviceDriver_DisableLampTest( void );
 

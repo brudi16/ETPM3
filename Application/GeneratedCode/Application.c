@@ -57,6 +57,7 @@
 #include "Application.h"
 #include "Core.h"
 #include "WidgetSet.h"
+#include "DeviceDriver.h"
 
 /* Compressed strings for the language 'Default'. */
 EW_CONST_STRING_PRAGMA static const unsigned int _StringsDefault0[] =

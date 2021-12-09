@@ -25,6 +25,7 @@
 #include "menu.h"
 #include "measuring.h"
 #include "led.h"
+#include "LUT.h"
 
 
 /******************************************************************************
@@ -55,24 +56,24 @@ int main(void) {
 
 	SystemClock_Config();				// Configure system clocks
 
-	BSP_LCD_Init();						// Initialize the LCD display
-	BSP_LCD_LayerDefaultInit(LCD_FOREGROUND_LAYER, LCD_FRAME_BUFFER);
-	BSP_LCD_SelectLayer(LCD_FOREGROUND_LAYER);
-	BSP_LCD_DisplayOn();
-	BSP_LCD_Clear(LCD_COLOR_WHITE);
+	//BSP_LCD_Init();						// Initialize the LCD display
+	//BSP_LCD_LayerDefaultInit(LCD_FOREGROUND_LAYER, LCD_FRAME_BUFFER);
+	//BSP_LCD_SelectLayer(LCD_FOREGROUND_LAYER);
+	//BSP_LCD_DisplayOn();
+	//BSP_LCD_Clear(LCD_COLOR_WHITE);
 
-	BSP_TS_Init(BSP_LCD_GetXSize(), BSP_LCD_GetYSize());	// Touchscreen
+	//BSP_TS_Init(BSP_LCD_GetXSize(), BSP_LCD_GetYSize());	// Touchscreen
 	/* Uncomment next line to enable touchscreen interrupt */
-	BSP_TS_ITConfig();					// Enable Touchscreen interrupt
+	//BSP_TS_ITConfig();					// Enable Touchscreen interrupt
 
 	PB_init();							// Initialize the user pushbutton
 	PB_enableIRQ();						// Enable interrupt on user pushbutton
 
 	BSP_LED_Init(LED3);					// Toggles in while loop
-	BSP_LED_Init(LED4);					// Is toggled by user button
+	//BSP_LED_Init(LED4);					// Is toggled by user button
 
-	MENU_draw();						// Draw the menu
-	MENU_hint();						// Show hint at startup
+	//MENU_draw();						// Draw the menu
+	//MENU_hint();						// Show hint at startup
 
 	gyro_disable();						// Disable gyro, use those analog inputs
 
