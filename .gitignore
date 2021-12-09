@@ -54,9 +54,6 @@ dkms.conf
 
 # Ignored Folders
 .vscode/
-Application/FlashDownload
-Application/GeneratedCode
-Application/Project
 ThirdParty/
 TargetSpecific/
 PlatformPackage/
