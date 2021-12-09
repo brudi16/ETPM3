@@ -1,7 +1,0 @@
-﻿$version 11.00
-
-// Resources
-note group Resources
-{
-  attr Bounds = <530,-280,770,260>;
-}

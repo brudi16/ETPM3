@@ -1,4 +1,0 @@
-﻿$version 11.00
-
-$rect <280,110,480,150>
-autoobject Application::DeviceClass Device;

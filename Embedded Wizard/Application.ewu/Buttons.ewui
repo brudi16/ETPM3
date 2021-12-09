@@ -1,7 +1,0 @@
-﻿$version 11.00
-
-// Appearance
-note group Buttons
-{
-  attr Bounds = <800,-280,1170,-80>;
-}
