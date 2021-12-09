@@ -62,8 +62,8 @@ int main(){
 
     //forTestLoops(4,5);
 
-    // peakPeak = calc_peakToPeak_av(array, (sizeof(array)/(sizeof(uint32_t))));
-    // printf("\nPeak to Peak Value in average: %d\n",peakPeak);
+    peakPeak = calc_peakToPeak_av(array, (sizeof(array)/(sizeof(uint32_t))));
+    printf("\nPeak to Peak Value in average: %d\n",peakPeak);
 
     // rmsValue = calc_RMSValue(array, (sizeof(array)/(sizeof(uint32_t))));
     // printf("\nRMS-Value: %d\n", rmsValue);
