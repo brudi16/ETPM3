@@ -309,7 +309,7 @@ float calcStdDev(int32_t array[], int32_t size) {
 	}
 
     mean = calc_peakToPeak_av(array, size);
-    for (i = 0; i < size; ++i) {
+    for (i = 0; i < (size/12); ++i){
         SD += pow(peakPeakArray[i] - mean, 2);
     }
     return sqrt(SD / 10);
