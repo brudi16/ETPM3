@@ -193,6 +193,15 @@ EW_DEFINE_FIELDS( WidgetSetGauge, CoreGroup )
      When the properties of the configuration object change, all gauge widgets (connected 
      actually to it) are notified and updated to assume the new appearance. */
   EW_PROPERTY( Appearance,      WidgetSetGaugeConfig )
+
+  /* The property 'Outlet' can refer to any other 'int32' property the gauge widget 
+     should remain synchronized with. When the referred property is modified, the 
+     gauge is automatically notified to remain in sync with the property (the property 
+     @CurrentValue is updated to the value of the property referred in Outlet).
+     This approach follows the Model-View-Controller (MVC) programming paradigm. 
+     Here the gauge represents the 'View' and the property referred via 'Outlet' 
+     can be seen as a part of the 'Model'. */
+  EW_PROPERTY( Outlet,          XRef )
   EW_OBJECT  ( FloatEffect,     EffectsFloatEffect )
   EW_VARIABLE( currentAngle,    XFloat )
 
@@ -436,6 +445,12 @@ void WidgetSetGauge_onFloatEffect( WidgetSetGauge _this, XObject sender );
 
 /* 'C' function for method : 'WidgetSet::Gauge.onConfigChanged()' */
 void WidgetSetGauge_onConfigChanged( WidgetSetGauge _this, XObject sender );
+
+/* 'C' function for method : 'WidgetSet::Gauge.onOutlet()' */
+void WidgetSetGauge_onOutlet( WidgetSetGauge _this, XObject sender );
+
+/* 'C' function for method : 'WidgetSet::Gauge.OnSetOutlet()' */
+void WidgetSetGauge_OnSetOutlet( WidgetSetGauge _this, XRef value );
 
 /* 'C' function for method : 'WidgetSet::Gauge.OnSetMaxValue()' */
 void WidgetSetGauge_OnSetMaxValue( WidgetSetGauge _this, XInt32 value );

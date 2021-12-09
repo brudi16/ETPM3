@@ -176,8 +176,28 @@ EW_DEFINE_FIELDS( WidgetSetHorizontalValueBar, CoreGroup )
      When the properties of the configuration object change, all value bar widgets 
      (connected actually to it) are notified and updated to assume the new appearance. */
   EW_PROPERTY( Appearance,      WidgetSetHorizontalValueBarConfig )
+
+  /* The property 'Outlet' can refer to any other 'int32' property the widget should 
+     remain synchronized with. When the referred property is modified, the widget 
+     is automatically notified to remain in sync with the property (the property 
+     @CurrentValue is updated to the value of the property referred in Outlet).
+     This approach follows the Model-View-Controller (MVC) programming paradigm. 
+     Here the value bar widget represents the 'View' and the property referred via 
+     'Outlet' can be seen as a part of the 'Model'. */
+  EW_PROPERTY( Outlet,          XRef )
   EW_OBJECT  ( FloatEffect,     EffectsFloatEffect )
   EW_VARIABLE( currentPos,      XFloat )
+
+  /* The property 'MaxValue' determines the boundary for @CurrentValue when the 
+     needle is moved to the right edge of the widget. 'MaxValue' together with @MinValue 
+     limit the range for @CurrentValue. */
+  EW_PROPERTY( MaxValue,        XInt32 )
+
+  /* The property 'CurrentValue' stores the momentary value of the widget. This 
+     value corresponds to the horizontal position of the needle (or the width of 
+     the displayed bars) and it is limited to be always within the range specified 
+     in the properties @MinValue and @MaxValue. */
+  EW_PROPERTY( CurrentValue,    XInt32 )
   EW_VARIABLE( setupCurrentPos, XBool )
 EW_END_OF_FIELDS( WidgetSetHorizontalValueBar )
 
@@ -418,8 +438,24 @@ void WidgetSetHorizontalValueBar_onFloatEffect( WidgetSetHorizontalValueBar _thi
 void WidgetSetHorizontalValueBar_onConfigChanged( WidgetSetHorizontalValueBar _this, 
   XObject sender );
 
+/* 'C' function for method : 'WidgetSet::HorizontalValueBar.onOutlet()' */
+void WidgetSetHorizontalValueBar_onOutlet( WidgetSetHorizontalValueBar _this, XObject 
+  sender );
+
+/* 'C' function for method : 'WidgetSet::HorizontalValueBar.OnSetOutlet()' */
+void WidgetSetHorizontalValueBar_OnSetOutlet( WidgetSetHorizontalValueBar _this, 
+  XRef value );
+
+/* 'C' function for method : 'WidgetSet::HorizontalValueBar.OnSetMaxValue()' */
+void WidgetSetHorizontalValueBar_OnSetMaxValue( WidgetSetHorizontalValueBar _this, 
+  XInt32 value );
+
 /* 'C' function for method : 'WidgetSet::HorizontalValueBar.OnGetCurrentValue()' */
 XInt32 WidgetSetHorizontalValueBar_OnGetCurrentValue( WidgetSetHorizontalValueBar _this );
+
+/* 'C' function for method : 'WidgetSet::HorizontalValueBar.OnSetCurrentValue()' */
+void WidgetSetHorizontalValueBar_OnSetCurrentValue( WidgetSetHorizontalValueBar _this, 
+  XInt32 value );
 
 /* 'C' function for method : 'WidgetSet::HorizontalValueBar.OnSetAppearance()' */
 void WidgetSetHorizontalValueBar_OnSetAppearance( WidgetSetHorizontalValueBar _this, 

@@ -62,10 +62,13 @@ Utilities/
 Doxygen/
 project/
 FlashDownload/
+ThirdParty/
+TargetSpecific/
+PlatformPackage/
 
-*.txt
-*.ld
 Doxyfile
+*.DS_Store
+*.bat
 *.launch
 *.cfg
 *.lnk
@@ -74,3 +77,5 @@ Doxyfile
 *.DS_Store
 *.html
 *.csv
+*.dep
+*.htm

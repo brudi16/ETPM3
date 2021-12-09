@@ -47,7 +47,7 @@
 #include "ewrte.h"
 #include "ew_bsp_inout.h"
 #include "ew_bsp_clock.h"
-#include "led.h"
+#include "API.h"
 #include "DeviceDriver.h"
 #include <stdint.h>
 
@@ -139,9 +139,8 @@ void DeviceDriver_Initialize( void )
 
   /* Configure interrupt for hardware button */
   EwBspInOutInitButton( HardButtonIsrCallback );
-  
-  // initialize all leds for lamptest
-  ExtLedInit();
+
+  cmInitAll();
 
 #ifdef _ApplicationDeviceClass_
 
@@ -304,6 +303,55 @@ int DeviceDriver_ProcessData( void )
     #endif
   }
 
+    #ifdef _ApplicationDeviceClass__UpdateCurrent_
+
+        ApplicationDeviceClass__UpdateCurrent( DeviceObject, (XInt32)cmGetCurrent() );
+        needUpdate = 1;
+
+    #endif
+
+    #ifdef _ApplicationDeviceClass__UpdateDistance_
+
+        ApplicationDeviceClass__UpdateDistance( DeviceObject, (XInt32)cmGetDistance() );
+        needUpdate = 1;
+
+    #endif
+
+    #ifdef _ApplicationDeviceClass__UpdateAngle_
+
+        ApplicationDeviceClass__UpdateAngle( DeviceObject, (XInt32)cmGetAngle() );
+        needUpdate = 1;
+
+    #endif
+
+    #ifdef _ApplicationDeviceClass__UpdateDebugHall1_
+
+        ApplicationDeviceClass__UpdateDebugHall1( DeviceObject, (XInt32)cmGetDebugHall1() );
+        needUpdate = 1;
+
+    #endif
+
+    #ifdef _ApplicationDeviceClass__UpdateDebugHall2_
+
+        ApplicationDeviceClass__UpdateDebugHall2( DeviceObject, (XInt32)cmGetDebugHall2() );
+        needUpdate = 1;
+
+    #endif
+
+    #ifdef _ApplicationDeviceClass__UpdateDebugPad1_
+
+        ApplicationDeviceClass__UpdateDebugPad1( DeviceObject, (XInt32)cmGetDebugPad1() );
+        needUpdate = 1;
+
+    #endif
+
+    #ifdef _ApplicationDeviceClass__UpdateDebugPad2_
+
+        ApplicationDeviceClass__UpdateDebugPad2( DeviceObject, (XInt32)cmGetDebugPad2() );
+        needUpdate = 1;
+
+    #endif
+
 #endif
 
   /*
@@ -419,7 +467,24 @@ void DeviceDriver_SetLampTest( void )
      Here we are accessing directly the device driver by calling a certain
      BSP / driver function.
   */
-	ExtLedLamptest(5000);
+    cmSetLampTest();
+}
+
+void DeviceDriver_DisableLampTest( void )
+{
+  /*
+     In case you are using an operating system to communicate with your
+     device driver that is running within its own thread/task/process,
+     send a message to the device driver and transmit the new value.
+     Please note, that this function is called within the context of the main
+     GUI thread.
+  */
+
+  /*
+     Here we are accessing directly the device driver by calling a certain
+     BSP / driver function.
+  */
+    cmDisableLampTest();
 }
 
 

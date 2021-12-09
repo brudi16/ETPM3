@@ -53,6 +53,13 @@
 
 /* Deklaration of class : 'Application::DeviceClass' */
 EW_DEFINE_FIELDS( ApplicationDeviceClass, TemplatesDeviceClass )
+  EW_PROPERTY( Current,         XInt32 )
+  EW_PROPERTY( Distance,        XInt32 )
+  EW_PROPERTY( Angle,           XInt32 )
+  EW_PROPERTY( DebugHall1,      XInt32 )
+  EW_PROPERTY( DebugHall2,      XInt32 )
+  EW_PROPERTY( DebugPad1,       XInt32 )
+  EW_PROPERTY( DebugPad2,       XInt32 )
   EW_PROPERTY( Lamptest,        XBool )
 EW_END_OF_FIELDS( ApplicationDeviceClass )
 
@@ -69,8 +76,124 @@ void ApplicationDeviceClass_Init( ApplicationDeviceClass _this, XHandle aArg );
 /* 'C' function for method : 'Application::DeviceClass.OnSetLamptest()' */
 void ApplicationDeviceClass_OnSetLamptest( ApplicationDeviceClass _this, XBool value );
 
+/* 'C' function for method : 'Application::DeviceClass.UpdateCurrent()' */
+void ApplicationDeviceClass_UpdateCurrent( ApplicationDeviceClass _this, XInt32 
+  aNewValue );
+
+/* Wrapper function for the non virtual method : 'Application::DeviceClass.UpdateCurrent()' */
+void ApplicationDeviceClass__UpdateCurrent( void* _this, XInt32 aNewValue );
+
+/* The following define announces the presence of the method Application::DeviceClass.UpdateCurrent(). */
+#define _ApplicationDeviceClass__UpdateCurrent_
+
+/* 'C' function for method : 'Application::DeviceClass.UpdateDistance()' */
+void ApplicationDeviceClass_UpdateDistance( ApplicationDeviceClass _this, XInt32 
+  aNewValue );
+
+/* Wrapper function for the non virtual method : 'Application::DeviceClass.UpdateDistance()' */
+void ApplicationDeviceClass__UpdateDistance( void* _this, XInt32 aNewValue );
+
+/* The following define announces the presence of the method Application::DeviceClass.UpdateDistance(). */
+#define _ApplicationDeviceClass__UpdateDistance_
+
+/* 'C' function for method : 'Application::DeviceClass.UpdateAngle()' */
+void ApplicationDeviceClass_UpdateAngle( ApplicationDeviceClass _this, XInt32 aNewValue );
+
+/* Wrapper function for the non virtual method : 'Application::DeviceClass.UpdateAngle()' */
+void ApplicationDeviceClass__UpdateAngle( void* _this, XInt32 aNewValue );
+
+/* The following define announces the presence of the method Application::DeviceClass.UpdateAngle(). */
+#define _ApplicationDeviceClass__UpdateAngle_
+
+/* 'C' function for method : 'Application::DeviceClass.UpdateDebugHall1()' */
+void ApplicationDeviceClass_UpdateDebugHall1( ApplicationDeviceClass _this, XInt32 
+  aNewValue );
+
+/* Wrapper function for the non virtual method : 'Application::DeviceClass.UpdateDebugHall1()' */
+void ApplicationDeviceClass__UpdateDebugHall1( void* _this, XInt32 aNewValue );
+
+/* The following define announces the presence of the method Application::DeviceClass.UpdateDebugHall1(). */
+#define _ApplicationDeviceClass__UpdateDebugHall1_
+
+/* 'C' function for method : 'Application::DeviceClass.UpdateDebugHall2()' */
+void ApplicationDeviceClass_UpdateDebugHall2( ApplicationDeviceClass _this, XInt32 
+  aNewValue );
+
+/* Wrapper function for the non virtual method : 'Application::DeviceClass.UpdateDebugHall2()' */
+void ApplicationDeviceClass__UpdateDebugHall2( void* _this, XInt32 aNewValue );
+
+/* The following define announces the presence of the method Application::DeviceClass.UpdateDebugHall2(). */
+#define _ApplicationDeviceClass__UpdateDebugHall2_
+
+/* 'C' function for method : 'Application::DeviceClass.UpdateDebugPad1()' */
+void ApplicationDeviceClass_UpdateDebugPad1( ApplicationDeviceClass _this, XInt32 
+  aNewValue );
+
+/* Wrapper function for the non virtual method : 'Application::DeviceClass.UpdateDebugPad1()' */
+void ApplicationDeviceClass__UpdateDebugPad1( void* _this, XInt32 aNewValue );
+
+/* The following define announces the presence of the method Application::DeviceClass.UpdateDebugPad1(). */
+#define _ApplicationDeviceClass__UpdateDebugPad1_
+
+/* 'C' function for method : 'Application::DeviceClass.UpdateDebugPad2()' */
+void ApplicationDeviceClass_UpdateDebugPad2( ApplicationDeviceClass _this, XInt32 
+  aNewValue );
+
+/* Wrapper function for the non virtual method : 'Application::DeviceClass.UpdateDebugPad2()' */
+void ApplicationDeviceClass__UpdateDebugPad2( void* _this, XInt32 aNewValue );
+
+/* The following define announces the presence of the method Application::DeviceClass.UpdateDebugPad2(). */
+#define _ApplicationDeviceClass__UpdateDebugPad2_
+
 /* Default onget method for the property 'Lamptest' */
 XBool ApplicationDeviceClass_OnGetLamptest( ApplicationDeviceClass _this );
+
+/* Default onget method for the property 'Current' */
+XInt32 ApplicationDeviceClass_OnGetCurrent( ApplicationDeviceClass _this );
+
+/* Default onset method for the property 'Current' */
+void ApplicationDeviceClass_OnSetCurrent( ApplicationDeviceClass _this, XInt32 value );
+
+/* Default onget method for the property 'Distance' */
+XInt32 ApplicationDeviceClass_OnGetDistance( ApplicationDeviceClass _this );
+
+/* Default onset method for the property 'Distance' */
+void ApplicationDeviceClass_OnSetDistance( ApplicationDeviceClass _this, XInt32 
+  value );
+
+/* Default onget method for the property 'Angle' */
+XInt32 ApplicationDeviceClass_OnGetAngle( ApplicationDeviceClass _this );
+
+/* Default onset method for the property 'Angle' */
+void ApplicationDeviceClass_OnSetAngle( ApplicationDeviceClass _this, XInt32 value );
+
+/* Default onget method for the property 'DebugHall1' */
+XInt32 ApplicationDeviceClass_OnGetDebugHall1( ApplicationDeviceClass _this );
+
+/* Default onset method for the property 'DebugHall1' */
+void ApplicationDeviceClass_OnSetDebugHall1( ApplicationDeviceClass _this, XInt32 
+  value );
+
+/* Default onget method for the property 'DebugHall2' */
+XInt32 ApplicationDeviceClass_OnGetDebugHall2( ApplicationDeviceClass _this );
+
+/* Default onset method for the property 'DebugHall2' */
+void ApplicationDeviceClass_OnSetDebugHall2( ApplicationDeviceClass _this, XInt32 
+  value );
+
+/* Default onget method for the property 'DebugPad1' */
+XInt32 ApplicationDeviceClass_OnGetDebugPad1( ApplicationDeviceClass _this );
+
+/* Default onset method for the property 'DebugPad1' */
+void ApplicationDeviceClass_OnSetDebugPad1( ApplicationDeviceClass _this, XInt32 
+  value );
+
+/* Default onget method for the property 'DebugPad2' */
+XInt32 ApplicationDeviceClass_OnGetDebugPad2( ApplicationDeviceClass _this );
+
+/* Default onset method for the property 'DebugPad2' */
+void ApplicationDeviceClass_OnSetDebugPad2( ApplicationDeviceClass _this, XInt32 
+  value );
 
 #ifdef __cplusplus
   }
