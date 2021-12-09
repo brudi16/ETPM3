@@ -17,8 +17,9 @@
 #include "stm32f429i_discovery_ts.h"
 
 #include "calculations.h"
-#include "measuring.h"
+//#include "measuring.h"
 #include "LUT.h"
+#include "math.h"
 
 
 /******************************************************************************
@@ -160,7 +161,6 @@ int32_t getXFromY(int32_t array[], int32_t size, int32_t yValue){
 
     // Loop for all values of the array
     for(i=0; i<(size - 1); i++){
-        printf("\ni: %d\t array[i]: %d\tarray[i+1]: %d",i, array[i], array[i+1]);
         // Check if the value is lower than lowest or higher than highes value
         if(yValue > array[0] || yValue < array[(size+1)]){
             return 0;

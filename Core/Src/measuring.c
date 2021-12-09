@@ -87,7 +87,7 @@ static int32_t ADC_samples[2*ADC_NUMS];///< ADC values of max. 2 input channels
  * - ADC3_IN4 = GPIO PF6 (PAD 1)
  * - ADC3_IN6 = GPIO PF8 (PAD 2)
  * - ADC123_IN11 = GPIO PC1 (Hall Sensor 1)
- * - ADC123_IN13 = GPIO PC3 (Hall Sensor 4)
+ * - ADC123_IN13 = GPIO PC3 (Hall Sensor 2)
  *****************************************************************************/
 void MEAS_GPIO_analog_init(void)
 {

@@ -6,9 +6,10 @@
 
 
 
-#define ARRAYSIZE   60
-#define LUT_SIZE    200
-#define CAL_SIZE    7
+#define ARRAYSIZE           60
+#define ACCURATE_ARRAYSIZE  240
+#define LUT_SIZE            200
+#define CAL_SIZE            7
 
 // Prototypes
 int32_t arrayMean(int32_t array[], uint16_t size);
@@ -42,7 +43,13 @@ int main(){
     int32_t sum, mean, peakPeak, rmsValue, interpol, x;
     float stdDev;
 
-    int32_t array[] = {1000,1259,1447,1511,1433,1236,973,718,540,491,582,789,1054,1305,1471,1506,1402,1186,919,674,519,498,615,840,1108,1347,1489,1496,1366,1134,866,634,504,511,653,892,1160,1385,1502,1481,1326,1081,814,598,494,529,695,946,1211,1418,1509,1460,1282,1027,764,567,489,553,741,1000};
+    int32_t array[] = {
+        #include "testarray.txt"
+    };
+
+    int32_t acurateArray[] ={
+        #include "extendedTestarray.txt"
+    };
     // printArray(array, ARRAYSIZE);
     // printf("Adress: %p\n", array);
 
@@ -50,9 +57,9 @@ int main(){
     // printf("Mean: %d\n", mean);
     // printf("Adress: %p\n", array);
 
-    // removeMean(array, ARRAYSIZE);
+    removeMean(array, ARRAYSIZE);
     // printf("\nMean removed:\n");
-    // printArray(array, ARRAYSIZE);
+    printArray(array, ARRAYSIZE);
     // printf("Adress: %p\n", array);
 
     //rectify(array, ARRAYSIZE);
@@ -65,8 +72,8 @@ int main(){
     peakPeak = calc_peakToPeak_av(array, (sizeof(array)/(sizeof(uint32_t))));
     printf("\nPeak to Peak Value in average: %d\n",peakPeak);
 
-    // rmsValue = calc_RMSValue(array, (sizeof(array)/(sizeof(uint32_t))));
-    // printf("\nRMS-Value: %d\n", rmsValue);
+    rmsValue = calc_RMSValue(array, (sizeof(array)/(sizeof(uint32_t))));
+    printf("\nRMS-Value: %d\n", rmsValue);
 
     //printArray(padLutStartValues,LUT_SIZE);
     //init_LUT();
@@ -83,6 +90,12 @@ int main(){
 
     stdDev = calcStdDev(array, ARRAYSIZE);
     printf("Standart deviation: %.6f",stdDev);
+
+    printf("\nExtendet Array:");
+    removeMean(acurateArray, 240);
+    printArray(acurateArray, ACCURATE_ARRAYSIZE);
+    
+    printf("\nPeak to Peak Value in average: %d\n",peakPeak);
     return 0;
 }
 
@@ -292,8 +305,8 @@ int32_t getXFromY(int32_t array[], int32_t size, int32_t yValue){
 }
 
 float calcStdDev(int32_t array[], int32_t size) {
-    float mean, SD = 0.0;
-    uint16_t i, peakPeakArray[10];
+    float mean = 0, SD = 0.0;
+    uint16_t i, peakPeakArray[20] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
     uint16_t i1, i2;
 	uint8_t nPeriods = size / 12;
@@ -310,11 +323,11 @@ float calcStdDev(int32_t array[], int32_t size) {
 				minTmp = tmpVal;
 			}
 		}
-        peakPeakArray[i] = (maxTmp - minTmp);
+        peakPeakArray[i1] = (maxTmp - minTmp);
 	}
 
     mean = calc_peakToPeak_av(array, size);
-    for (i = 0; i < (size/12); ++i){
+    for (i = 0; i < (nPeriods); ++i){
         SD += pow(peakPeakArray[i] - mean, 2);
     }
     return sqrt(SD / 10);
