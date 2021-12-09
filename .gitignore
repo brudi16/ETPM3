@@ -61,6 +61,7 @@ html/
 Utilities/
 Doxygen/
 project/
+FlashDownload/
 ThirdParty/
 TargetSpecific/
 PlatformPackage/
@@ -78,3 +79,5 @@ Doxyfile
 *.csv
 *.dep
 *.htm
+*.txt
+*.ld
