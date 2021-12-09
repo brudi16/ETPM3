@@ -65,6 +65,7 @@ FlashDownload/
 ThirdParty/
 TargetSpecific/
 PlatformPackage/
+GeneratedCode/
 
 Doxyfile
 *.DS_Store
