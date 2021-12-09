@@ -148,36 +148,36 @@ void ADC_reset(void) {
 }
 
 
-/** ***************************************************************************
- * @brief Initialize the ADC in single conversion mode
- *
- * The input is ADC3_IN4 = GPIO PF6
- *****************************************************************************/
-void ADC3_IN4_single_init(void)
-{
-	MEAS_input_count = 1;				// Only 1 input is converted
-	__HAL_RCC_ADC3_CLK_ENABLE();		// Enable Clock for ADC3
-	ADC3->SQR3 |= (4UL << ADC_SQR3_SQ1_Pos);	// Input 4 = first conversion
-}
+// /** ***************************************************************************
+//  * @brief Initialize the ADC in single conversion mode
+//  *
+//  * The input is ADC3_IN4 = GPIO PF6
+//  *****************************************************************************/
+// void ADC3_IN4_single_init(void)
+// {
+// 	MEAS_input_count = 1;				// Only 1 input is converted
+// 	__HAL_RCC_ADC3_CLK_ENABLE();		// Enable Clock for ADC3
+// 	ADC3->SQR3 |= (4UL << ADC_SQR3_SQ1_Pos);	// Input 4 = first conversion
+// }
 
 
-/** ***************************************************************************
- * @brief Read one single value of the ADC in single conversion mode
- *
- * Start the conversion, wait in a while loop for end of conversion, read data.
- *****************************************************************************/
-void ADC3_IN4_single_read(void)
-{
-	ADC3->CR2 |= ADC_CR2_ADON;			// Enable ADC3
-	HAL_Delay(1);						// ADC needs some time to stabilize
-	ADC3->CR2 |= ADC_CR2_SWSTART;
-	while (!(ADC3->SR & ADC_SR_EOC)) { ; }	// Wait for end of conversion
-	ADC_samples[0] = ADC3->DR;			// Read the converted value
-	ADC3->CR2 &= ~ADC_CR2_ADON;			// Disable ADC3
+// /** ***************************************************************************
+//  * @brief Read one single value of the ADC in single conversion mode
+//  *
+//  * Start the conversion, wait in a while loop for end of conversion, read data.
+//  *****************************************************************************/
+// void ADC3_IN4_single_read(void)
+// {
+// 	ADC3->CR2 |= ADC_CR2_ADON;			// Enable ADC3
+// 	HAL_Delay(1);						// ADC needs some time to stabilize
+// 	ADC3->CR2 |= ADC_CR2_SWSTART;
+// 	while (!(ADC3->SR & ADC_SR_EOC)) { ; }	// Wait for end of conversion
+// 	ADC_samples[0] = ADC3->DR;			// Read the converted value
+// 	ADC3->CR2 &= ~ADC_CR2_ADON;			// Disable ADC3
 
-	ADC_reset();
-	MEAS_data_ready = true;
-}
+// 	ADC_reset();
+// 	MEAS_data_ready = true;
+// }
 
 
 /** ***************************************************************************
@@ -198,39 +198,39 @@ void MEAS_timer_init(void)
 }
 
 
-/** ***************************************************************************
- * @brief Initialize the ADC to be triggered by a timer
- *
- * The ADC3 trigger is set to TIM2 TRGO event
- * and the timer starts the ADC directly without CPU intervention.
- * @n The ADC is configured for end of conversion interrupt.
- * @n The input is ADC3_IN4 = GPIO PF6
- *****************************************************************************/
-void ADC3_IN4_timer_init(void)
-{
-	MEAS_input_count = 1;				// Only 1 input is converted
-	__HAL_RCC_ADC3_CLK_ENABLE();		// Enable Clock for ADC3
-	ADC3->SQR3 |= (4UL << ADC_SQR3_SQ1_Pos);	// Input 4 = first conversion
-	ADC3->CR1 |= ADC_CR1_EOCIE;			// Enable end of conversion interrupt
-	ADC3->CR2 |= (1UL << ADC_CR2_EXTEN_Pos);	// En. ext. trigger on rising e.
-	ADC3->CR2 |= (6UL << ADC_CR2_EXTSEL_Pos);	// Timer 2 TRGO event
+// /** ***************************************************************************
+//  * @brief Initialize the ADC to be triggered by a timer
+//  *
+//  * The ADC3 trigger is set to TIM2 TRGO event
+//  * and the timer starts the ADC directly without CPU intervention.
+//  * @n The ADC is configured for end of conversion interrupt.
+//  * @n The input is ADC3_IN4 = GPIO PF6
+//  *****************************************************************************/
+// void ADC3_IN4_timer_init(void)
+// {
+// 	MEAS_input_count = 1;				// Only 1 input is converted
+// 	__HAL_RCC_ADC3_CLK_ENABLE();		// Enable Clock for ADC3
+// 	ADC3->SQR3 |= (4UL << ADC_SQR3_SQ1_Pos);	// Input 4 = first conversion
+// 	ADC3->CR1 |= ADC_CR1_EOCIE;			// Enable end of conversion interrupt
+// 	ADC3->CR2 |= (1UL << ADC_CR2_EXTEN_Pos);	// En. ext. trigger on rising e.
+// 	ADC3->CR2 |= (6UL << ADC_CR2_EXTSEL_Pos);	// Timer 2 TRGO event
 
-}
+// }
 
 
-/** ***************************************************************************
- * @brief Start the ADC and the timer
- *
- * The ADC isues an end of conversion interrupt.
- * The converted value can be read in the associated interrupt handler.
- *****************************************************************************/
-void ADC3_IN4_timer_start(void)
-{
-	NVIC_ClearPendingIRQ(ADC_IRQn);		// Clear pending interrupt on line 0
-	NVIC_EnableIRQ(ADC_IRQn);			// Enable interrupt line 0 in the NVIC
-	ADC3->CR2 |= ADC_CR2_ADON;			// Enable ADC3
-	TIM2->CR1 |= TIM_CR1_CEN;			// Enable timer
-}
+// /** ***************************************************************************
+//  * @brief Start the ADC and the timer
+//  *
+//  * The ADC isues an end of conversion interrupt.
+//  * The converted value can be read in the associated interrupt handler.
+//  *****************************************************************************/
+// void ADC3_IN4_timer_start(void)
+// {
+// 	NVIC_ClearPendingIRQ(ADC_IRQn);		// Clear pending interrupt on line 0
+// 	NVIC_EnableIRQ(ADC_IRQn);			// Enable interrupt line 0 in the NVIC
+// 	ADC3->CR2 |= ADC_CR2_ADON;			// Enable ADC3
+// 	TIM2->CR1 |= TIM_CR1_CEN;			// Enable timer
+// }
 
 
 /** ***************************************************************************

@@ -139,10 +139,45 @@ uint32_t calc_RMSValue (int32_t ADC_samples[], uint16_t size){
  * @param xp X-Coordinate of the searched point
  * @return int32_t yp Y-Coordinate of the searched point 
  *****************************************************************************/
-
 int32_t LinearInterpol(int32_t x0, int32_t y0, int32_t x1, int32_t y1, int32_t xp){
     float yp = 0;
     yp = ((float)y0 - (((float)y0-(float)y1)/((float)x1-(float)x0)) * ((float)xp - (float)x0));
 
     return (int32_t)yp;
+}
+
+/** ***************************************************************************
+ * @brief Search the corresponding x-value to a given y-value
+ * 
+ * @param array     Array with y-values
+ * @param size      Size of the array
+ * @param yValue    y-value of the searched x-value
+ * @return int32_t 
+ *****************************************************************************/
+int32_t getXFromY(int32_t array[], int32_t size, int32_t yValue){
+    int32_t xValue = 0; // Output variable
+    int16_t i;      // Loop variable
+
+    // Loop for all values of the array
+    for(i=0; i<(size - 1); i++){
+        printf("\ni: %d\t array[i]: %d\tarray[i+1]: %d",i, array[i], array[i+1]);
+        // Check if the value is lower than lowest or higher than highes value
+        if(yValue > array[0] || yValue < array[(size+1)]){
+            return 0;
+        
+        }else if(yValue == array[i]){
+            xValue = i+1;
+        // Check if y value is higher than next value and lower than actual value from array
+        }else if(yValue > array[(i+1)] && yValue < array[i]){
+            // Check if difference to next value from array is higher than difference to actual array element
+            if((yValue - array[(i+1)]) > (array[i] - yValue)){
+				// higher Value
+                xValue = i+1;
+            }else{
+				// lower value
+                xValue = i+2;
+            }
+        }
+    }  
+    return xValue;
 }

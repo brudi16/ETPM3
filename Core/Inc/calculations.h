@@ -18,6 +18,8 @@ int32_t calc_dcValue(int32_t ADC_samples[], uint16_t size);
 void calc_removeDc(int32_t ADC_samples[], uint16_t size);
 uint32_t calc_peakToPeak_av(int32_t ADC_samples[], uint16_t size);
 int32_t calc_rmsValue(int32_t ADC_samples[], uint16_t size);
+int32_t LinearInterpol(int32_t x0, int32_t y0, int32_t x1, int32_t y1, int32_t xp);
+int32_t getXFromY(int32_t array[], int32_t size, int32_t yValue);
 
 // Advanced calculations
 
