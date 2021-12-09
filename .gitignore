@@ -76,3 +76,5 @@ Doxyfile
 *.DS_Store
 *.html
 *.csv
+*.dep
+*.htm
