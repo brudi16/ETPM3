@@ -288,7 +288,33 @@ int32_t getXFromY(int32_t array[], int32_t size, int32_t yValue){
 
 float calcStdDev(int32_t array[], int32_t size) {
     float mean, SD = 0.0;
-    int i;
+    uint16_t i, peakPeakArray[10];
+
+    uint16_t i1, i2;
+	uint8_t nPeriods = size / 12;
+	int32_t maxTmp, minTmp, max = 0, min = 0, peakToPeakValue, tmpVal;
+
+	for(i1=0; i1 < nPeriods; i1++){
+        maxTmp = 0;
+        minTmp = 0;
+		for(i2=0; i2 < 12; i2++){
+            tmpVal = ADC_samples[((nPeriods * i1)+i2)];
+			if(tmpVal > maxTmp){
+				maxTmp = tmpVal;
+			}else if((tmpVal < minTmp)){
+				minTmp = tmpVal;
+			}
+		}
+        peakPeakArray[i] = 
+	}
+	
+
+    max = max / ((int32_t)nPeriods);
+    min = min / ((int32_t)nPeriods);
+
+	peakToPeakValue = (uint32_t)(max - min);
+
+
     mean = calc_peakToPeak_av(array, size);
     for (i = 0; i < size; ++i) {
         SD += pow(array[i] - mean, 2);
