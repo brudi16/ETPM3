@@ -20,7 +20,7 @@
  * Defines
  *****************************************************************************/
 extern bool MEAS_data_ready;
-uint32_t MEAS_input_count;
+//uint32_t MEAS_input_count;
 extern bool DAC_active;
 
 #define ADC_NUMS		60			///< Number of samples
