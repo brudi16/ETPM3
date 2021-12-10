@@ -32,6 +32,8 @@ extern bool DAC_active;
 #define TIM_TOP			9			///< Timer top value
 #define TIM_PRESCALE	(TIM_CLOCK/ADC_FS/(TIM_TOP+1)-1) ///< Clock prescaler
 
+extern int32_t ADC_samples[2*ADC_NUMS];
+
 /******************************************************************************
  * Functions
  *****************************************************************************/

@@ -18,6 +18,7 @@
 #include "stm32f429i_discovery.h"
 
 static void gyro_disable(void);
+static void SystemClock_Config(void);
 
 /**
  * @brief Main initialisation funtkion
@@ -111,7 +112,7 @@ int32_t cmGetDebugPad1(void){
  */
 int32_t cmGetDebugPad2(void){
     // Function call of all required functions to return a debug value...
-    int32_t pad = 123; // Debug pad value
+    int32_t pad = ADC_samples[0]; // Debug pad value
     return pad;
 }
 
@@ -140,9 +141,12 @@ void cmDisableLampTest(void){
  * 
  */
 void adcInit(void){
+    SystemClock_Config();				// Configure system clocks
     gyro_disable();						// Disable gyro, use those analog inputs
     MEAS_GPIO_analog_init();			// Configure GPIOs in analog mode
 	MEAS_timer_init();					// Configure the timer
+    ADC3_IN4_DMA_init();                // Initialize ADC1 IN13 & ADC3 IN6
+    ADC3_IN4_DMA_start();    // Start measurement with ADC1 IN13 & ADC3 IN6
 }
 
 /**
@@ -150,8 +154,7 @@ void adcInit(void){
  * 
  */
 void adcMeas(void){
-    ADC3_IN4_DMA_init();                // Initialize ADC1 IN13 & ADC3 IN6
-    //ADC3_IN4_DMA_start();    // Start measurement with ADC1 IN13 & ADC3 IN6
+    //
 }
 
 static void gyro_disable(void)
@@ -169,4 +172,39 @@ static void gyro_disable(void)
 	GPIOF->PUPDR &= ~GPIO_PUPDR_PUPD8;			// Reset pulup/down of PF8
 	HAL_Delay(10);						// Wait some time
 	GPIOF->MODER |= GPIO_MODER_MODER8_Msk; // Analog mode for PF6 = ADC3_IN4
+}
+
+static void SystemClock_Config(void){
+	RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+	RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+	RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
+	/* Configure the main internal regulator output voltage */
+	__HAL_RCC_PWR_CLK_ENABLE();
+	__HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
+	/* Initialize High Speed External Oscillator and PLL circuits */
+	RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+	RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+	RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+	RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+	RCC_OscInitStruct.PLL.PLLM = 8;
+	RCC_OscInitStruct.PLL.PLLN = 336;
+	RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+	RCC_OscInitStruct.PLL.PLLQ = 7;
+	HAL_RCC_OscConfig(&RCC_OscInitStruct);
+	/* Initialize gates and clock dividers for CPU, AHB and APB busses */
+	RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK
+			| RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
+	RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+	RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+	RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
+	RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
+	HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5);
+	/* Initialize PLL and clock divider for the LCD */
+	PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_LTDC;
+	PeriphClkInitStruct.PLLSAI.PLLSAIN = 192;
+	PeriphClkInitStruct.PLLSAI.PLLSAIR = 4;
+	PeriphClkInitStruct.PLLSAIDivR = RCC_PLLSAIDIVR_8;
+	HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct);
+	/* Set clock prescaler for ADCs */
+	ADC->CCR |= ADC_CCR_ADCPRE_0;
 }

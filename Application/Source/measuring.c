@@ -56,6 +56,7 @@
  *****************************************************************************/
 #include <stdio.h>
 #include "stm32f4xx.h"
+#include "stm32f429xx.h"
 #include "stm32f429i_discovery.h"
 #include "stm32f429i_discovery_ts.h"
 
@@ -70,7 +71,8 @@ uint32_t MEAS_input_count = 1;			///< 1 or 2 input channels?
 //bool DAC_active = false;				///< DAC output active?
 
 static uint32_t ADC_sample_count = 0;	///< Index for buffer
-static int32_t ADC_samples[2*ADC_NUMS];///< ADC values of max. 2 input channels
+int32_t ADC_samples[2*ADC_NUMS];;
+	///< ADC values of max. 2 input channels
 //static uint32_t DAC_sample = 0;			///< DAC output value
 
 
