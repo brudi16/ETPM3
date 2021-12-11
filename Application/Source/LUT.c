@@ -15,7 +15,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#include "../Inc/LUT.h"
+#include "LUT.h"
 
 
 const int16_t padLutStartValues[] = {
@@ -26,13 +26,13 @@ const int16_t padLutStartValues[] = {
     //#include "lutHall.csv"
 //};
 
-int16_t padLut[LUT_SIZE_Pad];
+int16_t padLut[LUT_SIZE_PAD];
 //int16_t hallLut[LUT_SIZE];
 
 void initLUT(void){
     #ifdef LUT_SIZE_PAD
         uint16_t i;
-        for(i=0;i<LUT_SIZE_Pad;i++){
+        for(i=0;i<LUT_SIZE_PAD;i++){
             padLut[i] = padLutStartValues[i];
         }
     #endif

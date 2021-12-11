@@ -8,14 +8,13 @@
 #define SRC_LUT_H
 
 /******************************************************************************
- * Includes
- *****************************************************************************/
-
-/******************************************************************************
  * Defines
  *****************************************************************************/
-#define LUT_SIZE_Pad    200          ///< Length of the LUT for the Pads
-//#define LUT_SIZE_Pad  200          ///< Length of the LUT for the Hall Sensor  
+#define LUT_SIZE_PAD    200          ///< Length of the LUT for the Pads
+//#define LUT_SIZE_HALL  200          ///< Length of the LUT for the Hall Sensor  
+
+extern int16_t padLut[LUT_SIZE_PAD];
+//extern int16_t hallLut[LUT_SIZE];
 
 /******************************************************************************
  * Functions
