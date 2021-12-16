@@ -250,12 +250,13 @@ int DeviceDriver_ProcessData( void )
      If you control your system by direct register access or some BSP functions,
      get all necessary data you want to provide to the GUI application.
   */
+  adcMeas();
 
 #ifdef _ApplicationDeviceClass_
 
   /* here we just evaluate the current hardware button state */
   if ( IsHardButtonDown )
-    ButtonCounter++;
+    //ButtonCounter++;
 
   /* check for a valid access to the autoobject of the device class */
   if ( DeviceObject == 0 )
@@ -470,7 +471,7 @@ void DeviceDriver_SetLampTest( void )
      BSP / driver function.
   */
     cmSetLampTest();
-    adcMeas();
+    //adcMeas();
 }
 
 void DeviceDriver_DisableLampTest( void )

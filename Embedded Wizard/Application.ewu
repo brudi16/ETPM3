@@ -469,7 +469,7 @@ class DetectorScreen : Core::Group
   object Views::Text Text
   {
     preset Bounds = <0,168,240,254>;
-    preset String = "Mains Cable\nDetectet!";
+    preset String = "MAINS CABLE\nDETECTED!";
     preset Font = Application::Font;
     preset Color = #000000FF;
   }
@@ -902,7 +902,7 @@ class Settings : Core::Group
   object Views::Text Text
   {
     preset Bounds = <0,0,240,51>;
-    preset String = "Settings";
+    preset String = "Utilities";
     preset Font = Application::TitelFont;
     preset Color = #000000FF;
   }
@@ -943,7 +943,7 @@ class Settings : Core::Group
   {
     preset Bounds = <25,110,215,160>;
     preset Checked = true;
-    preset Label = "LED display";
+    preset Label = "Accurate";
     preset Appearance = WidgetSet::Switch_Medium;
   }
 
@@ -1203,9 +1203,9 @@ class DistanceMeasurement : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::ValueDisplay ValueDisplay1
   {
-    preset Bounds = <42,226,198,258>;
+    preset Bounds = <87,226,153,258>;
     preset Outlet = ^Application::Device.Angle;
-    preset Unit = "Degree";
+    preset Unit = "°";
     preset Precision = 0;
     preset Appearance = WidgetSet::ValueDisplay_Medium;
   }
@@ -1508,7 +1508,7 @@ class Menu : Core::Group
   {
     preset Bounds = <120,225,240,320>;
     preset OnRelease = UpdateViewSettings;
-    preset Label = "Settings";
+    preset Label = "Utilities";
     preset Appearance = WidgetSet::PushButton_Medium;
   }
 }
