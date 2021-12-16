@@ -17,7 +17,7 @@
 #include "stm32f4xx.h"
 #include "stm32f429i_discovery.h"
 
-extern uint8_t measCase = 0;
+/*extern*/ uint8_t measCase = 0;
 
 /**
  * @brief Main initialisation funtkion

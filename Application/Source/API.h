@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-extern uint8_t measCase;
+//extern uint8_t measCase;
 
 void cmInitAll(void);
 int32_t cmGetCurrent(void);
