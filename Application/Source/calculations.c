@@ -17,8 +17,9 @@
 #include "stm32f429i_discovery_ts.h"
 
 #include "calculations.h"
-#include "measuring.h"
+//#include "measuring.h"
 #include "LUT.h"
+#include "math.h"
 
 
 /******************************************************************************
@@ -51,17 +52,18 @@ int32_t calc_dcValue(int32_t ADC_samples[], uint16_t size){
 }
 
 /** ***************************************************************************
- * @brief
- *
- *
- * @n
+ * @brief removes DC value form the array
+ * 
+ * @param ADC_samples 	Array with measured values
+ * @param size 			Size of the Array
  *****************************************************************************/
 void calc_removeDc(int32_t ADC_samples[], uint16_t size){
 	int32_t dcValue;
 	uint16_t i;
-
+	// Calculate DC value of the Array
 	dcValue = calc_dcValue(ADC_samples, size);
 
+	// Subtract Dc value from Array
 	for(i=0; i < size; i++){
 		ADC_samples[i] = ADC_samples[i] - dcValue;
 	}
@@ -69,19 +71,25 @@ void calc_removeDc(int32_t ADC_samples[], uint16_t size){
 
 /** ***************************************************************************
  * @brief calculate average peak to peak value
- *
- *
- * @n
+ * 
+ * Calculate the peak to peak value for every period and average it for filtering.
+ * 
+ * @param ADC_samples 	Array with measured values
+ * @param size 			Size of the Array
+ * @return uint32_t 
  *****************************************************************************/
 uint32_t calc_peakToPeak_av(int32_t ADC_samples[], uint16_t size){
 	uint16_t i1, i2;
 	uint8_t nPeriods = size / 12;
 	int32_t maxTmp, minTmp, max = 0, min = 0, peakToPeakValue, tmpVal;
 
+	// Loop for periods
 	for(i1=0; i1 < nPeriods; i1++){
         maxTmp = 0;
         minTmp = 0;
+		// Loop for values in periods
 		for(i2=0; i2 < 12; i2++){
+			// get actual value from Array
             tmpVal = ADC_samples[((nPeriods * i1)+i2)];
 			if(tmpVal > maxTmp){
 				maxTmp = tmpVal;
@@ -89,14 +97,16 @@ uint32_t calc_peakToPeak_av(int32_t ADC_samples[], uint16_t size){
 				minTmp = tmpVal;
 			}
 		}
+		// Sum up all max and mins of periods
         max = max + maxTmp;
         min = min + minTmp;
 	}
 	
-
+	// Calculate the average max and mins
     max = max / ((int32_t)nPeriods);
     min = min / ((int32_t)nPeriods);
 
+	// Claculate peak to peak
 	peakToPeakValue = (uint32_t)(max - min);
 
     return peakToPeakValue;
@@ -117,12 +127,17 @@ uint32_t calc_RMSValue (int32_t ADC_samples[], uint16_t size){
     int32_t tmp;
     float tmpfloat = 0;
 
+	// Sum up all squared Values from the Array
     for(i=0;i<size; i++){
         tmp = ADC_samples[i];
         tmpfloat = tmpfloat + (tmp * tmp);
     }
+
+	// Divide by size of the Array
     tmpfloat = tmpfloat / size;
+	// Make square root of the value
     tmpfloat = sqrtf(tmpfloat);
+	// convert it to uint32_t
     rmsValue = (uint32_t)tmpfloat;
     return rmsValue;
 }
@@ -141,6 +156,7 @@ uint32_t calc_RMSValue (int32_t ADC_samples[], uint16_t size){
  *****************************************************************************/
 int32_t LinearInterpol(int32_t x0, int32_t y0, int32_t x1, int32_t y1, int32_t xp){
     float yp = 0;
+	// Linear Interpolation between 2 points
     yp = ((float)y0 - (((float)y0-(float)y1)/((float)x1-(float)x0)) * ((float)xp - (float)x0));
 
     return (int32_t)yp;
@@ -160,7 +176,6 @@ int32_t getXFromY(int32_t array[], int32_t size, int32_t yValue){
 
     // Loop for all values of the array
     for(i=0; i<(size - 1); i++){
-        printf("\ni: %d\t array[i]: %d\tarray[i+1]: %d",i, array[i], array[i+1]);
         // Check if the value is lower than lowest or higher than highes value
         if(yValue > array[0] || yValue < array[(size+1)]){
             return 0;
@@ -219,3 +234,4 @@ float calcStdDev(int32_t array[], int32_t size) {
     }
     return sqrt(SD / 10);
 }
+ int8_t Calc_Angle()
