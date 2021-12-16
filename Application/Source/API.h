@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+extern uint8_t measCase;
+
 void cmInitAll(void);
 int32_t cmGetCurrent(void);
 int32_t cmGetDistance(void);
@@ -14,5 +16,7 @@ int32_t cmGetDebugPad1(void);
 int32_t cmGetDebugPad2(void);
 void cmSetLampTest(void);
 void cmDisableLampTest(void);
+void adcInit(void);
+void adcMeas(void);
 
 #endif /* INC_API_H_ */

@@ -142,6 +142,8 @@ void DeviceDriver_Initialize( void )
 
   cmInitAll();
 
+  adcInit();
+
 #ifdef _ApplicationDeviceClass_
 
   /*
@@ -248,12 +250,13 @@ int DeviceDriver_ProcessData( void )
      If you control your system by direct register access or some BSP functions,
      get all necessary data you want to provide to the GUI application.
   */
+  adcMeas();
 
 #ifdef _ApplicationDeviceClass_
 
   /* here we just evaluate the current hardware button state */
   if ( IsHardButtonDown )
-    ButtonCounter++;
+    //ButtonCounter++;
 
   /* check for a valid access to the autoobject of the device class */
   if ( DeviceObject == 0 )
@@ -303,54 +306,54 @@ int DeviceDriver_ProcessData( void )
     #endif
   }
 
-    #ifdef _ApplicationDeviceClass__UpdateCurrent_
+  #ifdef _ApplicationDeviceClass__UpdateCurrent_
 
-        ApplicationDeviceClass__UpdateCurrent( DeviceObject, (XInt32)cmGetCurrent() );
-        needUpdate = 1;
+      ApplicationDeviceClass__UpdateCurrent( DeviceObject, (XInt32)cmGetCurrent() );
+      needUpdate = 1;
 
-    #endif
+  #endif
 
-    #ifdef _ApplicationDeviceClass__UpdateDistance_
+  #ifdef _ApplicationDeviceClass__UpdateDistance_
 
-        ApplicationDeviceClass__UpdateDistance( DeviceObject, (XInt32)cmGetDistance() );
-        needUpdate = 1;
+      ApplicationDeviceClass__UpdateDistance( DeviceObject, (XInt32)cmGetDistance() );
+      needUpdate = 1;
 
-    #endif
+  #endif
 
-    #ifdef _ApplicationDeviceClass__UpdateAngle_
+  #ifdef _ApplicationDeviceClass__UpdateAngle_
 
-        ApplicationDeviceClass__UpdateAngle( DeviceObject, (XInt32)cmGetAngle() );
-        needUpdate = 1;
+      ApplicationDeviceClass__UpdateAngle( DeviceObject, (XInt32)cmGetAngle() );
+      needUpdate = 1;
 
-    #endif
+  #endif
 
-    #ifdef _ApplicationDeviceClass__UpdateDebugHall1_
+  #ifdef _ApplicationDeviceClass__UpdateDebugHall1_
 
-        ApplicationDeviceClass__UpdateDebugHall1( DeviceObject, (XInt32)cmGetDebugHall1() );
-        needUpdate = 1;
+      ApplicationDeviceClass__UpdateDebugHall1( DeviceObject, (XInt32)cmGetDebugHall1() );
+      needUpdate = 1;
 
-    #endif
+  #endif
 
-    #ifdef _ApplicationDeviceClass__UpdateDebugHall2_
+  #ifdef _ApplicationDeviceClass__UpdateDebugHall2_
 
-        ApplicationDeviceClass__UpdateDebugHall2( DeviceObject, (XInt32)cmGetDebugHall2() );
-        needUpdate = 1;
+      ApplicationDeviceClass__UpdateDebugHall2( DeviceObject, (XInt32)cmGetDebugHall2() );
+      needUpdate = 1;
 
-    #endif
+  #endif
 
-    #ifdef _ApplicationDeviceClass__UpdateDebugPad1_
+  #ifdef _ApplicationDeviceClass__UpdateDebugPad1_
 
-        ApplicationDeviceClass__UpdateDebugPad1( DeviceObject, (XInt32)cmGetDebugPad1() );
-        needUpdate = 1;
+      ApplicationDeviceClass__UpdateDebugPad1( DeviceObject, (XInt32)cmGetDebugPad1() );
+      needUpdate = 1;
 
-    #endif
+  #endif
 
-    #ifdef _ApplicationDeviceClass__UpdateDebugPad2_
+  #ifdef _ApplicationDeviceClass__UpdateDebugPad2_
 
-        ApplicationDeviceClass__UpdateDebugPad2( DeviceObject, (XInt32)cmGetDebugPad2() );
-        needUpdate = 1;
+      ApplicationDeviceClass__UpdateDebugPad2( DeviceObject, (XInt32)cmGetDebugPad2() );
+      needUpdate = 1;
 
-    #endif
+  #endif
 
 #endif
 
@@ -468,6 +471,7 @@ void DeviceDriver_SetLampTest( void )
      BSP / driver function.
   */
     cmSetLampTest();
+    //adcMeas();
 }
 
 void DeviceDriver_DisableLampTest( void )

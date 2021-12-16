@@ -13,6 +13,11 @@
 #include <stdbool.h>
 #include "API.h"
 #include "led.h"
+#include "measuring.h"
+#include "stm32f4xx.h"
+#include "stm32f429i_discovery.h"
+
+extern uint8_t measCase = 0;
 
 /**
  * @brief Main initialisation funtkion
@@ -70,7 +75,7 @@ int32_t cmGetAngle(void){
  */
 int32_t cmGetDebugHall1(void){
     // Function call of all required functions to return a debug value...
-    int32_t hall = 2436; // Debug hall value
+    int32_t hall = ADC_HALL1_samples[10]; // Debug hall value
     return hall;
 }
 
@@ -82,7 +87,7 @@ int32_t cmGetDebugHall1(void){
  */
 int32_t cmGetDebugHall2(void){
     // Function call of all required functions to return a debug value...
-    int32_t hall = 666; // Debug hall value
+    int32_t hall = ADC_HALL2_samples[10]; // Debug hall value
     return hall;
 }
 
@@ -94,7 +99,7 @@ int32_t cmGetDebugHall2(void){
  */
 int32_t cmGetDebugPad1(void){
     // Function call of all required functions to return a debug value...
-    int32_t pad = 4567; // Debug pad value
+    int32_t pad = ADC_PAD1_samples[10]; // Debug pad value
     return pad;
 }
 
@@ -106,7 +111,7 @@ int32_t cmGetDebugPad1(void){
  */
 int32_t cmGetDebugPad2(void){
     // Function call of all required functions to return a debug value...
-    int32_t pad = 123; // Debug pad value
+    int32_t pad = ADC_PAD2_samples[10]; // Debug pad value
     return pad;
 }
 
@@ -128,4 +133,46 @@ void cmSetLampTest(void){
  */
 void cmDisableLampTest(void){
     ExtLedDisableLamptest(); // Switch all LEDs off
+}
+
+/**
+ * @brief ADC initialisation
+ * 
+ */
+void adcInit(void){
+    SystemClock_Config();				// Configure system clocks
+    gyro_disable();						// Disable gyro, use those analog inputs
+    MEAS_GPIO_analog_init();			// Configure GPIOs in analog mode
+	MEAS_timer_init();					// Configure the timer
+}
+
+/**
+ * @brief ADC Measuring
+ * 
+ */
+void adcMeas(void){
+	if(MEAS_data_ready){
+		switch (measCase){
+		case 0:
+			ADC3_IN4_DMA_init();	// Initialize ADC3 IN4
+			ADC3_IN4_DMA_start();   // Start measurement with ADC3 IN4
+			measCase = 1;
+			break;
+
+		case 1:
+			ADC3_IN6_DMA_init();	// Initialize ADC3 IN6
+			ADC3_IN6_DMA_start();	// Start measurement with ADC3 IN6
+			measCase = 2;
+			break;
+			
+		case 2:
+			ADC1_IN11_ADC2_IN13_dual_init();	// Initialize ADC1 IN11 & ADC2 IN13
+			ADC1_IN11_ADC2_IN13_dual_start();	// Start measurement with ADC1 IN11 & ADC2 IN13
+			measCase = 0;
+			break;
+
+		default:
+			break;
+		}
+	}
 }

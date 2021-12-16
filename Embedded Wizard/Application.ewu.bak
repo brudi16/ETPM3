@@ -1203,7 +1203,7 @@ class DistanceMeasurement : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::ValueDisplay ValueDisplay1
   {
-    preset Bounds = <87,226,153,258>;
+    preset Bounds = <42,226,198,258>;
     preset Outlet = ^Application::Device.Angle;
     preset Unit = "°";
     preset Precision = 0;

@@ -55,7 +55,9 @@
  * Includes
  *****************************************************************************/
 #include <stdio.h>
+#include <stdint.h>
 #include "stm32f4xx.h"
+#include "stm32f429xx.h"
 #include "stm32f429i_discovery.h"
 #include "stm32f429i_discovery_ts.h"
 
@@ -65,19 +67,44 @@
 /******************************************************************************
  * Variables
  *****************************************************************************/
-bool MEAS_data_ready = false;			///< New data is ready
-uint32_t MEAS_input_count = 1;			///< 1 or 2 input channels?
-//bool DAC_active = false;				///< DAC output active?
 
-static uint32_t ADC_sample_count = 0;	///< Index for buffer
-static int32_t ADC_samples[2*ADC_NUMS];///< ADC values of max. 2 input channels
-//static uint32_t DAC_sample = 0;			///< DAC output value
+bool MEAS_data_ready = true;			///< New data is ready
+
+//static uint32_t ADC_sample_count = 0;	///< Index for buffer
+int32_t ADC_PAD1_samples[ADC_NUMS_ACU];
+int32_t ADC_PAD2_samples[ADC_NUMS_ACU];
+int32_t ADC_HALL_samples[ADC_NUMS_ACU];
+int32_t ADC_HALL1_samples[ADC_NUMS_ACU];
+int32_t ADC_HALL2_samples[ADC_NUMS_ACU];
+
 
 
 /******************************************************************************
  * Functions
  *****************************************************************************/
 
+
+void gyro_disable(void)
+{
+	__HAL_RCC_GPIOC_CLK_ENABLE();		// Enable Clock for GPIO port C
+	/* Disable PC1 and PF8 first */
+	GPIOC->MODER &= ~GPIO_MODER_MODER1; // Reset mode for PC1
+	GPIOC->MODER |= GPIO_MODER_MODER1_0;	// Set PC1 as output
+	GPIOC->BSRR |= GPIO_BSRR_BR1;		// Set GYRO (CS) to 0 for a short time
+	HAL_Delay(10);						// Wait some time
+	GPIOC->MODER |= GPIO_MODER_MODER1_Msk; // Analog mode PC1 = ADC123_IN11
+	__HAL_RCC_GPIOF_CLK_ENABLE();		// Enable Clock for GPIO port F
+	GPIOF->OSPEEDR &= ~GPIO_OSPEEDR_OSPEED8;	// Reset speed of PF8
+	GPIOF->AFR[1] &= ~GPIO_AFRH_AFSEL8;			// Reset alternate func. of PF8
+	GPIOF->PUPDR &= ~GPIO_PUPDR_PUPD8;			// Reset pulup/down of PF8
+	HAL_Delay(10);						// Wait some time
+	GPIOF->MODER |= GPIO_MODER_MODER8_Msk; // Analog mode for PF6 = ADC3_IN4
+}
+
+void SystemClock_Config(void){
+	/* Set clock prescaler for ADCs */
+	ADC->CCR |= ADC_CCR_ADCPRE_0;
+}
 
 /** ***************************************************************************
  * @brief Configure GPIOs in analog mode.
@@ -88,51 +115,15 @@ static int32_t ADC_samples[2*ADC_NUMS];///< ADC values of max. 2 input channels
  * - ADC123_IN11 = GPIO PC1 (Hall Sensor 1)
  * - ADC123_IN13 = GPIO PC3 (Hall Sensor 2)
  *****************************************************************************/
-void MEAS_GPIO_analog_init(void)
-{
-	__HAL_RCC_GPIOF_CLK_ENABLE();		// Enable Clock for GPIO port F
-	GPIOF->MODER |= (GPIO_MODER_MODER6_Msk);// Analog mode for PF6 = ADC3_IN4
-	GPIOF->MODER |= (GPIO_MODER_MODER8_Msk);// Analog mode for PF8 = ADC3_IN6
-	__HAL_RCC_GPIOC_CLK_ENABLE();		// Enable Clock for GPIO port C
-	GPIOC->MODER |= (GPIO_MODER_MODER1_Msk);// Analog mode for PC1 = ADC123_IN11
-	GPIOC->MODER |= (GPIO_MODER_MODER3_Msk);// Analog mode for PC3 = ADC123_IN13
+void MEAS_GPIO_analog_init(void){
+	__HAL_RCC_GPIOF_CLK_ENABLE();				// Enable Clock for GPIO port F
+	GPIOF->MODER |= (GPIO_MODER_MODER6_Msk);	// Analog mode for PF6 = ADC3_IN4
+	GPIOF->MODER |= (GPIO_MODER_MODER8_Msk);	// Analog mode for PF8 = ADC3_IN6
+	__HAL_RCC_GPIOC_CLK_ENABLE();				// Enable Clock for GPIO port C
+	GPIOC->MODER |= (GPIO_MODER_MODER1_Msk);	// Analog mode for PC1 = ADC123_IN11
+	GPIOC->MODER |= (GPIO_MODER_MODER3_Msk);	// Analog mode for PC3 = ADC123_IN13
 }
 
-
-// /** ***************************************************************************
-//  * @brief Resets the DAC
-//  *
-//  * when it is no longer used.
-//  *****************************************************************************/
-// void DAC_reset(void) {
-// 	RCC->APB1RSTR |= RCC_APB1RSTR_DACRST;	// Reset the DAC
-// 	RCC->APB1RSTR &= ~RCC_APB1RSTR_DACRST;	// Release reset of the DAC
-// }
-
-
-// /** ***************************************************************************
-//  * @brief Initialize the DAC
-//  *
-//  * The output used is DAC_OUT2 = GPIO PA5
-//  * @n As DAC_OUT2 = GPIO PA5 (= same GPIO as ADC12_IN5)
-//  * it is possible to monitor the output voltage DAC_OUT2 by the input ADC12_IN5.
-//  *****************************************************************************/
-// void DAC_init(void)
-// {
-// 	__HAL_RCC_DAC_CLK_ENABLE();			// Enable Clock for DAC
-// 	DAC->CR |= DAC_CR_EN2;				// Enable DAC output 2
-// }
-
-
-// /** ***************************************************************************
-//  * @brief Increment the DAC value and write it to the output
-//  *
-//  *****************************************************************************/
-// void DAC_increment(void) {
-// 	DAC_sample += 20;				// Increment DAC output
-// 	if (DAC_sample >= (1UL << ADC_DAC_RES)) { DAC_sample = 0; }	// Go to 0
-// 	DAC->DHR12R2 = DAC_sample;		// Write new DAC output value
-// }
 
 
 /** ***************************************************************************
@@ -147,38 +138,6 @@ void ADC_reset(void) {
 }
 
 
-// /** ***************************************************************************
-//  * @brief Initialize the ADC in single conversion mode
-//  *
-//  * The input is ADC3_IN4 = GPIO PF6
-//  *****************************************************************************/
-// void ADC3_IN4_single_init(void)
-// {
-// 	MEAS_input_count = 1;				// Only 1 input is converted
-// 	__HAL_RCC_ADC3_CLK_ENABLE();		// Enable Clock for ADC3
-// 	ADC3->SQR3 |= (4UL << ADC_SQR3_SQ1_Pos);	// Input 4 = first conversion
-// }
-
-
-// /** ***************************************************************************
-//  * @brief Read one single value of the ADC in single conversion mode
-//  *
-//  * Start the conversion, wait in a while loop for end of conversion, read data.
-//  *****************************************************************************/
-// void ADC3_IN4_single_read(void)
-// {
-// 	ADC3->CR2 |= ADC_CR2_ADON;			// Enable ADC3
-// 	HAL_Delay(1);						// ADC needs some time to stabilize
-// 	ADC3->CR2 |= ADC_CR2_SWSTART;
-// 	while (!(ADC3->SR & ADC_SR_EOC)) { ; }	// Wait for end of conversion
-// 	ADC_samples[0] = ADC3->DR;			// Read the converted value
-// 	ADC3->CR2 &= ~ADC_CR2_ADON;			// Disable ADC3
-
-// 	ADC_reset();
-// 	MEAS_data_ready = true;
-// }
-
-
 /** ***************************************************************************
  * @brief Configure the timer to trigger the ADC(s)
  *
@@ -190,46 +149,7 @@ void MEAS_timer_init(void)
 	TIM2->PSC = TIM_PRESCALE;			// Prescaler for clock freq. = 1MHz
 	TIM2->ARR = TIM_TOP;				// Auto reload = counter top value
 	TIM2->CR2 |= TIM_CR2_MMS_1; 		// TRGO on update
-	/* If timer interrupt is not needed, comment the following lines */
-	TIM2->DIER |= TIM_DIER_UIE;			// Enable update interrupt
-	NVIC_ClearPendingIRQ(TIM2_IRQn);	// Clear pending interrupt on line 0
-	NVIC_EnableIRQ(TIM2_IRQn);			// Enable interrupt line 0 in the NVIC
 }
-
-
-// /** ***************************************************************************
-//  * @brief Initialize the ADC to be triggered by a timer
-//  *
-//  * The ADC3 trigger is set to TIM2 TRGO event
-//  * and the timer starts the ADC directly without CPU intervention.
-//  * @n The ADC is configured for end of conversion interrupt.
-//  * @n The input is ADC3_IN4 = GPIO PF6
-//  *****************************************************************************/
-// void ADC3_IN4_timer_init(void)
-// {
-// 	MEAS_input_count = 1;				// Only 1 input is converted
-// 	__HAL_RCC_ADC3_CLK_ENABLE();		// Enable Clock for ADC3
-// 	ADC3->SQR3 |= (4UL << ADC_SQR3_SQ1_Pos);	// Input 4 = first conversion
-// 	ADC3->CR1 |= ADC_CR1_EOCIE;			// Enable end of conversion interrupt
-// 	ADC3->CR2 |= (1UL << ADC_CR2_EXTEN_Pos);	// En. ext. trigger on rising e.
-// 	ADC3->CR2 |= (6UL << ADC_CR2_EXTSEL_Pos);	// Timer 2 TRGO event
-
-// }
-
-
-// /** ***************************************************************************
-//  * @brief Start the ADC and the timer
-//  *
-//  * The ADC isues an end of conversion interrupt.
-//  * The converted value can be read in the associated interrupt handler.
-//  *****************************************************************************/
-// void ADC3_IN4_timer_start(void)
-// {
-// 	NVIC_ClearPendingIRQ(ADC_IRQn);		// Clear pending interrupt on line 0
-// 	NVIC_EnableIRQ(ADC_IRQn);			// Enable interrupt line 0 in the NVIC
-// 	ADC3->CR2 |= ADC_CR2_ADON;			// Enable ADC3
-// 	TIM2->CR1 |= TIM_CR1_CEN;			// Enable timer
-// }
 
 
 /** ***************************************************************************
@@ -245,25 +165,25 @@ void MEAS_timer_init(void)
  *****************************************************************************/
 void ADC3_IN4_DMA_init(void)
 {
-	MEAS_input_count = 1;				// Only 1 input is converted
-	__HAL_RCC_ADC3_CLK_ENABLE();		// Enable Clock for ADC3
-	ADC3->SQR3 |= (4UL << ADC_SQR3_SQ1_Pos);	// Input 4 = first conversion
-	ADC3->CR2 |= (1UL << ADC_CR2_EXTEN_Pos);	// En. ext. trigger on rising e.
-	ADC3->CR2 |= (6UL << ADC_CR2_EXTSEL_Pos);	// Timer 2 TRGO event
-	ADC3->CR2 |= ADC_CR2_DMA;			// Enable DMA mode
-	__HAL_RCC_DMA2_CLK_ENABLE();		// Enable Clock for DMA2
-	DMA2_Stream1->CR &= ~DMA_SxCR_EN;	// Disable the DMA stream 1
+	MEAS_data_ready = false;
+	__HAL_RCC_ADC3_CLK_ENABLE();					// Enable Clock for ADC3
+	ADC3->SQR3 |= (4UL << ADC_SQR3_SQ1_Pos);		// Input 4 = first conversion
+	ADC3->CR2 |= (1UL << ADC_CR2_EXTEN_Pos);		// En. ext. trigger on rising e.
+	ADC3->CR2 |= (6UL << ADC_CR2_EXTSEL_Pos);		// Timer 2 TRGO event
+	ADC3->CR2 |= ADC_CR2_DMA;						// Enable DMA mode
+	__HAL_RCC_DMA2_CLK_ENABLE();					// Enable Clock for DMA2
+	DMA2_Stream1->CR &= ~DMA_SxCR_EN;				// Disable the DMA stream 1
 	while (DMA2_Stream1->CR & DMA_SxCR_EN) { ; }	// Wait for DMA to finish
-	DMA2->LIFCR |= DMA_LIFCR_CTCIF1;	// Clear transfer complete interrupt fl.
-	DMA2_Stream1->CR |= (2UL << DMA_SxCR_CHSEL_Pos);	// Select channel 2
-	DMA2_Stream1->CR |= DMA_SxCR_PL_1;		// Priority high
-	DMA2_Stream1->CR |= DMA_SxCR_MSIZE_1;	// Memory data size = 32 bit
-	DMA2_Stream1->CR |= DMA_SxCR_PSIZE_1;	// Peripheral data size = 32 bit
-	DMA2_Stream1->CR |= DMA_SxCR_MINC;	// Increment memory address pointer
-	DMA2_Stream1->CR |= DMA_SxCR_TCIE;	// Transfer complete interrupt enable
-	DMA2_Stream1->NDTR = ADC_NUMS;		// Number of data items to transfer
-	DMA2_Stream1->PAR = (uint32_t)&ADC3->DR;	// Peripheral register address
-	DMA2_Stream1->M0AR = (int32_t)ADC_samples;	// Buffer memory loc. address
+	DMA2->LIFCR |= DMA_LIFCR_CTCIF1;				// Clear transfer complete interrupt fl.
+	DMA2_Stream1->CR |= (2UL << DMA_SxCR_CHSEL_Pos);// Select channel 2
+	DMA2_Stream1->CR |= DMA_SxCR_PL_1;				// Priority high
+	DMA2_Stream1->CR |= DMA_SxCR_MSIZE_1;			// Memory data size = 32 bit
+	DMA2_Stream1->CR |= DMA_SxCR_PSIZE_1;			// Peripheral data size = 32 bit
+	DMA2_Stream1->CR |= DMA_SxCR_MINC;				// Increment memory address pointer
+	DMA2_Stream1->CR |= DMA_SxCR_TCIE;				// Transfer complete interrupt enable
+	DMA2_Stream1->NDTR = ADC_NUMS;					// Number of data items to transfer
+	DMA2_Stream1->PAR = (uint32_t)&ADC3->DR;		// Peripheral register address
+	DMA2_Stream1->M0AR = (int32_t)ADC_PAD1_samples;	// Buffer memory loc. address
 }
 
 
@@ -272,6 +192,56 @@ void ADC3_IN4_DMA_init(void)
  *
  *****************************************************************************/
 void ADC3_IN4_DMA_start(void)
+{
+	DMA2_Stream1->CR |= DMA_SxCR_EN;	// Enable DMA
+	NVIC_ClearPendingIRQ(DMA2_Stream1_IRQn);	// Clear pending DMA interrupt
+	NVIC_EnableIRQ(DMA2_Stream1_IRQn);	// Enable DMA interrupt in the NVIC
+	ADC3->CR2 |= ADC_CR2_ADON;			// Enable ADC3
+	TIM2->CR1 |= TIM_CR1_CEN;			// Enable timer
+}
+
+
+
+/** ***************************************************************************
+ * @brief Initialize ADC, timer and DMA for data acquisition in the background
+ *
+ * Uses ADC3 and DMA2_Stream1 Channel2
+ * @n The ADC3 trigger is set to TIM2 TRGO event
+ * and the timer starts the ADC directly without CPU intervention.
+ * @ The ADC3 triggers the DMA2_Stream1 to transfer the new data directly
+ * to memory without CPU intervention.
+ * @n The DMA triggers the transfer complete interrupt when all data is ready.
+ * @n The input is ADC3_IN4 = GPIO PF6
+ *****************************************************************************/
+void ADC3_IN6_DMA_init(void)
+{
+	MEAS_data_ready = false;
+	__HAL_RCC_ADC3_CLK_ENABLE();					// Enable Clock for ADC3
+	ADC3->SQR3 |= (6UL << ADC_SQR3_SQ1_Pos);		// Input 4 = first conversion
+	ADC3->CR2 |= (1UL << ADC_CR2_EXTEN_Pos);		// En. ext. trigger on rising e.
+	ADC3->CR2 |= (6UL << ADC_CR2_EXTSEL_Pos);		// Timer 2 TRGO event
+	ADC3->CR2 |= ADC_CR2_DMA;						// Enable DMA mode
+	__HAL_RCC_DMA2_CLK_ENABLE();					// Enable Clock for DMA2
+	DMA2_Stream1->CR &= ~DMA_SxCR_EN;				// Disable the DMA stream 1
+	while (DMA2_Stream1->CR & DMA_SxCR_EN) { ; }	// Wait for DMA to finish
+	DMA2->LIFCR |= DMA_LIFCR_CTCIF1;				// Clear transfer complete interrupt fl.
+	DMA2_Stream1->CR |= (2UL << DMA_SxCR_CHSEL_Pos);// Select channel 2
+	DMA2_Stream1->CR |= DMA_SxCR_PL_1;				// Priority high
+	DMA2_Stream1->CR |= DMA_SxCR_MSIZE_1;			// Memory data size = 32 bit
+	DMA2_Stream1->CR |= DMA_SxCR_PSIZE_1;			// Peripheral data size = 32 bit
+	DMA2_Stream1->CR |= DMA_SxCR_MINC;				// Increment memory address pointer
+	DMA2_Stream1->CR |= DMA_SxCR_TCIE;				// Transfer complete interrupt enable
+	DMA2_Stream1->NDTR = ADC_NUMS;					// Number of data items to transfer
+	DMA2_Stream1->PAR = (uint32_t)&ADC3->DR;		// Peripheral register address
+	DMA2_Stream1->M0AR = (int32_t)ADC_PAD2_samples;	// Buffer memory loc. address
+}
+
+
+/** ***************************************************************************
+ * @brief Start DMA, ADC and timer
+ *
+ *****************************************************************************/
+void ADC3_IN6_DMA_start(void)
 {
 	DMA2_Stream1->CR |= DMA_SxCR_EN;	// Enable DMA
 	NVIC_ClearPendingIRQ(DMA2_Stream1_IRQn);	// Clear pending DMA interrupt
@@ -296,17 +266,17 @@ void ADC3_IN4_DMA_start(void)
  * @n The input used with ADC1 is ADC123_IN13 = GPIO PC3
  * @n The input used with ADC2 is ADC12_IN5 = GPIO PA5
  *****************************************************************************/
-void ADC1_IN13_ADC3_IN6_dual_init(void)
+void ADC1_IN11_ADC2_IN13_dual_init(void)
 {
-	MEAS_input_count = 2;				// Only 1 input is converted
+	MEAS_data_ready = false;
 	__HAL_RCC_ADC1_CLK_ENABLE();		// Enable Clock for ADC1
-	__HAL_RCC_ADC3_CLK_ENABLE();		// Enable Clock for ADC3
+	__HAL_RCC_ADC2_CLK_ENABLE();		// Enable Clock for ADC2
 	ADC->CCR |= ADC_CCR_DMA_1;			// Enable DMA mode 2 = dual DMA
-	ADC->CCR |= ADC_CCR_MULTI_1 | ADC_CCR_MULTI_3; // ADC1 and ADC3
+	ADC->CCR |= ADC_CCR_MULTI_1 | ADC_CCR_MULTI_2; // ADC1 and ADC2
 	ADC1->CR2 |= (1UL << ADC_CR2_EXTEN_Pos);	// En. ext. trigger on rising e.
 	ADC1->CR2 |= (6UL << ADC_CR2_EXTSEL_Pos);	// Timer 2 TRGO event
-	ADC1->SQR3 |= (13UL << ADC_SQR3_SQ1_Pos);	// Input 13 = first conversion
-	ADC3->SQR3 |= (6UL << ADC_SQR3_SQ1_Pos);	// Input 5 = first conversion
+	ADC1->SQR3 |= (11UL << ADC_SQR3_SQ1_Pos);	// Input 11 = first conversion
+	ADC2->SQR3 |= (13UL << ADC_SQR3_SQ1_Pos);	// Input 13 = first conversion
 	__HAL_RCC_DMA2_CLK_ENABLE();		// Enable Clock for DMA2
 	DMA2_Stream4->CR &= ~DMA_SxCR_EN;	// Disable the DMA stream 4
 	while (DMA2_Stream4->CR & DMA_SxCR_EN) { ; }	// Wait for DMA to finish
@@ -319,163 +289,22 @@ void ADC1_IN13_ADC3_IN6_dual_init(void)
 	DMA2_Stream4->CR |= DMA_SxCR_TCIE;	// Transfer complete interrupt enable
 	DMA2_Stream4->NDTR = ADC_NUMS;		// Number of data items to transfer
 	DMA2_Stream4->PAR = (uint32_t)&ADC->CDR;	// Peripheral register address
-	DMA2_Stream4->M0AR = (int32_t)ADC_samples;	// Buffer memory loc. address
+	DMA2_Stream4->M0AR = (int32_t)ADC_HALL_samples;	// Buffer memory loc. address
 }
-
 
 /** ***************************************************************************
  * @brief Start DMA, ADC and timer
  *
  *****************************************************************************/
-void ADC1_IN13_ADC3_IN6_dual_start(void)
+
+void ADC1_IN11_ADC2_IN13_dual_start(void)
 {
 	DMA2_Stream4->CR |= DMA_SxCR_EN;	// Enable DMA
 	NVIC_ClearPendingIRQ(DMA2_Stream4_IRQn);	// Clear pending DMA interrupt
 	NVIC_EnableIRQ(DMA2_Stream4_IRQn);	// Enable DMA interrupt in the NVIC
 	ADC1->CR2 |= ADC_CR2_ADON;			// Enable ADC1
-	ADC3->CR2 |= ADC_CR2_ADON;			// Enable ADC3
+	ADC2->CR2 |= ADC_CR2_ADON;			// Enable ADC3
 	TIM2->CR1 |= TIM_CR1_CEN;			// Enable timer
-}
-
-
-/** ***************************************************************************
- * @brief Initialize ADC, timer and DMA for sequential acquisition = scan mode
- *
- * Uses ADC2 and DMA2_Stream3 channel1
- * @n The ADC2 trigger is set to TIM2 TRGO event
- * @n At each trigger both inputs are converted sequentially
- * and transfered to memory by the DMA.
- * @n As each conversion triggers the DMA, the number of transfers is doubled.
- * @n The DMA triggers the transfer complete interrupt when all data is ready.
- * @n The inputs used are ADC123_IN13 = GPIO PC3 and ADC12_IN5 = GPIO PA5
- *****************************************************************************/
-void ADC2_IN13_IN5_scan_init(void)
-{
-	MEAS_input_count = 2;				// Only 1 input is converted
-	__HAL_RCC_ADC2_CLK_ENABLE();		// Enable Clock for ADC2
-	ADC2->SQR1 |= ADC_SQR1_L_0;			// Convert 2 inputs
-	ADC2->SQR3 |= (13UL << ADC_SQR3_SQ1_Pos);	// Input 13 = first conversion
-	ADC2->SQR3 |= (5UL << ADC_SQR3_SQ2_Pos);	// Input 5 = second conversion
-	ADC2->CR1 |= ADC_CR1_SCAN;			// Enable scan mode
-	ADC2->CR2 |= (1UL << ADC_CR2_EXTEN_Pos);	// En. ext. trigger on rising e.
-	ADC2->CR2 |= (6UL << ADC_CR2_EXTSEL_Pos);	// Timer 2 TRGO event
-	ADC2->CR2 |= ADC_CR2_DMA;			// Enable DMA mode
-	__HAL_RCC_DMA2_CLK_ENABLE();		// Enable Clock for DMA2
-	DMA2_Stream3->CR &= ~DMA_SxCR_EN;	// Disable the DMA stream 3
-	while (DMA2_Stream3->CR & DMA_SxCR_EN) { ; }	// Wait for DMA to finish
-	DMA2->LIFCR |= DMA_LIFCR_CTCIF3;	// Clear transfer complete interrupt fl.
-	DMA2_Stream3->CR |= (1UL << DMA_SxCR_CHSEL_Pos);	// Select channel 1
-	DMA2_Stream3->CR |= DMA_SxCR_PL_1;		// Priority high
-	DMA2_Stream3->CR |= DMA_SxCR_MSIZE_1;	// Memory data size = 32 bit
-	DMA2_Stream3->CR |= DMA_SxCR_PSIZE_1;	// Peripheral data size = 32 bit
-	DMA2_Stream3->CR |= DMA_SxCR_MINC;	// Increment memory address pointer
-	DMA2_Stream3->CR |= DMA_SxCR_TCIE;	// Transfer complete interrupt enable
-	DMA2_Stream3->NDTR = 2*ADC_NUMS;	// Number of data items to transfer
-	DMA2_Stream3->PAR = (uint32_t)&ADC2->DR;	// Peripheral register address
-	DMA2_Stream3->M0AR = (int32_t)ADC_samples;	// Buffer memory loc. address
-}
-
-
-/** ***************************************************************************
- * @brief Start DMA, ADC and timer
- *
- *****************************************************************************/
-void ADC2_IN13_IN5_scan_start(void)
-{
-	DMA2_Stream3->CR |= DMA_SxCR_EN;	// Enable DMA
-	NVIC_ClearPendingIRQ(DMA2_Stream3_IRQn);	// Clear pending DMA interrupt
-	NVIC_EnableIRQ(DMA2_Stream3_IRQn);	// Enable DMA interrupt in the NVIC
-	ADC2->CR2 |= ADC_CR2_ADON;			// Enable ADC2
-	TIM2->CR1 |= TIM_CR1_CEN;			// Enable timer
-}
-
-
-/** ***************************************************************************
- * @brief Initialize ADC, timer and DMA for sequential acquisition = scan mode
- *
- * Uses ADC2 and DMA2_Stream1 channel2
- * @n The ADC2 trigger is set to TIM2 TRGO event
- * @n At each trigger both inputs are converted sequentially
- * and transfered to memory by the DMA.
- * @n As each conversion triggers the DMA, the number of transfers is doubled.
- * @n The DMA triggers the transfer complete interrupt when all data is ready.
- * @n The inputs used are ADC123_IN13 = GPIO PC3 and ADC3_IN4 = GPIO PF6
- *****************************************************************************/
-void ADC3_IN13_IN4_scan_init(void)
-{
-	MEAS_input_count = 2;				// Only 1 input is converted
-	__HAL_RCC_ADC3_CLK_ENABLE();		// Enable Clock for ADC3
-	ADC3->SQR1 |= ADC_SQR1_L_0;			// Convert 2 inputs
-	ADC3->SQR3 |= (13UL << ADC_SQR3_SQ1_Pos);	// Input 13 = first conversion
-	ADC3->SQR3 |= (4UL << ADC_SQR3_SQ2_Pos);	// Input 4 = second conversion
-	ADC3->CR1 |= ADC_CR1_SCAN;			// Enable scan mode
-	ADC3->CR2 |= (1UL << ADC_CR2_EXTEN_Pos);	// En. ext. trigger on rising e.
-	ADC3->CR2 |= (6UL << ADC_CR2_EXTSEL_Pos);	// Timer 2 TRGO event
-	ADC3->CR2 |= ADC_CR2_DMA;			// Enable DMA mode
-	__HAL_RCC_DMA2_CLK_ENABLE();		// Enable Clock for DMA2
-	DMA2_Stream1->CR &= ~DMA_SxCR_EN;	// Disable the DMA stream 1
-	while (DMA2_Stream1->CR & DMA_SxCR_EN) { ; }	// Wait for DMA to finish
-	DMA2->LIFCR |= DMA_LIFCR_CTCIF1;	// Clear transfer complete interrupt fl.
-	DMA2_Stream1->CR |= (2UL << DMA_SxCR_CHSEL_Pos);	// Select channel 2
-	DMA2_Stream1->CR |= DMA_SxCR_PL_1;		// Priority high
-	DMA2_Stream1->CR |= DMA_SxCR_MSIZE_1;	// Memory data size = 32 bit
-	DMA2_Stream1->CR |= DMA_SxCR_PSIZE_1;	// Peripheral data size = 32 bit
-	DMA2_Stream1->CR |= DMA_SxCR_MINC;	// Increment memory address pointer
-	DMA2_Stream1->CR |= DMA_SxCR_TCIE;	// Transfer complete interrupt enable
-	DMA2_Stream1->NDTR = 2*ADC_NUMS;	// Number of data items to transfer
-	DMA2_Stream1->PAR = (uint32_t)&ADC3->DR;	// Peripheral register address
-	DMA2_Stream1->M0AR = (int32_t)ADC_samples;	// Buffer memory loc. address
-
-}
-
-
-/** ***************************************************************************
- * @brief Start DMA, ADC and timer
- *
- *****************************************************************************/
-void ADC3_IN13_IN4_scan_start(void)
-{
-	DMA2_Stream1->CR |= DMA_SxCR_EN;	// Enable DMA
-	NVIC_ClearPendingIRQ(DMA2_Stream1_IRQn);	// Clear pending DMA interrupt
-	NVIC_EnableIRQ(DMA2_Stream1_IRQn);	// Enable DMA interrupt in the NVIC
-	ADC3->CR2 |= ADC_CR2_ADON;			// Enable ADC3
-	TIM2->CR1 |= TIM_CR1_CEN;			// Enable timer
-}
-
-
-// /** ***************************************************************************
-//  * @brief Interrupt handler for the timer 2
-//  *
-//  * @note This interrupt handler was only used for debugging purposes
-//  * and to increment the DAC value.
-//  *****************************************************************************/
-// void TIM2_IRQHandler(void)
-// {
-// 	TIM2->SR &= ~TIM_SR_UIF;			// Clear pending interrupt flag
-// 	if (DAC_active) {
-// 		DAC_increment();
-// 	}
-// }
-
-
-/** ***************************************************************************
- * @brief Interrupt handler for the ADCs
- *
- * Reads one sample from the ADC3 DataRegister and transfers it to a buffer.
- * @n Stops when ADC_NUMS samples have been read.
- *****************************************************************************/
-void ADC_IRQHandler(void)
-{
-	if (ADC3->SR & ADC_SR_EOC) {		// Check if ADC3 end of conversion
-		ADC_samples[ADC_sample_count++] = ADC3->DR;	// Read input channel 1 only
-		if (ADC_sample_count >= ADC_NUMS) {		// Buffer full
-			TIM2->CR1 &= ~TIM_CR1_CEN;	// Disable timer
-			ADC3->CR2 &= ~ADC_CR2_ADON;	// Disable ADC3
-			ADC_reset();
-			MEAS_data_ready = true;
-		}
-
-	}
 }
 
 
@@ -487,38 +316,15 @@ void ADC_IRQHandler(void)
  *****************************************************************************/
 void DMA2_Stream1_IRQHandler(void)
 {
-	if (DMA2->LISR & DMA_LISR_TCIF1) {	// Stream1 transfer compl. interrupt f.
-		NVIC_DisableIRQ(DMA2_Stream1_IRQn);	// Disable DMA interrupt in the NVIC
-		NVIC_ClearPendingIRQ(DMA2_Stream1_IRQn);// Clear pending DMA interrupt
-		DMA2_Stream1->CR &= ~DMA_SxCR_EN;	// Disable the DMA
+	if (DMA2->LISR & DMA_LISR_TCIF1) {					// Stream1 transfer compl. interrupt f.
+		NVIC_DisableIRQ(DMA2_Stream1_IRQn);				// Disable DMA interrupt in the NVIC
+		NVIC_ClearPendingIRQ(DMA2_Stream1_IRQn);		// Clear pending DMA interrupt
+		DMA2_Stream1->CR &= ~DMA_SxCR_EN;				// Disable the DMA
 		while (DMA2_Stream1->CR & DMA_SxCR_EN) { ; }	// Wait for DMA to finish
-		DMA2->LIFCR |= DMA_LIFCR_CTCIF1;// Clear transfer complete interrupt fl.
-		TIM2->CR1 &= ~TIM_CR1_CEN;		// Disable timer
-		ADC3->CR2 &= ~ADC_CR2_ADON;		// Disable ADC3
-		ADC3->CR2 &= ~ADC_CR2_DMA;		// Disable DMA mode
-		ADC_reset();
-		MEAS_data_ready = true;
-	}
-}
-
-
-/** ***************************************************************************
- * @brief Interrupt handler for DMA2 Stream3
- *
- * The samples from the ADC3 have been transfered to memory by the DMA2 Stream1
- * and are ready for processing.
- *****************************************************************************/
-void DMA2_Stream3_IRQHandler(void)
-{
-	if (DMA2->LISR & DMA_LISR_TCIF3) {	// Stream3 transfer compl. interrupt f.
-		NVIC_DisableIRQ(DMA2_Stream3_IRQn);	// Disable DMA interrupt in the NVIC
-		NVIC_ClearPendingIRQ(DMA2_Stream3_IRQn);// Clear pending DMA interrupt
-		DMA2_Stream3->CR &= ~DMA_SxCR_EN;	// Disable the DMA
-		while (DMA2_Stream3->CR & DMA_SxCR_EN) { ; }	// Wait for DMA to finish
-		DMA2->LIFCR |= DMA_LIFCR_CTCIF3;// Clear transfer complete interrupt fl.
-		TIM2->CR1 &= ~TIM_CR1_CEN;		// Disable timer
-		ADC2->CR2 &= ~ADC_CR2_ADON;		// Disable ADC2
-		ADC2->CR2 &= ~ADC_CR2_DMA;		// Disable DMA mode
+		DMA2->LIFCR |= DMA_LIFCR_CTCIF1;				// Clear transfer complete interrupt fl.
+		TIM2->CR1 &= ~TIM_CR1_CEN;						// Disable timer
+		ADC3->CR2 &= ~ADC_CR2_ADON;						// Disable ADC3
+		ADC3->CR2 &= ~ADC_CR2_DMA;						// Disable DMA mode
 		ADC_reset();
 		MEAS_data_ready = true;
 	}
@@ -550,70 +356,10 @@ void DMA2_Stream4_IRQHandler(void)
 		ADC->CCR &= ~ADC_CCR_DMA_1;		// Disable DMA mode
 		/* Extract combined samples */
 		for (int32_t i = ADC_NUMS-1; i >= 0; i--){
-			ADC_samples[2*i+1] = (ADC_samples[i] >> 16);
-			ADC_samples[2*i]   = (ADC_samples[i] & 0xffff);
+			ADC_HALL1_samples[i] = (ADC_HALL_samples[i] >> 16);
+			ADC_HALL2_samples[i]   = (ADC_HALL_samples[i] & 0xffff);
 		}
 		ADC_reset();
 		MEAS_data_ready = true;
 	}
 }
-
-
-/** ***************************************************************************
- * @brief Draw buffer data as curves
- *
- * and write the first two samples as numbers.
- * @n After drawing, the buffer is cleared to get ready for the next run.
- * @note Drawing outside of the display crashes the system!
- * @todo Create new .h and .c files for calculating and displaying
- * of signals and results.
- * The code of this function was put into the same file for debugging purposes
- * and should be moved to a separate file in the final version
- * because displaying is not related to measuring.
- *****************************************************************************/
-// void MEAS_show_data(void)
-// {
-// 	const uint32_t Y_OFFSET = 260;
-// 	const uint32_t X_SIZE = 240;
-// 	const uint32_t f = (1 << ADC_DAC_RES) / Y_OFFSET + 1;	// Scaling factor
-// 	uint32_t data;
-// 	uint32_t data_last;
-// 	/* Clear the display */
-// 	BSP_LCD_SetTextColor(LCD_COLOR_WHITE);
-// 	BSP_LCD_FillRect(0, 0, X_SIZE, Y_OFFSET+1);
-// 	/* Write first 2 samples as numbers */
-// 	BSP_LCD_SetFont(&Font24);
-// 	BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
-// 	BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
-// 	char text[16];
-// 	snprintf(text, 15, "1. sample %4d", (int)(ADC_samples[0]));
-// 	BSP_LCD_DisplayStringAt(0, 50, (uint8_t *)text, LEFT_MODE);
-// 	snprintf(text, 15, "2. sample %4d", (int)(ADC_samples[1]));
-// 	BSP_LCD_DisplayStringAt(0, 80, (uint8_t *)text, LEFT_MODE);
-// 	/* Draw the  values of input channel 1 as a curve */
-// 	BSP_LCD_SetTextColor(LCD_COLOR_BLUE);
-// 	data = ADC_samples[MEAS_input_count*0] / f;
-// 	for (uint32_t i = 1; i < ADC_NUMS; i++){
-// 		data_last = data;
-// 		data = (ADC_samples[MEAS_input_count*i]) / f;
-// 		if (data > Y_OFFSET) { data = Y_OFFSET; }// Limit value, prevent crash
-// 		BSP_LCD_DrawLine(4*(i-1), Y_OFFSET-data_last, 4*i, Y_OFFSET-data);
-// 	}
-// 	/* Draw the  values of input channel 2 (if present) as a curve */
-// 	if (MEAS_input_count == 2) {
-// 		BSP_LCD_SetTextColor(LCD_COLOR_RED);
-// 		data = ADC_samples[MEAS_input_count*0+1] / f;
-// 		for (uint32_t i = 1; i < ADC_NUMS; i++){
-// 			data_last = data;
-// 			data = (ADC_samples[MEAS_input_count*i+1]) / f;
-// 			if (data > Y_OFFSET) { data = Y_OFFSET; }// Limit value, prevent crash
-// 			BSP_LCD_DrawLine(4*(i-1), Y_OFFSET-data_last, 4*i, Y_OFFSET-data);
-// 		}
-// 	}
-// 	/* Clear buffer and flag */
-// 	for (uint32_t i = 0; i < ADC_NUMS; i++){
-// 		ADC_samples[2*i] = 0;
-// 		ADC_samples[2*i+1] = 0;
-// 	}
-// 	ADC_sample_count = 0;
-// }
