@@ -66,6 +66,7 @@ Application/GeneratedCode/
 ThirdParty/
 TargetSpecific/
 PlatformPackage/
+GeneratedCode/
 
 Doxyfile
 *.DS_Store
@@ -82,3 +83,4 @@ Doxyfile
 *.htm
 *.txt
 *.ld
+*.bak

@@ -67,6 +67,7 @@
 /******************************************************************************
  * Variables
  *****************************************************************************/
+
 bool MEAS_data_ready = true;			///< New data is ready
 
 //static uint32_t ADC_sample_count = 0;	///< Index for buffer
@@ -77,9 +78,11 @@ int32_t ADC_HALL1_samples[ADC_NUMS_ACU];
 int32_t ADC_HALL2_samples[ADC_NUMS_ACU];
 
 
+
 /******************************************************************************
  * Functions
  *****************************************************************************/
+
 
 void gyro_disable(void)
 {
@@ -103,7 +106,6 @@ void SystemClock_Config(void){
 	ADC->CCR |= ADC_CCR_ADCPRE_0;
 }
 
-
 /** ***************************************************************************
  * @brief Configure GPIOs in analog mode.
  *
@@ -121,6 +123,7 @@ void MEAS_GPIO_analog_init(void){
 	GPIOC->MODER |= (GPIO_MODER_MODER1_Msk);	// Analog mode for PC1 = ADC123_IN11
 	GPIOC->MODER |= (GPIO_MODER_MODER3_Msk);	// Analog mode for PC3 = ADC123_IN13
 }
+
 
 
 /** ***************************************************************************
@@ -196,6 +199,7 @@ void ADC3_IN4_DMA_start(void)
 	ADC3->CR2 |= ADC_CR2_ADON;			// Enable ADC3
 	TIM2->CR1 |= TIM_CR1_CEN;			// Enable timer
 }
+
 
 
 /** ***************************************************************************
@@ -288,11 +292,11 @@ void ADC1_IN11_ADC2_IN13_dual_init(void)
 	DMA2_Stream4->M0AR = (int32_t)ADC_HALL_samples;	// Buffer memory loc. address
 }
 
-
 /** ***************************************************************************
  * @brief Start DMA, ADC and timer
  *
  *****************************************************************************/
+
 void ADC1_IN11_ADC2_IN13_dual_start(void)
 {
 	DMA2_Stream4->CR |= DMA_SxCR_EN;	// Enable DMA
