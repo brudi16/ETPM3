@@ -14,6 +14,7 @@
 #include "API.h"
 #include "led.h"
 #include "measuring.h"
+#include "signalProcessing.h"
 #include "stm32f4xx.h"
 #include "stm32f429i_discovery.h"
 
@@ -51,7 +52,7 @@ int32_t cmGetCurrent(void){
  */
 int32_t cmGetDistance(void){
     // Function call of all required functions to return the distance value...
-    int32_t distance = 155; // Distance in mm
+    int32_t distance = getDistance(ADC_HALL1_samples, ADC_HALL2_samples, ADC_NUMS); // Distance in mm
     return distance;
 }
 
