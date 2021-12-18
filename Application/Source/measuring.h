@@ -22,7 +22,7 @@
 extern bool MEAS_data_ready;
 extern bool DAC_active;
 
-#define ADC_NUMS		240			    ///< Number of samples for standart measurement
+#define ADC_NUMS		60			    ///< Number of samples for standart measurement
 #define ADC_NUMS_ACU	(4*ADC_NUMS)	///< Number of samples for acurate measurement
 #define ADC_DAC_RES		12			    ///< Resolution
 #define ADC_FS			600			    ///< Sampling freq. => 12 samples for a 50Hz period
@@ -45,11 +45,11 @@ void SystemClock_Config(void);
 void MEAS_GPIO_analog_init(void);
 void MEAS_timer_init(void);
 void ADC_reset(void);
-void ADC3_IN4_DMA_init(void);
+void ADC3_IN4_DMA_init(uint8_t arraySize);
 void ADC3_IN4_DMA_start(void);
-void ADC3_IN6_DMA_init(void);
+void ADC3_IN6_DMA_init(uint8_t arraySize);
 void ADC3_IN6_DMA_start(void);
-void ADC1_IN11_ADC2_IN13_dual_init(void);
+void ADC1_IN11_ADC2_IN13_dual_init(uint8_t arraySize);
 void ADC1_IN11_ADC2_IN13_dual_start(void);
 
 #endif

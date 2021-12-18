@@ -50,6 +50,7 @@
 #include "API.h"
 #include "DeviceDriver.h"
 #include <stdint.h>
+#include <stdbool.h>
 
 /*
    Include the generated header file to access the device class, for example to
@@ -489,6 +490,19 @@ void DeviceDriver_DisableLampTest( void )
      BSP / driver function.
   */
     cmDisableLampTest();
+}
+
+/**
+ * @brief Switch beween "normal" and "precision" meassurement
+ * 
+ * @param precision 
+ */
+void DeviceDriver_SetPrecision(bool precision){
+  if(precision){
+    cmSetPrecision(true);
+  } else {
+    cmSetPrecision(false);
+  }
 }
 
 

@@ -18,7 +18,8 @@
 #include "stm32f4xx.h"
 #include "stm32f429i_discovery.h"
 
-extern uint8_t measCase = 0;
+uint8_t measCase = 0;
+uint8_t arraySize = ADC_NUMS;
 
 /**
  * @brief Main initialisation funtkion
@@ -52,7 +53,7 @@ int32_t cmGetCurrent(void){
  */
 int32_t cmGetDistance(void){
     // Function call of all required functions to return the distance value...
-    int32_t distance = getDistance(ADC_HALL1_samples, ADC_HALL2_samples, ADC_NUMS); // Distance in mm
+    int32_t distance = 152; // Distance in mm
     return distance;
 }
 
@@ -155,19 +156,19 @@ void adcMeas(void){
 	if(MEAS_data_ready){
 		switch (measCase){
 		case 0:
-			ADC3_IN4_DMA_init();	// Initialize ADC3 IN4
+			ADC3_IN4_DMA_init(arraySize);	// Initialize ADC3 IN4
 			ADC3_IN4_DMA_start();   // Start measurement with ADC3 IN4
 			measCase = 1;
 			break;
 
 		case 1:
-			ADC3_IN6_DMA_init();	// Initialize ADC3 IN6
+			ADC3_IN6_DMA_init(arraySize);	// Initialize ADC3 IN6
 			ADC3_IN6_DMA_start();	// Start measurement with ADC3 IN6
 			measCase = 2;
 			break;
 			
 		case 2:
-			ADC1_IN11_ADC2_IN13_dual_init();	// Initialize ADC1 IN11 & ADC2 IN13
+			ADC1_IN11_ADC2_IN13_dual_init(arraySize);	// Initialize ADC1 IN11 & ADC2 IN13
 			ADC1_IN11_ADC2_IN13_dual_start();	// Start measurement with ADC1 IN11 & ADC2 IN13
 			measCase = 0;
 			break;
@@ -176,4 +177,17 @@ void adcMeas(void){
 			break;
 		}
 	}
+}
+
+/**
+ * @brief Set Precision
+ * 
+ */
+
+void cmSetPrecision(bool precision){
+    if(precision){
+        arraySize = ADC_NUMS_ACU;
+    } else{
+        arraySize = ADC_NUMS;
+    }
 }
