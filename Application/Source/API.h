@@ -19,5 +19,6 @@ void cmDisableLampTest(void);
 void adcInit(void);
 void adcMeas(void);
 void cmSetPrecision(bool precision);
+void cmGetSelectetWire(int32_t selection);
 
 #endif /* INC_API_H_ */

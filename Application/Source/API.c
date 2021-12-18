@@ -20,6 +20,7 @@
 
 uint8_t measCase = 0;
 uint8_t arraySize = ADC_NUMS;
+int32_t selectetWire = 1;
 
 /**
  * @brief Main initialisation funtkion
@@ -41,7 +42,7 @@ void cmInitAll(void){
  */
 int32_t cmGetCurrent(void){
     // Function call of all required functions to return the current value...
-    int32_t current = 7; // This variable represense the meassured current in ampere
+    int32_t current = selectetWire; // This variable represense the meassured current in ampere
     return current;
 }
 
@@ -183,11 +184,21 @@ void adcMeas(void){
  * @brief Set Precision
  * 
  */
-
 void cmSetPrecision(bool precision){
     if(precision){
         arraySize = ADC_NUMS_ACU;
     } else{
         arraySize = ADC_NUMS;
+    }
+}
+
+/**
+ * @brief Get selectet Wire
+ * 
+ * @param selection 
+ */
+void cmGetSelectetWire(int32_t selection){
+    if(selection <= 2){
+        selectetWire = selection;    
     }
 }

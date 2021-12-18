@@ -505,5 +505,14 @@ void DeviceDriver_SetPrecision(bool precision){
   }
 }
 
+/**
+ * @brief Get the selectet wire
+ * 
+ * @param selection 
+ */
+void DeviceDriver_SetWireSelection(int32_t selection){
+  cmGetSelectetWire(selection);
+}
+
 
 /* msy */

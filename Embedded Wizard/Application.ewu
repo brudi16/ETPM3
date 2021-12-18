@@ -1668,25 +1668,6 @@ class DeviceClass : Templates::DeviceClass
     $endif
   }
 
-  // Device classes are assembled from 'Commands', 'Properties' and 'System Events'. \
-  // For this purpose use the following prepared templates from the Gallery folder \
-  // 'Device':
-  // 
-  // Command - method to trigger actions in the underlying device or query data from \
-  // the device.
-  // 
-  // Property - variable to represent or modify a setting or state value existing \
-  // within the underlying device.
-  // 
-  // System Event - represents an event or notifications the underlying device may \
-  // report.
-  // 
-  // For more details please visit: https://doc.embedded-wizard.de/device-class-and-device-driver
-  note legend Note4
-  {
-    attr Bounds = <310,600,1400,770>;
-  }
-
   // The method 'Init' is executed just in the moment when new instance of 'Application::DeviceClass' \
   // is created. It is suitable to:
   // - initialize the hardware represented by the interface.
@@ -1921,6 +1902,33 @@ class DeviceClass : Templates::DeviceClass
 
     // Notify all associated property observers.
     notifyobservers ^Precision;
+  }
+
+  $rect <40,480,240,520>
+  property int32 SelectWire = 1;
+
+  $rect <40,520,240,560>
+  onset SelectWire
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure SelectWire == value )
+      return;
+
+    // Remember the property's new value.
+    pure SelectWire = value;
+
+    // TO DO:
+    // 
+    // Now you can handle the alternation of the property.
+    $if !$prototyper
+      native ( value )
+      {
+        DeviceDriver_SetWireSelection(value);
+      }
+    $endif
+
+    // Notify all associated property observers.
+    notifyobservers ^SelectWire;
   }
 }
 
@@ -2725,7 +2733,7 @@ class CalibrationWindow1 : Core::Group
   slot NextDialog
   {
     if (IsActiveDialog(true)) 
-      GetRoot().SwitchToDialog( new Application::CalibrationWindow2, Application::SlideLeft, null, null, null, Application::SlideLeft, null, null, null, null, false );
+      GetRoot().SwitchToDialog( new Application::CalibrationWindow2, null, null, null, null, null, null, null, null, null, false );
   }
 }
 
@@ -2954,14 +2962,14 @@ class CalibrationWindow2 : Core::Group
   slot NextDialog
   {
     if (IsActiveDialog(true)) 
-      GetRoot().SwitchToDialog( new Application::CalibrationWindow3, Application::SlideLeft, null, null, null, Application::SlideLeft, null, null, null, null, false );
+      GetRoot().SwitchToDialog( new Application::CalibrationWindow3, null, null, null, null, null, null, null, null, null, false );
   }
 
   $rect <260,280,460,320>
   slot PreviosDialog
   {
     if (IsActiveDialog(true)) 
-      GetRoot().SwitchToDialog( new Application::CalibrationWindow1, Application::SlideRight, null, null, null, Application::SlideRight, null, null, null, null, false );
+      GetRoot().SwitchToDialog( new Application::CalibrationWindow1, null, null, null, null, null, null, null, null, null, false );
   }
 }
 
@@ -3190,14 +3198,14 @@ class CalibrationWindow3 : Core::Group
   slot NextDialog
   {
     if (IsActiveDialog(true)) 
-      GetRoot().SwitchToDialog( new Application::CalibrationWindow4, Application::SlideLeft, null, null, null, Application::SlideLeft, null, null, null, null, false );
+      GetRoot().SwitchToDialog( new Application::CalibrationWindow4, null, null, null, null, null, null, null, null, null, false );
   }
 
   $rect <260,280,460,320>
   slot PreviosDialog
   {
     if (IsActiveDialog(true)) 
-      GetRoot().SwitchToDialog( new Application::CalibrationWindow2, Application::SlideRight, null, null, null, Application::SlideRight, null, null, null, null, false );
+      GetRoot().SwitchToDialog( new Application::CalibrationWindow2, null, null, null, null, null, null, null, null, null, false );
   }
 }
 
@@ -3426,14 +3434,14 @@ class CalibrationWindow4 : Core::Group
   slot NextDialog
   {
     if (IsActiveDialog(true)) 
-      GetRoot().SwitchToDialog( new Application::CalibrationWindow5, Application::SlideLeft, null, null, null, Application::SlideLeft, null, null, null, null, false );
+      GetRoot().SwitchToDialog( new Application::CalibrationWindow5, null, null, null, null, null, null, null, null, null, false );
   }
 
   $rect <260,280,460,320>
   slot PreviosDialog
   {
     if (IsActiveDialog(true)) 
-      GetRoot().SwitchToDialog( new Application::CalibrationWindow3, Application::SlideRight, null, null, null, Application::SlideRight, null, null, null, null, false );
+      GetRoot().SwitchToDialog( new Application::CalibrationWindow3, null, null, null, null, null, null, null, null, null, false );
   }
 }
 
@@ -3662,14 +3670,14 @@ class CalibrationWindow5 : Core::Group
   slot NextDialog
   {
     if (IsActiveDialog(true)) 
-      GetRoot().SwitchToDialog( new Application::CalibrationWindow6, Application::SlideLeft, null, null, null, Application::SlideLeft, null, null, null, null, false );
+      GetRoot().SwitchToDialog( new Application::CalibrationWindow6, null, null, null, null, null, null, null, null, null, false );
   }
 
   $rect <260,280,460,320>
   slot PreviosDialog
   {
     if (IsActiveDialog(true)) 
-      GetRoot().SwitchToDialog( new Application::CalibrationWindow4, Application::SlideRight, null, null, null, Application::SlideRight, null, null, null, null, false );
+      GetRoot().SwitchToDialog( new Application::CalibrationWindow4, null, null, null, null, null, null, null, null, null, false );
   }
 }
 
@@ -3898,14 +3906,14 @@ class CalibrationWindow6 : Core::Group
   slot NextDialog
   {
     if (IsActiveDialog(true)) 
-      GetRoot().SwitchToDialog( new Application::CalibrationWindow7, Application::SlideLeft , null, null, null, Application::SlideLeft, null, null, null, null, false );
+      GetRoot().SwitchToDialog( new Application::CalibrationWindow7, null, null, null, null, null, null, null, null, null, false );
   }
 
   $rect <260,280,460,320>
   slot PreviosDialog
   {
     if (IsActiveDialog(true)) 
-      GetRoot().SwitchToDialog( new Application::CalibrationWindow5, Application::SlideRight, null, null, null, Application::SlideRight, null, null, null, null, false );
+      GetRoot().SwitchToDialog( new Application::CalibrationWindow5, null, null, null, null, null, null, null, null, null, false );
   }
 }
 
@@ -4134,7 +4142,7 @@ class CalibrationWindow7 : Core::Group
   slot PreviosDialog
   {
     if (IsActiveDialog(true)) 
-      GetRoot().SwitchToDialog( new Application::CalibrationWindow6, Application::SlideRight, null, null, null, Application::SlideRight, null, null, null, null, false );
+      GetRoot().SwitchToDialog( new Application::CalibrationWindow6, null, null, null, null, null, null, null, null, null, false );
   }
 }
 
@@ -4387,6 +4395,7 @@ class Settings : Core::Group
   object WidgetSet::HorizontalSlider HorizontalSlider
   {
     preset Bounds = <20,174,220,224>;
+    preset Outlet = ^Application::Device.SelectWire;
     preset MaxValue = 2;
     preset CurrentValue = 1;
     preset Appearance = WidgetSet::HorizontalSlider_Medium;
