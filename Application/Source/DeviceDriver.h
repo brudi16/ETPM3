@@ -43,6 +43,8 @@
   {
 #endif
 
+#include <stdbool.h>
+#include <stdint.h>
 
 /*******************************************************************************
 * FUNCTION:
@@ -156,6 +158,8 @@ void DeviceDriver_SetTime( XUInt32 aTime );
 *******************************************************************************/
 void DeviceDriver_SetLampTest( void );
 void DeviceDriver_DisableLampTest( void );
+void DeviceDriver_SetPrecision(bool precision);
+void DeviceDriver_SetWireSelection(int32_t selection);
 
 
 #ifdef __cplusplus
