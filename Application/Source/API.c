@@ -14,6 +14,7 @@
 #include "API.h"
 #include "led.h"
 #include "measuring.h"
+#include "calculations.h"
 #include "signalProcessing.h"
 #include "stm32f4xx.h"
 #include "stm32f429i_discovery.h"
@@ -80,7 +81,11 @@ int32_t cmGetAngle(void){
  */
 int32_t cmGetDebugHall1(void){
     // Function call of all required functions to return a debug value...
-    int32_t hall = ADC_HALL1_samples[10]; // Debug hall value
+		calc_removeDc(ADC_HALL1_samples,ADC_NUMS);
+    int32_t hall = (int32_t)calc_peakToPeak_av(ADC_HALL1_samples, ADC_NUMS); // Debug hall value
+
+    
+
     return hall;
 }
 
@@ -92,7 +97,9 @@ int32_t cmGetDebugHall1(void){
  */
 int32_t cmGetDebugHall2(void){
     // Function call of all required functions to return a debug value...
-    int32_t hall = ADC_HALL2_samples[10]; // Debug hall value
+    calc_removeDc(ADC_HALL2_samples,ADC_NUMS);
+    int32_t hall = (int32_t)calc_peakToPeak_av(ADC_HALL2_samples, ADC_NUMS); // Debug hall value
+
     return hall;
 }
 
@@ -104,7 +111,9 @@ int32_t cmGetDebugHall2(void){
  */
 int32_t cmGetDebugPad1(void){
     // Function call of all required functions to return a debug value...
-    int32_t pad = ADC_PAD1_samples[10]; // Debug pad value
+    calc_removeDc(ADC_PAD1_samples,ADC_NUMS);
+    int32_t pad = (int32_t)calc_peakToPeak_av(ADC_PAD1_samples, ADC_NUMS); // Debug pad value
+
     return pad;
 }
 
@@ -116,7 +125,8 @@ int32_t cmGetDebugPad1(void){
  */
 int32_t cmGetDebugPad2(void){
     // Function call of all required functions to return a debug value...
-    int32_t pad = ADC_PAD2_samples[10]; // Debug pad value
+    calc_removeDc(ADC_PAD2_samples,ADC_NUMS);
+    int32_t pad = (int32_t)calc_peakToPeak_av(ADC_PAD2_samples, ADC_NUMS); // Debug pad value
     return pad;
 }
 

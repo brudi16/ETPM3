@@ -7,13 +7,14 @@
 #ifndef SRC_LUT_H
 #define SRC_LUT_H
 
+#include <stdint.h>
 /******************************************************************************
  * Defines
  *****************************************************************************/
 #define LUT_SIZE_PAD    200          ///< Length of the LUT for the Pads
-//#define LUT_SIZE_HALL  200          ///< Length of the LUT for the Hall Sensor  
+//#define LUT_SIZE_HALL  200          ///< Length of the LUT for the Hall Sensor
 
-extern int16_t padLut[LUT_SIZE_PAD];
+extern uint16_t padLut[LUT_SIZE_PAD];
 //extern int16_t hallLut[LUT_SIZE];
 
 /******************************************************************************

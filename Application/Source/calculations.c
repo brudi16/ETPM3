@@ -170,7 +170,7 @@ int32_t LinearInterpol(int32_t x0, int32_t y0, int32_t x1, int32_t y1, int32_t x
  * @param yValue    y-value of the searched x-value
  * @return int32_t 
  *****************************************************************************/
-int32_t getXFromY(int32_t array[], int32_t size, int32_t yValue){
+int32_t getXFromY(uint16_t array[], int32_t size, int32_t yValue){
     int32_t xValue = 0; // Output variable
     int16_t i;      // Loop variable
 
@@ -234,4 +234,4 @@ float calcStdDev(int32_t array[], int32_t size) {
     }
     return sqrt(SD / 10);
 }
- int8_t Calc_Angle()
+// int8_t Calc_Angle()

@@ -9,6 +9,8 @@
 #ifndef SRC_CALCULATIONS_H_
 #define SRC_CALCULATIONS_H_
 
+//#include "stdint.h"
+
 /******************************************************************************
  * Functions
  *****************************************************************************/
@@ -25,7 +27,7 @@ float calcStdDev(int32_t array[], int32_t size);
 int32_t LinearInterpol(int32_t x0, int32_t y0, int32_t x1, int32_t y1, int32_t xp);
 
 // Search function
-int32_t getXFromY(int32_t array[], int32_t size, int32_t yValue);
+int32_t getXFromY(uint16_t array[], int32_t size, int32_t yValue);
 
 #endif /* SRC_CALCULATIONS_H_ */
 
