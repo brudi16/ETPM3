@@ -418,38 +418,6 @@ class DetectorScreen : Core::Group
     */
   }
 
-  // To do:
-  // 
-  // - Adjust the visible size of your component (the thick blue border).
-  // 
-  // - The simplest way to compose the appearance of the component is to use the \
-  // 'Views' and 'Widget Sets' from the Gallery.
-  // 
-  // - To react to touch or keyboard events use the templates from the Gallery folder \
-  // 'Event Handlers'.
-  // 
-  // - To perform transitions (animations) use the templates from the Gallery folder \
-  // 'Effects'.
-  // 
-  // - To implement the interface of the component use the 'Property' template from \
-  // the Gallery folder 'Chora'.
-  // 
-  // - To store values use the 'Variable' and 'Array' templates available in the \
-  // Gallery folder 'Chora'.
-  // 
-  // - To implement behavior use the 'Method' and 'Slot Method' templates available \
-  // in the Gallery folder 'Chora'.
-  // 
-  // - In the method 'UpdateViewState()' you can put code to update the state of \
-  // views enclosed in your component.
-  // 
-  // - In the method 'UpdateLayout()' you can put code to perform sophisticated layout \
-  // calculation for enclosed views.
-  note legend Note1
-  {
-    attr Bounds = <480,290,1260,610>;
-  }
-
   $rect <20,20,160,60>
   object Views::Rectangle Rectangle
   {
@@ -504,27 +472,57 @@ class DetectorScreen : Core::Group
   $rect <550,60,750,100>
   object Effects::BoolEffect ShowIcon
   {
-    preset Outlet = ^Image.Visible;
+    preset Outlet = null;
     preset Enabled = true;
   }
 
   $rect <550,100,750,140>
   object Effects::BoolEffect ShowText
   {
-    preset Outlet = ^WarningMessage.Visible;
-    preset Enabled = false;
+    preset Outlet = null;
+    preset Enabled = true;
   }
 
-  $rect <550,160,750,200>
-  method void Method()
-  {
-    //if(false){
-    //  ShowIcon.Enabled = true;
-    //  ShowText.Enabled = true;
-    //} else {
-      Image.Visible = false;
-    //}
+  // Variable to reference the device class the entire lifetime of the application. \
+  // This avoids that the device class will be deleted by the Garbage Collector.
+  $rect <550,0,750,40>
+  var Application::DeviceClass Device = Application::Device;
 
+  $rect <260,240,460,280>
+  object Core::PropertyObserver PropertyObserver
+  {
+    preset OnEvent = onEvent;
+    preset Outlet = ^Application::Device.MainsDetected;
+  }
+
+  // This slot method is executed when the associated property observer 'PropertyObserver' \
+  // is notified.
+  $rect <460,240,660,280>
+  slot onEvent
+  {
+    //if(Device.MainsDetected){
+    //  postsignal ShowIcon.StartEffect;
+    //  postsignal ShowText.StartEffect;
+    //} else {
+    //  postsignal ShowIcon.StopEffect;
+    //  postsignal ShowText.StopEffect;
+    //}
+    Image.Visible = Device.MainsDetected;
+    WarningMessage.Visible = Device.MainsDetected;
+  }
+
+  // The object 'PropertyObserver' is a handler of property notifications. When the \
+  // affected property is notified, the observer calls the associated slot method \
+  // 'onEvent' automatically. Within the 'onEvent' method you can react to the notification. \
+  // The method 'onEvent' exists for your convenience only. You can remove it and \
+  // connect the observer with another slot method. See inline documentation inside \
+  // the method.
+  // 
+  // Don't forget to connect the observer with the property of interest. To do this \
+  // set the property 'Outlet' of the observer to refer to the desired property.
+  note legend Note
+  {
+    attr Bounds = <670,240,1170,440>;
   }
 }
 
@@ -1241,6 +1239,25 @@ class DistanceMeasurement : Core::Group
     if ( IsActiveDialog( true ))
       Owner.DismissDialog( this, null, null, null, null, null, true );
   }
+
+  $rect <20,20,160,60>
+  object WidgetSet::ValueDisplay ValueDisplay2
+  {
+    preset Bounds = <136,279,234,311>;
+    preset Unit = "mm";
+    preset Precision = 0;
+    preset CurrentValue = 99;
+    preset Appearance = WidgetSet::ValueDisplay_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text Text1
+  {
+    preset Bounds = <60,281,120,311>;
+    preset String = "σ =";
+    preset Font = Application::Font;
+    preset Color = #000000FF;
+  }
 }
 
 $rect <550,-120,750,-80>
@@ -1857,7 +1874,7 @@ class DeviceClass : Templates::DeviceClass
   }
 
   $rect <970,280,1170,320>
-  property bool MainsDetected;
+  property bool MainsDetected = false;
 
   $rect <970,320,1170,360>
   method void UpdateMainsDetected( arg bool aNewValue )
@@ -1923,11 +1940,7 @@ class DeviceClass : Templates::DeviceClass
     $if !$prototyper
       native ( value )
       {
-        if(value){
-          DeviceDriver_SetPrecision(true);
-        } else {
-          DeviceDriver_SetPrecision(false);
-        }
+        DeviceDriver_SetWireSelection(value);
       }
     $endif
 
@@ -4431,4 +4444,21 @@ class Settings : Core::Group
     preset Font = Application::Font;
     preset Color = #000000FF;
   }
+}
+
+// This is a font resource.
+$rect <550,40,750,80>
+$output false
+resource Resources::Font Font1
+{
+  attr fontname FontName = Cambria Math;
+  attr fontheight Height = 32;
+  attr fontquality Quality = High;
+  attr fontranges Ranges = 0x20-0xFF;
+  attr fontaspectratio AspectRatio = 1.0;
+  attr fontbold Bold = false;
+  attr fontitalic Italic = false;
+  attr fontkerning Kerning = true;
+  attr fontheightmode HeightMode = Compatible;
+  attr fontrowdistance RowDistance;
 }

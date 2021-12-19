@@ -356,6 +356,13 @@ int DeviceDriver_ProcessData( void )
 
   #endif
 
+  #ifdef _ApplicationDeviceClass__UpdateMainsDetected_
+
+      ApplicationDeviceClass__UpdateMainsDetected( DeviceObject, (XBool)cmMainsDetected() );
+      needUpdate = 1;
+
+  #endif
+
 #endif
 
   /*

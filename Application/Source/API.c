@@ -202,3 +202,17 @@ void cmGetSelectetWire(int32_t selection){
         selectetWire = selection;    
     }
 }
+
+/**
+ * @brief 
+ * 
+ * @return true 
+ */
+bool cmMainsDetected(void){
+    if(selectetWire >=1){
+        return true;
+    } else{
+        return false;
+    }
+    
+}
