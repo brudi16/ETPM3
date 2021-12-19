@@ -15,10 +15,11 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "calculations.h"
 #include "LUT.h"
 
 
-const int16_t padLutStartValues[] = {
+const uint16_t padLutStartValues[] = {
     #include "lutPad.csv"
 };
 
@@ -26,7 +27,7 @@ const int16_t padLutStartValues[] = {
     //#include "lutHall.csv"
 //};
 
-int16_t padLut[LUT_SIZE_PAD];
+uint16_t padLut[LUT_SIZE_PAD];
 //int16_t hallLut[LUT_SIZE];
 
 void initLUT(void){

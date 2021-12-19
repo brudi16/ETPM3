@@ -54,7 +54,7 @@ int32_t getDistance(int32_t array1[], int32_t array2[], int32_t size){
     peakToPeak2 = calc_peakToPeak_av(array2, size);
 
     distance1 = getXFromY(padLut, size, peakToPeak1);
-    distance2 = getxFromY(padLut, size, peakToPeak2);
+    distance2 = getXFromY(padLut, size, peakToPeak2);
 
     distanceAv = ((distance1 + distance2)/2);
 
