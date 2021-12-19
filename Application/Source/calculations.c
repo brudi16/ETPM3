@@ -234,4 +234,4 @@ float calcStdDev(int32_t array[], int32_t size) {
     }
     return sqrt(SD / 10);
 }
- int8_t Calc_Angle()
+// int8_t Calc_Angle()
