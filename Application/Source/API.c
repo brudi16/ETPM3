@@ -18,9 +18,11 @@
 #include "stm32f4xx.h"
 #include "stm32f429i_discovery.h"
 
+
 uint8_t measCase = 0;
 uint8_t arraySize = ADC_NUMS;
 int32_t selectetWire = 1;
+
 
 /**
  * @brief Main initialisation funtkion
