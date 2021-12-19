@@ -16,6 +16,7 @@
 #include "measuring.h"
 #include "calculations.h"
 #include "signalProcessing.h"
+#include "LUT.h"
 #include "stm32f4xx.h"
 #include "stm32f429i_discovery.h"
 
@@ -35,6 +36,7 @@ void cmInitAll(void){
     // Function call of all initialisation functions...
 
     ExtLedInit(); // initialize all GPIOs for lamptest
+		initLUT();
 }
 
 /**
@@ -57,7 +59,9 @@ int32_t cmGetCurrent(void){
  */
 int32_t cmGetDistance(void){
     // Function call of all required functions to return the distance value...
-    int32_t distance = 152; // Distance in mm
+    int32_t distance; // Distance in mm
+	
+		distance = getDistance(ADC_PAD1_samples,ADC_PAD2_samples, arraySize);
     return distance;
 }
 
