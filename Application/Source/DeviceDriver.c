@@ -50,6 +50,7 @@
 #include "API.h"
 #include "DeviceDriver.h"
 #include <stdint.h>
+#include <stdbool.h>
 
 /*
    Include the generated header file to access the device class, for example to
@@ -355,6 +356,13 @@ int DeviceDriver_ProcessData( void )
 
   #endif
 
+  #ifdef _ApplicationDeviceClass__UpdateMainsDetected_
+
+      ApplicationDeviceClass__UpdateMainsDetected( DeviceObject, (XBool)cmMainsDetected() );
+      needUpdate = 1;
+
+  #endif
+
 #endif
 
   /*
@@ -489,6 +497,28 @@ void DeviceDriver_DisableLampTest( void )
      BSP / driver function.
   */
     cmDisableLampTest();
+}
+
+/**
+ * @brief Switch beween "normal" and "precision" meassurement
+ * 
+ * @param precision 
+ */
+void DeviceDriver_SetPrecision(bool precision){
+  if(precision){
+    cmSetPrecision(true);
+  } else {
+    cmSetPrecision(false);
+  }
+}
+
+/**
+ * @brief Get the selectet wire
+ * 
+ * @param selection 
+ */
+void DeviceDriver_SetWireSelection(int32_t selection){
+  cmGetSelectetWire(selection);
 }
 
 

@@ -275,7 +275,7 @@ class WelcomeScreen : Core::Group
 // Views
 note group Views
 {
-  attr Bounds = <50,-280,510,30>;
+  attr Bounds = <50,-280,510,420>;
 }
 
 // Resources
@@ -418,38 +418,6 @@ class DetectorScreen : Core::Group
     */
   }
 
-  // To do:
-  // 
-  // - Adjust the visible size of your component (the thick blue border).
-  // 
-  // - The simplest way to compose the appearance of the component is to use the \
-  // 'Views' and 'Widget Sets' from the Gallery.
-  // 
-  // - To react to touch or keyboard events use the templates from the Gallery folder \
-  // 'Event Handlers'.
-  // 
-  // - To perform transitions (animations) use the templates from the Gallery folder \
-  // 'Effects'.
-  // 
-  // - To implement the interface of the component use the 'Property' template from \
-  // the Gallery folder 'Chora'.
-  // 
-  // - To store values use the 'Variable' and 'Array' templates available in the \
-  // Gallery folder 'Chora'.
-  // 
-  // - To implement behavior use the 'Method' and 'Slot Method' templates available \
-  // in the Gallery folder 'Chora'.
-  // 
-  // - In the method 'UpdateViewState()' you can put code to update the state of \
-  // views enclosed in your component.
-  // 
-  // - In the method 'UpdateLayout()' you can put code to perform sophisticated layout \
-  // calculation for enclosed views.
-  note legend Note1
-  {
-    attr Bounds = <480,290,1260,610>;
-  }
-
   $rect <20,20,160,60>
   object Views::Rectangle Rectangle
   {
@@ -462,11 +430,12 @@ class DetectorScreen : Core::Group
   {
     preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
     preset Bounds = <56,62,184,211>;
+    preset Animated = false;
     preset Bitmap = Application::WarnSign;
   }
 
   $rect <20,20,160,60>
-  object Views::Text Text
+  object Views::Text WarningMessage
   {
     preset Bounds = <0,168,240,254>;
     preset String = "MAINS CABLE\nDETECTED!";
@@ -498,6 +467,62 @@ class DetectorScreen : Core::Group
   {
     if ( IsActiveDialog( true ))
       Owner.DismissDialog( this, null, null, null, null, null, true );
+  }
+
+  $rect <550,60,750,100>
+  object Effects::BoolEffect ShowIcon
+  {
+    preset Outlet = null;
+    preset Enabled = true;
+  }
+
+  $rect <550,100,750,140>
+  object Effects::BoolEffect ShowText
+  {
+    preset Outlet = null;
+    preset Enabled = true;
+  }
+
+  // Variable to reference the device class the entire lifetime of the application. \
+  // This avoids that the device class will be deleted by the Garbage Collector.
+  $rect <550,0,750,40>
+  var Application::DeviceClass Device = Application::Device;
+
+  $rect <260,240,460,280>
+  object Core::PropertyObserver PropertyObserver
+  {
+    preset OnEvent = onEvent;
+    preset Outlet = ^Application::Device.MainsDetected;
+  }
+
+  // This slot method is executed when the associated property observer 'PropertyObserver' \
+  // is notified.
+  $rect <460,240,660,280>
+  slot onEvent
+  {
+    //if(Device.MainsDetected){
+    //  postsignal ShowIcon.StartEffect;
+    //  postsignal ShowText.StartEffect;
+    //} else {
+    //  postsignal ShowIcon.StopEffect;
+    //  postsignal ShowText.StopEffect;
+    //}
+    Image.Visible = Device.MainsDetected;
+    WarningMessage.Visible = Device.MainsDetected;
+  }
+
+  // The object 'PropertyObserver' is a handler of property notifications. When the \
+  // affected property is notified, the observer calls the associated slot method \
+  // 'onEvent' automatically. Within the 'onEvent' method you can react to the notification. \
+  // The method 'onEvent' exists for your convenience only. You can remove it and \
+  // connect the observer with another slot method. See inline documentation inside \
+  // the method.
+  // 
+  // Don't forget to connect the observer with the property of interest. To do this \
+  // set the property 'Outlet' of the observer to refer to the desired property.
+  note legend Note
+  {
+    attr Bounds = <670,240,1170,440>;
   }
 }
 
@@ -725,7 +750,7 @@ class CurrentMeasurement : Core::Group
 
 $rect <290,-70,490,-30>
 $output false
-class Settings : Core::Group
+class Utilities : Core::Group
 {
   $rect <260,10,460,50>
   inherited property Bounds = <0,0,240,320>;
@@ -930,27 +955,9 @@ class Settings : Core::Group
   var Application::DeviceClass Device = Application::Device;
 
   $rect <20,20,160,60>
-  object WidgetSet::ToggleButton ToggleButton
-  {
-    preset Bounds = <25,64,215,114>;
-    preset Outlet = ^Application::Device.Lamptest;
-    preset Label = "Lamptest";
-    preset Appearance = WidgetSet::Switch_Medium;
-  }
-
-  $rect <20,20,160,60>
-  object WidgetSet::ToggleButton ToggleButton1
-  {
-    preset Bounds = <25,110,215,160>;
-    preset Checked = true;
-    preset Label = "Accurate";
-    preset Appearance = WidgetSet::Switch_Medium;
-  }
-
-  $rect <20,20,160,60>
   object WidgetSet::PushButton PushButton
   {
-    preset Bounds = <45,160,195,210>;
+    preset Bounds = <45,135,195,185>;
     preset OnRelease = UpdateViewCalibration;
     preset Label = "Calibration";
     preset Appearance = WidgetSet::PushButton_Medium;
@@ -959,24 +966,40 @@ class Settings : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton PushButton1
   {
-    preset Bounds = <45,216,195,266>;
+    preset Bounds = <45,194,195,244>;
     preset OnRelease = UpdateViewDebug;
     preset Label = "Debug";
     preset Appearance = WidgetSet::PushButton_Medium;
   }
 
-  $rect <510,80,710,120>
+  $rect <510,120,710,160>
   slot UpdateViewCalibration
   {
     if (IsActiveDialog(true)) 
       GetRoot().PresentDialog( new Application::Calibration, null, null, null, null, null, null, null, null, false );
   }
 
-  $rect <510,120,710,160>
+  $rect <510,160,710,200>
   slot UpdateViewDebug
   {
     if (IsActiveDialog(true)) 
       GetRoot().PresentDialog( new Application::Debug, null, null, null, null, null, null, null, null, false );
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton PushButton2
+  {
+    preset Bounds = <45,77,195,127>;
+    preset OnRelease = UpdateViewSettings;
+    preset Label = "Settings";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <510,80,710,120>
+  slot UpdateViewSettings
+  {
+    if (IsActiveDialog(true)) 
+      GetRoot().PresentDialog( new Application::Settings, null, null, null, null, null, null, null, null, false );
   }
 }
 
@@ -1203,7 +1226,7 @@ class DistanceMeasurement : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::ValueDisplay ValueDisplay1
   {
-    preset Bounds = <42,226,198,258>;
+    preset Bounds = <87,226,153,258>;
     preset Outlet = ^Application::Device.Angle;
     preset Unit = "°";
     preset Precision = 0;
@@ -1215,6 +1238,25 @@ class DistanceMeasurement : Core::Group
   {
     if ( IsActiveDialog( true ))
       Owner.DismissDialog( this, null, null, null, null, null, true );
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::ValueDisplay ValueDisplay2
+  {
+    preset Bounds = <136,279,234,311>;
+    preset Unit = "mm";
+    preset Precision = 0;
+    preset CurrentValue = 99;
+    preset Appearance = WidgetSet::ValueDisplay_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text Text1
+  {
+    preset Bounds = <60,281,120,311>;
+    preset String = "σ =";
+    preset Font = Application::Font;
+    preset Color = #000000FF;
   }
 }
 
@@ -1452,10 +1494,10 @@ class Menu : Core::Group
   }
 
   $rect <550,130,750,170>
-  slot UpdateViewSettings
+  slot UpdateViewUtilities
   {
     if (IsActiveDialog(true)) 
-      GetRoot().PresentDialog( new Application::Settings, null, null, null, null, null, null, null, null, false );
+      GetRoot().PresentDialog( new Application::Utilities, null, null, null, null, null, null, null, null, false );
   }
 
   // This is a filled rectangle view.
@@ -1507,13 +1549,13 @@ class Menu : Core::Group
   object WidgetSet::PushButton SettingsButton
   {
     preset Bounds = <120,225,240,320>;
-    preset OnRelease = UpdateViewSettings;
+    preset OnRelease = UpdateViewUtilities;
     preset Label = "Utilities";
     preset Appearance = WidgetSet::PushButton_Medium;
   }
 }
 
-$rect <80,150,280,190>
+$rect <830,150,1030,190>
 inline Inline
 {
   /*
@@ -1534,7 +1576,7 @@ inline Inline
   #include "DeviceDriver.h"
 }
 
-$rect <80,110,280,150>
+$rect <830,110,1030,150>
 $output false
 class DeviceClass : Templates::DeviceClass
 {
@@ -1641,25 +1683,6 @@ class DeviceClass : Templates::DeviceClass
         */
       }
     $endif
-  }
-
-  // Device classes are assembled from 'Commands', 'Properties' and 'System Events'. \
-  // For this purpose use the following prepared templates from the Gallery folder \
-  // 'Device':
-  // 
-  // Command - method to trigger actions in the underlying device or query data from \
-  // the device.
-  // 
-  // Property - variable to represent or modify a setting or state value existing \
-  // within the underlying device.
-  // 
-  // System Event - represents an event or notifications the underlying device may \
-  // report.
-  // 
-  // For more details please visit: https://doc.embedded-wizard.de/device-class-and-device-driver
-  note legend Note4
-  {
-    attr Bounds = <310,600,1400,770>;
   }
 
   // The method 'Init' is executed just in the moment when new instance of 'Application::DeviceClass' \
@@ -1849,15 +1872,90 @@ class DeviceClass : Templates::DeviceClass
       notifyobservers ^DebugPad2;
     }
   }
+
+  $rect <970,280,1170,320>
+  property bool MainsDetected = false;
+
+  $rect <970,320,1170,360>
+  method void UpdateMainsDetected( arg bool aNewValue )
+  {
+    // Only if the reported value does differ from the one stored currently in the property.
+    if ( aNewValue != pure MainsDetected )
+    {
+      // Remember the new value in the internal memory of the property.
+      pure MainsDetected = aNewValue;
+
+      // Notify all associated property observers.
+      notifyobservers ^MainsDetected;
+    }
+  }
+
+  $rect <970,380,1170,420>
+  property bool Precision;
+
+  $rect <970,420,1170,460>
+  onset Precision
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Precision == value )
+      return;
+
+    // Remember the property's new value.
+    pure Precision = value;
+
+    // TO DO:
+    // 
+    // Now you can handle the alternation of the property.
+    $if !$prototyper
+      native ( value )
+      {
+        if(value){
+          DeviceDriver_SetPrecision(true);
+        } else {
+          DeviceDriver_SetPrecision(false);
+        }
+      }
+    $endif
+
+    // Notify all associated property observers.
+    notifyobservers ^Precision;
+  }
+
+  $rect <40,480,240,520>
+  property int32 SelectWire = 1;
+
+  $rect <40,520,240,560>
+  onset SelectWire
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure SelectWire == value )
+      return;
+
+    // Remember the property's new value.
+    pure SelectWire = value;
+
+    // TO DO:
+    // 
+    // Now you can handle the alternation of the property.
+    $if !$prototyper
+      native ( value )
+      {
+        DeviceDriver_SetWireSelection(value);
+      }
+    $endif
+
+    // Notify all associated property observers.
+    notifyobservers ^SelectWire;
+  }
 }
 
-$rect <280,110,480,150>
+$rect <1030,110,1230,150>
 autoobject Application::DeviceClass Device;
 
 // Device Interface
 note group Note
 {
-  attr Bounds = <50,60,510,260>;
+  attr Bounds = <800,60,1260,260>;
 }
 
 // This autoobject provides the default customization for the 'analog gauge' widget \
@@ -2146,7 +2244,8 @@ class Debug : Core::Group
   {
     preset Bounds = <0,270,50,320>;
     preset OnRelease = UpdateViewMenu;
-    preset Icon = Application::HomeIcon;
+    preset IconFrame = 12;
+    preset Icon = Resources::NavigationIconsMedium;
     preset Label = "";
     preset Appearance = WidgetSet::PushButton_Medium;
   }
@@ -2393,7 +2492,8 @@ class Calibration : Core::Group
   {
     preset Bounds = <0,270,50,320>;
     preset OnRelease = UpdateViewMenu;
-    preset Icon = Application::HomeIcon;
+    preset IconFrame = 12;
+    preset Icon = Resources::NavigationIconsMedium;
     preset Label = "";
     preset Appearance = WidgetSet::PushButton_Medium;
   }
@@ -2402,4 +2502,1963 @@ class Calibration : Core::Group
   // This avoids that the device class will be deleted by the Garbage Collector.
   $rect <510,10,710,50>
   var Application::DeviceClass Device = Application::Device;
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton PushButton
+  {
+    preset Bounds = <45,68,195,118>;
+    preset OnRelease = OpenCalibrationDialog;
+    preset Label = "Start";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton PushButton1
+  {
+    preset Bounds = <45,130,195,180>;
+    preset Label = "Save";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton PushButton2
+  {
+    preset Bounds = <45,194,195,244>;
+    preset Label = "Reset";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <510,80,710,120>
+  slot OpenCalibrationDialog
+  {
+    if (IsActiveDialog(true)) 
+      GetRoot().PresentDialog( new Application::CalibrationWindow1, Application::FadeInOutCentered, null, null, null, null, null, null, null, false );
+  }
+}
+
+$rect <70,70,270,110>
+$output false
+class CalibrationWindow1 : Core::Group
+{
+  $rect <260,10,460,50>
+  inherited property Bounds = <0,0,240,320>;
+
+  $rect <260,120,460,160>
+  inherited method UpdateLayout()
+  {
+    // Always invoke the inherited method.
+    super( aSize );
+
+    /*
+
+      HINT:
+
+      This method exists for sophisticated layout calculation. Please note, that in 
+      most cases it is completely sufficient to use the views property 'Layout' to
+      determine how the view should behave when the component is resized.
+
+    */
+
+    /*
+
+      TO DO:
+
+      Put here the code to calculate new position and size of enclosed views. The
+      current (new) size of the component itself is passed in the parameter aSize.
+      For example:
+
+        SomeView.Bounds = rect( 10, 10, aSize.x - 20, aSize.y - 20 );
+
+    */
+  }
+
+  $rect <260,80,460,120>
+  inherited method UpdateViewState()
+  {
+    // Always invoke the inherited method.
+    super( aState );
+
+    /*
+
+      HINT 1:
+
+      This method is invoked automatically when the state set of the component has
+      been changed. The new state set can be found in the parameter aState.
+      Following are the important states:
+
+        Enabled   --> The component can react to user inputs.
+
+        Selected  --> The component is selected in context of its owner.
+
+        Focused   --> The component is selected in context of its owner and 
+                      the owner can react to keyboard events. In this manner the
+                      component is also able to react to keyboard events.
+
+        Modal     --> The component is modal. All events are redirected to this
+                      component.
+
+      To determine whether a state is currently active or not you have to test
+      the aState parameter. For example to test the 'Selected' state:
+
+        if ( aState.contains( Core::ViewState[ Selected ]))
+        {
+          ... yes, this component is currently selected.
+        }
+
+    */
+
+    /*
+
+      HINT 2:
+
+      Alternatively you can request this method invocation by executing explicitly
+      following code:
+
+
+        InvalidateViewState();
+
+    */
+      
+    /*
+
+      TO DO 1:
+
+      Put here the code to ensure that the visual aspect of the component does
+      reflect its current state. For example, depending on its 'Enabled' state
+      a component may appear with full colors or pale if it is disabled:
+
+        if ( aState.contains( Core::ViewState[ Enabled ]))
+        {
+          SomeBackgroundView.Opacity = 255;
+          SomeTextView.Color         = #000000FF;
+        }
+        else
+        {
+          SomeBackgroundView.Opacity = 128;
+          SomeTextView.Color         = #00000080;
+        }
+
+
+      TO DO 2:
+
+      You can evaluate here also the state of any other member in your component.
+      For example in a push-button component, the button should appear highlighted
+      as long as the user holds the finger within a touch area of the button:
+
+        if ( SomeTouchHandler.Down && SomeTouchHandler.Inside )
+          HighlightedBackground.Visible = true;
+        else
+          HighlightedBackground.Visible = false;
+
+      The touch handler itself only requests the update method to be called. Use
+      for this purpose 'InvalidateViewState()' method.
+
+
+      TO DO 3:
+
+      You can calculate here also the position/size of views accordingly to the
+      state of any other member in your component. For example in a slider you
+      can calculate the position of the slider knob from some properties like
+      'SliderValue' and 'SliderRange':
+
+        SliderKnob.Bounds.origin.x = ( SliderValue * Bounds.w ) / SliderRange;
+
+      Changing the 'SliderValue' or 'SliderRange' property should only request
+      the update method to be called. Use for this purpose 'InvalidateViewState()'
+      method.
+
+    */
+  }
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Background
+  {
+    preset Bounds = <0,0,240,320>;
+    preset Color = #00000099;
+  }
+
+  // This is a filled rectangle view.
+  $rect <20,20,160,60>
+  object Views::Rectangle Rectangle
+  {
+    preset Bounds = <30,30,210,290>;
+    preset Color = #DCDCDCFF;
+  }
+
+  $rect <260,200,460,240>
+  slot ExitDialog
+  {
+    if ( IsActiveDialog( true ))
+      Owner.DismissDialog( this, Application::FadeInOutCentered, null, null, null, null, true );
+  }
+
+  // Variable to reference the device class the entire lifetime of the application. \
+  // This avoids that the device class will be deleted by the Garbage Collector.
+  $rect <510,10,710,50>
+  var Application::DeviceClass Device = Application::Device;
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton Next
+  {
+    preset Bounds = <160,240,210,290>;
+    preset OnRelease = NextDialog;
+    preset IconFrame = 3;
+    preset Icon = Resources::NavigationIconsMedium;
+    preset Label = "";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton PushButton
+  {
+    preset Bounds = <45,172,195,222>;
+    preset Label = "Load";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::ValueDisplay ValueDisplay
+  {
+    preset Layout = Core::Layout[AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <30,116,210,148>;
+    preset Unit = "";
+    preset Precision = 0;
+    preset Appearance = WidgetSet::ValueDisplay_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text Text
+  {
+    preset Bounds = <74,49,174,79>;
+    preset String = "2 mm";
+    preset Font = Application::TitelFont;
+    preset Color = #000000FF;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton Previous1
+  {
+    preset Bounds = <185,5,235,55>;
+    preset OnRelease = ExitDialog;
+    preset IconFrame = 9;
+    preset Icon = Resources::NavigationIconsMedium;
+    preset Label = "";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <260,240,460,280>
+  slot NextDialog
+  {
+    if (IsActiveDialog(true)) 
+      GetRoot().SwitchToDialog( new Application::CalibrationWindow2, null, null, null, null, null, null, null, null, null, false );
+  }
+}
+
+$rect <70,110,270,150>
+$output false
+class CalibrationWindow2 : Core::Group
+{
+  $rect <260,10,460,50>
+  inherited property Bounds = <0,0,240,320>;
+
+  $rect <260,120,460,160>
+  inherited method UpdateLayout()
+  {
+    // Always invoke the inherited method.
+    super( aSize );
+
+    /*
+
+      HINT:
+
+      This method exists for sophisticated layout calculation. Please note, that in 
+      most cases it is completely sufficient to use the views property 'Layout' to
+      determine how the view should behave when the component is resized.
+
+    */
+
+    /*
+
+      TO DO:
+
+      Put here the code to calculate new position and size of enclosed views. The
+      current (new) size of the component itself is passed in the parameter aSize.
+      For example:
+
+        SomeView.Bounds = rect( 10, 10, aSize.x - 20, aSize.y - 20 );
+
+    */
+  }
+
+  $rect <260,80,460,120>
+  inherited method UpdateViewState()
+  {
+    // Always invoke the inherited method.
+    super( aState );
+
+    /*
+
+      HINT 1:
+
+      This method is invoked automatically when the state set of the component has
+      been changed. The new state set can be found in the parameter aState.
+      Following are the important states:
+
+        Enabled   --> The component can react to user inputs.
+
+        Selected  --> The component is selected in context of its owner.
+
+        Focused   --> The component is selected in context of its owner and 
+                      the owner can react to keyboard events. In this manner the
+                      component is also able to react to keyboard events.
+
+        Modal     --> The component is modal. All events are redirected to this
+                      component.
+
+      To determine whether a state is currently active or not you have to test
+      the aState parameter. For example to test the 'Selected' state:
+
+        if ( aState.contains( Core::ViewState[ Selected ]))
+        {
+          ... yes, this component is currently selected.
+        }
+
+    */
+
+    /*
+
+      HINT 2:
+
+      Alternatively you can request this method invocation by executing explicitly
+      following code:
+
+
+        InvalidateViewState();
+
+    */
+      
+    /*
+
+      TO DO 1:
+
+      Put here the code to ensure that the visual aspect of the component does
+      reflect its current state. For example, depending on its 'Enabled' state
+      a component may appear with full colors or pale if it is disabled:
+
+        if ( aState.contains( Core::ViewState[ Enabled ]))
+        {
+          SomeBackgroundView.Opacity = 255;
+          SomeTextView.Color         = #000000FF;
+        }
+        else
+        {
+          SomeBackgroundView.Opacity = 128;
+          SomeTextView.Color         = #00000080;
+        }
+
+
+      TO DO 2:
+
+      You can evaluate here also the state of any other member in your component.
+      For example in a push-button component, the button should appear highlighted
+      as long as the user holds the finger within a touch area of the button:
+
+        if ( SomeTouchHandler.Down && SomeTouchHandler.Inside )
+          HighlightedBackground.Visible = true;
+        else
+          HighlightedBackground.Visible = false;
+
+      The touch handler itself only requests the update method to be called. Use
+      for this purpose 'InvalidateViewState()' method.
+
+
+      TO DO 3:
+
+      You can calculate here also the position/size of views accordingly to the
+      state of any other member in your component. For example in a slider you
+      can calculate the position of the slider knob from some properties like
+      'SliderValue' and 'SliderRange':
+
+        SliderKnob.Bounds.origin.x = ( SliderValue * Bounds.w ) / SliderRange;
+
+      Changing the 'SliderValue' or 'SliderRange' property should only request
+      the update method to be called. Use for this purpose 'InvalidateViewState()'
+      method.
+
+    */
+  }
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Background
+  {
+    preset Bounds = <0,0,240,320>;
+    preset Color = #00000099;
+  }
+
+  // This is a filled rectangle view.
+  $rect <20,20,160,60>
+  object Views::Rectangle Rectangle
+  {
+    preset Bounds = <30,30,210,290>;
+    preset Color = #DCDCDCFF;
+  }
+
+  // Variable to reference the device class the entire lifetime of the application. \
+  // This avoids that the device class will be deleted by the Garbage Collector.
+  $rect <510,10,710,50>
+  var Application::DeviceClass Device = Application::Device;
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton Previous
+  {
+    preset Bounds = <30,240,80,290>;
+    preset OnRelease = PreviosDialog;
+    preset IconFrame = 2;
+    preset Icon = Resources::NavigationIconsMedium;
+    preset Label = "";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton Next
+  {
+    preset Bounds = <160,240,210,290>;
+    preset OnRelease = NextDialog;
+    preset IconFrame = 3;
+    preset Icon = Resources::NavigationIconsMedium;
+    preset Label = "";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton PushButton
+  {
+    preset Bounds = <45,172,195,222>;
+    preset Label = "Load";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::ValueDisplay ValueDisplay
+  {
+    preset Layout = Core::Layout[AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <30,116,210,148>;
+    preset Unit = "";
+    preset Precision = 0;
+    preset Appearance = WidgetSet::ValueDisplay_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text Text
+  {
+    preset Bounds = <74,49,174,79>;
+    preset String = "5 mm";
+    preset Font = Application::TitelFont;
+    preset Color = #000000FF;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton Previous1
+  {
+    preset Bounds = <185,5,235,55>;
+    preset OnRelease = ExitDialog;
+    preset IconFrame = 9;
+    preset Icon = Resources::NavigationIconsMedium;
+    preset Label = "";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <260,200,460,240>
+  slot ExitDialog
+  {
+    if ( IsActiveDialog( true ))
+      Owner.DismissDialog( this, Application::FadeInOutCentered, null, null, null, null, true );
+  }
+
+  $rect <260,240,460,280>
+  slot NextDialog
+  {
+    if (IsActiveDialog(true)) 
+      GetRoot().SwitchToDialog( new Application::CalibrationWindow3, null, null, null, null, null, null, null, null, null, false );
+  }
+
+  $rect <260,280,460,320>
+  slot PreviosDialog
+  {
+    if (IsActiveDialog(true)) 
+      GetRoot().SwitchToDialog( new Application::CalibrationWindow1, null, null, null, null, null, null, null, null, null, false );
+  }
+}
+
+$rect <70,150,270,190>
+$output false
+class CalibrationWindow3 : Core::Group
+{
+  $rect <260,10,460,50>
+  inherited property Bounds = <0,0,240,320>;
+
+  $rect <260,120,460,160>
+  inherited method UpdateLayout()
+  {
+    // Always invoke the inherited method.
+    super( aSize );
+
+    /*
+
+      HINT:
+
+      This method exists for sophisticated layout calculation. Please note, that in 
+      most cases it is completely sufficient to use the views property 'Layout' to
+      determine how the view should behave when the component is resized.
+
+    */
+
+    /*
+
+      TO DO:
+
+      Put here the code to calculate new position and size of enclosed views. The
+      current (new) size of the component itself is passed in the parameter aSize.
+      For example:
+
+        SomeView.Bounds = rect( 10, 10, aSize.x - 20, aSize.y - 20 );
+
+    */
+  }
+
+  $rect <260,80,460,120>
+  inherited method UpdateViewState()
+  {
+    // Always invoke the inherited method.
+    super( aState );
+
+    /*
+
+      HINT 1:
+
+      This method is invoked automatically when the state set of the component has
+      been changed. The new state set can be found in the parameter aState.
+      Following are the important states:
+
+        Enabled   --> The component can react to user inputs.
+
+        Selected  --> The component is selected in context of its owner.
+
+        Focused   --> The component is selected in context of its owner and 
+                      the owner can react to keyboard events. In this manner the
+                      component is also able to react to keyboard events.
+
+        Modal     --> The component is modal. All events are redirected to this
+                      component.
+
+      To determine whether a state is currently active or not you have to test
+      the aState parameter. For example to test the 'Selected' state:
+
+        if ( aState.contains( Core::ViewState[ Selected ]))
+        {
+          ... yes, this component is currently selected.
+        }
+
+    */
+
+    /*
+
+      HINT 2:
+
+      Alternatively you can request this method invocation by executing explicitly
+      following code:
+
+
+        InvalidateViewState();
+
+    */
+      
+    /*
+
+      TO DO 1:
+
+      Put here the code to ensure that the visual aspect of the component does
+      reflect its current state. For example, depending on its 'Enabled' state
+      a component may appear with full colors or pale if it is disabled:
+
+        if ( aState.contains( Core::ViewState[ Enabled ]))
+        {
+          SomeBackgroundView.Opacity = 255;
+          SomeTextView.Color         = #000000FF;
+        }
+        else
+        {
+          SomeBackgroundView.Opacity = 128;
+          SomeTextView.Color         = #00000080;
+        }
+
+
+      TO DO 2:
+
+      You can evaluate here also the state of any other member in your component.
+      For example in a push-button component, the button should appear highlighted
+      as long as the user holds the finger within a touch area of the button:
+
+        if ( SomeTouchHandler.Down && SomeTouchHandler.Inside )
+          HighlightedBackground.Visible = true;
+        else
+          HighlightedBackground.Visible = false;
+
+      The touch handler itself only requests the update method to be called. Use
+      for this purpose 'InvalidateViewState()' method.
+
+
+      TO DO 3:
+
+      You can calculate here also the position/size of views accordingly to the
+      state of any other member in your component. For example in a slider you
+      can calculate the position of the slider knob from some properties like
+      'SliderValue' and 'SliderRange':
+
+        SliderKnob.Bounds.origin.x = ( SliderValue * Bounds.w ) / SliderRange;
+
+      Changing the 'SliderValue' or 'SliderRange' property should only request
+      the update method to be called. Use for this purpose 'InvalidateViewState()'
+      method.
+
+    */
+  }
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Background
+  {
+    preset Bounds = <0,0,240,320>;
+    preset Color = #00000099;
+  }
+
+  // This is a filled rectangle view.
+  $rect <20,20,160,60>
+  object Views::Rectangle Rectangle
+  {
+    preset Bounds = <30,30,210,290>;
+    preset Color = #DCDCDCFF;
+  }
+
+  // Variable to reference the device class the entire lifetime of the application. \
+  // This avoids that the device class will be deleted by the Garbage Collector.
+  $rect <510,10,710,50>
+  var Application::DeviceClass Device = Application::Device;
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton Previous
+  {
+    preset Bounds = <30,240,80,290>;
+    preset OnRelease = PreviosDialog;
+    preset IconFrame = 2;
+    preset Icon = Resources::NavigationIconsMedium;
+    preset Label = "";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton Next
+  {
+    preset Bounds = <160,240,210,290>;
+    preset OnRelease = NextDialog;
+    preset IconFrame = 3;
+    preset Icon = Resources::NavigationIconsMedium;
+    preset Label = "";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton PushButton
+  {
+    preset Bounds = <45,172,195,222>;
+    preset Label = "Load";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::ValueDisplay ValueDisplay
+  {
+    preset Layout = Core::Layout[AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <30,116,210,148>;
+    preset Unit = "";
+    preset Precision = 0;
+    preset Appearance = WidgetSet::ValueDisplay_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text Text
+  {
+    preset Bounds = <74,49,174,79>;
+    preset String = "10 mm";
+    preset Font = Application::TitelFont;
+    preset Color = #000000FF;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton Previous1
+  {
+    preset Bounds = <185,5,235,55>;
+    preset OnRelease = ExitDialog;
+    preset IconFrame = 9;
+    preset Icon = Resources::NavigationIconsMedium;
+    preset Label = "";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <260,200,460,240>
+  slot ExitDialog
+  {
+    if ( IsActiveDialog( true ))
+      Owner.DismissDialog( this, Application::FadeInOutCentered, null, null, null, null, true );
+  }
+
+  $rect <260,240,460,280>
+  slot NextDialog
+  {
+    if (IsActiveDialog(true)) 
+      GetRoot().SwitchToDialog( new Application::CalibrationWindow4, null, null, null, null, null, null, null, null, null, false );
+  }
+
+  $rect <260,280,460,320>
+  slot PreviosDialog
+  {
+    if (IsActiveDialog(true)) 
+      GetRoot().SwitchToDialog( new Application::CalibrationWindow2, null, null, null, null, null, null, null, null, null, false );
+  }
+}
+
+$rect <70,190,270,230>
+$output false
+class CalibrationWindow4 : Core::Group
+{
+  $rect <260,10,460,50>
+  inherited property Bounds = <0,0,240,320>;
+
+  $rect <260,120,460,160>
+  inherited method UpdateLayout()
+  {
+    // Always invoke the inherited method.
+    super( aSize );
+
+    /*
+
+      HINT:
+
+      This method exists for sophisticated layout calculation. Please note, that in 
+      most cases it is completely sufficient to use the views property 'Layout' to
+      determine how the view should behave when the component is resized.
+
+    */
+
+    /*
+
+      TO DO:
+
+      Put here the code to calculate new position and size of enclosed views. The
+      current (new) size of the component itself is passed in the parameter aSize.
+      For example:
+
+        SomeView.Bounds = rect( 10, 10, aSize.x - 20, aSize.y - 20 );
+
+    */
+  }
+
+  $rect <260,80,460,120>
+  inherited method UpdateViewState()
+  {
+    // Always invoke the inherited method.
+    super( aState );
+
+    /*
+
+      HINT 1:
+
+      This method is invoked automatically when the state set of the component has
+      been changed. The new state set can be found in the parameter aState.
+      Following are the important states:
+
+        Enabled   --> The component can react to user inputs.
+
+        Selected  --> The component is selected in context of its owner.
+
+        Focused   --> The component is selected in context of its owner and 
+                      the owner can react to keyboard events. In this manner the
+                      component is also able to react to keyboard events.
+
+        Modal     --> The component is modal. All events are redirected to this
+                      component.
+
+      To determine whether a state is currently active or not you have to test
+      the aState parameter. For example to test the 'Selected' state:
+
+        if ( aState.contains( Core::ViewState[ Selected ]))
+        {
+          ... yes, this component is currently selected.
+        }
+
+    */
+
+    /*
+
+      HINT 2:
+
+      Alternatively you can request this method invocation by executing explicitly
+      following code:
+
+
+        InvalidateViewState();
+
+    */
+      
+    /*
+
+      TO DO 1:
+
+      Put here the code to ensure that the visual aspect of the component does
+      reflect its current state. For example, depending on its 'Enabled' state
+      a component may appear with full colors or pale if it is disabled:
+
+        if ( aState.contains( Core::ViewState[ Enabled ]))
+        {
+          SomeBackgroundView.Opacity = 255;
+          SomeTextView.Color         = #000000FF;
+        }
+        else
+        {
+          SomeBackgroundView.Opacity = 128;
+          SomeTextView.Color         = #00000080;
+        }
+
+
+      TO DO 2:
+
+      You can evaluate here also the state of any other member in your component.
+      For example in a push-button component, the button should appear highlighted
+      as long as the user holds the finger within a touch area of the button:
+
+        if ( SomeTouchHandler.Down && SomeTouchHandler.Inside )
+          HighlightedBackground.Visible = true;
+        else
+          HighlightedBackground.Visible = false;
+
+      The touch handler itself only requests the update method to be called. Use
+      for this purpose 'InvalidateViewState()' method.
+
+
+      TO DO 3:
+
+      You can calculate here also the position/size of views accordingly to the
+      state of any other member in your component. For example in a slider you
+      can calculate the position of the slider knob from some properties like
+      'SliderValue' and 'SliderRange':
+
+        SliderKnob.Bounds.origin.x = ( SliderValue * Bounds.w ) / SliderRange;
+
+      Changing the 'SliderValue' or 'SliderRange' property should only request
+      the update method to be called. Use for this purpose 'InvalidateViewState()'
+      method.
+
+    */
+  }
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Background
+  {
+    preset Bounds = <0,0,240,320>;
+    preset Color = #00000099;
+  }
+
+  // This is a filled rectangle view.
+  $rect <20,20,160,60>
+  object Views::Rectangle Rectangle
+  {
+    preset Bounds = <30,30,210,290>;
+    preset Color = #DCDCDCFF;
+  }
+
+  // Variable to reference the device class the entire lifetime of the application. \
+  // This avoids that the device class will be deleted by the Garbage Collector.
+  $rect <510,10,710,50>
+  var Application::DeviceClass Device = Application::Device;
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton Previous
+  {
+    preset Bounds = <30,240,80,290>;
+    preset OnRelease = PreviosDialog;
+    preset IconFrame = 2;
+    preset Icon = Resources::NavigationIconsMedium;
+    preset Label = "";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton Next
+  {
+    preset Bounds = <160,240,210,290>;
+    preset OnRelease = NextDialog;
+    preset IconFrame = 3;
+    preset Icon = Resources::NavigationIconsMedium;
+    preset Label = "";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton PushButton
+  {
+    preset Bounds = <45,172,195,222>;
+    preset Label = "Load";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::ValueDisplay ValueDisplay
+  {
+    preset Layout = Core::Layout[AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <30,116,210,148>;
+    preset Unit = "";
+    preset Precision = 0;
+    preset Appearance = WidgetSet::ValueDisplay_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text Text
+  {
+    preset Bounds = <74,49,174,79>;
+    preset String = "20 mm";
+    preset Font = Application::TitelFont;
+    preset Color = #000000FF;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton Previous1
+  {
+    preset Bounds = <185,5,235,55>;
+    preset OnRelease = ExitDialog;
+    preset IconFrame = 9;
+    preset Icon = Resources::NavigationIconsMedium;
+    preset Label = "";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <260,200,460,240>
+  slot ExitDialog
+  {
+    if ( IsActiveDialog( true ))
+      Owner.DismissDialog( this, Application::FadeInOutCentered, null, null, null, null, true );
+  }
+
+  $rect <260,240,460,280>
+  slot NextDialog
+  {
+    if (IsActiveDialog(true)) 
+      GetRoot().SwitchToDialog( new Application::CalibrationWindow5, null, null, null, null, null, null, null, null, null, false );
+  }
+
+  $rect <260,280,460,320>
+  slot PreviosDialog
+  {
+    if (IsActiveDialog(true)) 
+      GetRoot().SwitchToDialog( new Application::CalibrationWindow3, null, null, null, null, null, null, null, null, null, false );
+  }
+}
+
+$rect <290,70,490,110>
+$output false
+class CalibrationWindow5 : Core::Group
+{
+  $rect <260,10,460,50>
+  inherited property Bounds = <0,0,240,320>;
+
+  $rect <260,120,460,160>
+  inherited method UpdateLayout()
+  {
+    // Always invoke the inherited method.
+    super( aSize );
+
+    /*
+
+      HINT:
+
+      This method exists for sophisticated layout calculation. Please note, that in 
+      most cases it is completely sufficient to use the views property 'Layout' to
+      determine how the view should behave when the component is resized.
+
+    */
+
+    /*
+
+      TO DO:
+
+      Put here the code to calculate new position and size of enclosed views. The
+      current (new) size of the component itself is passed in the parameter aSize.
+      For example:
+
+        SomeView.Bounds = rect( 10, 10, aSize.x - 20, aSize.y - 20 );
+
+    */
+  }
+
+  $rect <260,80,460,120>
+  inherited method UpdateViewState()
+  {
+    // Always invoke the inherited method.
+    super( aState );
+
+    /*
+
+      HINT 1:
+
+      This method is invoked automatically when the state set of the component has
+      been changed. The new state set can be found in the parameter aState.
+      Following are the important states:
+
+        Enabled   --> The component can react to user inputs.
+
+        Selected  --> The component is selected in context of its owner.
+
+        Focused   --> The component is selected in context of its owner and 
+                      the owner can react to keyboard events. In this manner the
+                      component is also able to react to keyboard events.
+
+        Modal     --> The component is modal. All events are redirected to this
+                      component.
+
+      To determine whether a state is currently active or not you have to test
+      the aState parameter. For example to test the 'Selected' state:
+
+        if ( aState.contains( Core::ViewState[ Selected ]))
+        {
+          ... yes, this component is currently selected.
+        }
+
+    */
+
+    /*
+
+      HINT 2:
+
+      Alternatively you can request this method invocation by executing explicitly
+      following code:
+
+
+        InvalidateViewState();
+
+    */
+      
+    /*
+
+      TO DO 1:
+
+      Put here the code to ensure that the visual aspect of the component does
+      reflect its current state. For example, depending on its 'Enabled' state
+      a component may appear with full colors or pale if it is disabled:
+
+        if ( aState.contains( Core::ViewState[ Enabled ]))
+        {
+          SomeBackgroundView.Opacity = 255;
+          SomeTextView.Color         = #000000FF;
+        }
+        else
+        {
+          SomeBackgroundView.Opacity = 128;
+          SomeTextView.Color         = #00000080;
+        }
+
+
+      TO DO 2:
+
+      You can evaluate here also the state of any other member in your component.
+      For example in a push-button component, the button should appear highlighted
+      as long as the user holds the finger within a touch area of the button:
+
+        if ( SomeTouchHandler.Down && SomeTouchHandler.Inside )
+          HighlightedBackground.Visible = true;
+        else
+          HighlightedBackground.Visible = false;
+
+      The touch handler itself only requests the update method to be called. Use
+      for this purpose 'InvalidateViewState()' method.
+
+
+      TO DO 3:
+
+      You can calculate here also the position/size of views accordingly to the
+      state of any other member in your component. For example in a slider you
+      can calculate the position of the slider knob from some properties like
+      'SliderValue' and 'SliderRange':
+
+        SliderKnob.Bounds.origin.x = ( SliderValue * Bounds.w ) / SliderRange;
+
+      Changing the 'SliderValue' or 'SliderRange' property should only request
+      the update method to be called. Use for this purpose 'InvalidateViewState()'
+      method.
+
+    */
+  }
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Background
+  {
+    preset Bounds = <0,0,240,320>;
+    preset Color = #00000099;
+  }
+
+  // This is a filled rectangle view.
+  $rect <20,20,160,60>
+  object Views::Rectangle Rectangle
+  {
+    preset Bounds = <30,30,210,290>;
+    preset Color = #DCDCDCFF;
+  }
+
+  // Variable to reference the device class the entire lifetime of the application. \
+  // This avoids that the device class will be deleted by the Garbage Collector.
+  $rect <510,10,710,50>
+  var Application::DeviceClass Device = Application::Device;
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton Previous
+  {
+    preset Bounds = <30,240,80,290>;
+    preset OnRelease = PreviosDialog;
+    preset IconFrame = 2;
+    preset Icon = Resources::NavigationIconsMedium;
+    preset Label = "";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton Next
+  {
+    preset Bounds = <160,240,210,290>;
+    preset OnRelease = NextDialog;
+    preset IconFrame = 3;
+    preset Icon = Resources::NavigationIconsMedium;
+    preset Label = "";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton PushButton
+  {
+    preset Bounds = <45,172,195,222>;
+    preset Label = "Load";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::ValueDisplay ValueDisplay
+  {
+    preset Layout = Core::Layout[AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <30,116,210,148>;
+    preset Unit = "";
+    preset Precision = 0;
+    preset Appearance = WidgetSet::ValueDisplay_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text Text
+  {
+    preset Bounds = <74,49,174,79>;
+    preset String = "50 mm";
+    preset Font = Application::TitelFont;
+    preset Color = #000000FF;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton Previous1
+  {
+    preset Bounds = <185,5,235,55>;
+    preset OnRelease = ExitDialog;
+    preset IconFrame = 9;
+    preset Icon = Resources::NavigationIconsMedium;
+    preset Label = "";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <260,200,460,240>
+  slot ExitDialog
+  {
+    if ( IsActiveDialog( true ))
+      Owner.DismissDialog( this, Application::FadeInOutCentered, null, null, null, null, true );
+  }
+
+  $rect <260,240,460,280>
+  slot NextDialog
+  {
+    if (IsActiveDialog(true)) 
+      GetRoot().SwitchToDialog( new Application::CalibrationWindow6, null, null, null, null, null, null, null, null, null, false );
+  }
+
+  $rect <260,280,460,320>
+  slot PreviosDialog
+  {
+    if (IsActiveDialog(true)) 
+      GetRoot().SwitchToDialog( new Application::CalibrationWindow4, null, null, null, null, null, null, null, null, null, false );
+  }
+}
+
+$rect <290,110,490,150>
+$output false
+class CalibrationWindow6 : Core::Group
+{
+  $rect <260,10,460,50>
+  inherited property Bounds = <0,0,240,320>;
+
+  $rect <260,120,460,160>
+  inherited method UpdateLayout()
+  {
+    // Always invoke the inherited method.
+    super( aSize );
+
+    /*
+
+      HINT:
+
+      This method exists for sophisticated layout calculation. Please note, that in 
+      most cases it is completely sufficient to use the views property 'Layout' to
+      determine how the view should behave when the component is resized.
+
+    */
+
+    /*
+
+      TO DO:
+
+      Put here the code to calculate new position and size of enclosed views. The
+      current (new) size of the component itself is passed in the parameter aSize.
+      For example:
+
+        SomeView.Bounds = rect( 10, 10, aSize.x - 20, aSize.y - 20 );
+
+    */
+  }
+
+  $rect <260,80,460,120>
+  inherited method UpdateViewState()
+  {
+    // Always invoke the inherited method.
+    super( aState );
+
+    /*
+
+      HINT 1:
+
+      This method is invoked automatically when the state set of the component has
+      been changed. The new state set can be found in the parameter aState.
+      Following are the important states:
+
+        Enabled   --> The component can react to user inputs.
+
+        Selected  --> The component is selected in context of its owner.
+
+        Focused   --> The component is selected in context of its owner and 
+                      the owner can react to keyboard events. In this manner the
+                      component is also able to react to keyboard events.
+
+        Modal     --> The component is modal. All events are redirected to this
+                      component.
+
+      To determine whether a state is currently active or not you have to test
+      the aState parameter. For example to test the 'Selected' state:
+
+        if ( aState.contains( Core::ViewState[ Selected ]))
+        {
+          ... yes, this component is currently selected.
+        }
+
+    */
+
+    /*
+
+      HINT 2:
+
+      Alternatively you can request this method invocation by executing explicitly
+      following code:
+
+
+        InvalidateViewState();
+
+    */
+      
+    /*
+
+      TO DO 1:
+
+      Put here the code to ensure that the visual aspect of the component does
+      reflect its current state. For example, depending on its 'Enabled' state
+      a component may appear with full colors or pale if it is disabled:
+
+        if ( aState.contains( Core::ViewState[ Enabled ]))
+        {
+          SomeBackgroundView.Opacity = 255;
+          SomeTextView.Color         = #000000FF;
+        }
+        else
+        {
+          SomeBackgroundView.Opacity = 128;
+          SomeTextView.Color         = #00000080;
+        }
+
+
+      TO DO 2:
+
+      You can evaluate here also the state of any other member in your component.
+      For example in a push-button component, the button should appear highlighted
+      as long as the user holds the finger within a touch area of the button:
+
+        if ( SomeTouchHandler.Down && SomeTouchHandler.Inside )
+          HighlightedBackground.Visible = true;
+        else
+          HighlightedBackground.Visible = false;
+
+      The touch handler itself only requests the update method to be called. Use
+      for this purpose 'InvalidateViewState()' method.
+
+
+      TO DO 3:
+
+      You can calculate here also the position/size of views accordingly to the
+      state of any other member in your component. For example in a slider you
+      can calculate the position of the slider knob from some properties like
+      'SliderValue' and 'SliderRange':
+
+        SliderKnob.Bounds.origin.x = ( SliderValue * Bounds.w ) / SliderRange;
+
+      Changing the 'SliderValue' or 'SliderRange' property should only request
+      the update method to be called. Use for this purpose 'InvalidateViewState()'
+      method.
+
+    */
+  }
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Background
+  {
+    preset Bounds = <0,0,240,320>;
+    preset Color = #00000099;
+  }
+
+  // This is a filled rectangle view.
+  $rect <20,20,160,60>
+  object Views::Rectangle Rectangle
+  {
+    preset Bounds = <30,30,210,290>;
+    preset Color = #DCDCDCFF;
+  }
+
+  // Variable to reference the device class the entire lifetime of the application. \
+  // This avoids that the device class will be deleted by the Garbage Collector.
+  $rect <510,10,710,50>
+  var Application::DeviceClass Device = Application::Device;
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton Previous
+  {
+    preset Bounds = <30,240,80,290>;
+    preset OnRelease = PreviosDialog;
+    preset IconFrame = 2;
+    preset Icon = Resources::NavigationIconsMedium;
+    preset Label = "";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton Next
+  {
+    preset Bounds = <160,240,210,290>;
+    preset OnRelease = NextDialog;
+    preset IconFrame = 3;
+    preset Icon = Resources::NavigationIconsMedium;
+    preset Label = "";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton PushButton
+  {
+    preset Bounds = <45,172,195,222>;
+    preset Label = "Load";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::ValueDisplay ValueDisplay
+  {
+    preset Layout = Core::Layout[AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <30,116,210,148>;
+    preset Unit = "";
+    preset Precision = 0;
+    preset Appearance = WidgetSet::ValueDisplay_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text Text
+  {
+    preset Bounds = <30,49,210,79>;
+    preset String = "100 mm";
+    preset Font = Application::TitelFont;
+    preset Color = #000000FF;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton Previous1
+  {
+    preset Bounds = <185,5,235,55>;
+    preset OnRelease = ExitDialog;
+    preset IconFrame = 9;
+    preset Icon = Resources::NavigationIconsMedium;
+    preset Label = "";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <260,200,460,240>
+  slot ExitDialog
+  {
+    if ( IsActiveDialog( true ))
+      Owner.DismissDialog( this, Application::FadeInOutCentered, null, null, null, null, true );
+  }
+
+  $rect <260,240,460,280>
+  slot NextDialog
+  {
+    if (IsActiveDialog(true)) 
+      GetRoot().SwitchToDialog( new Application::CalibrationWindow7, null, null, null, null, null, null, null, null, null, false );
+  }
+
+  $rect <260,280,460,320>
+  slot PreviosDialog
+  {
+    if (IsActiveDialog(true)) 
+      GetRoot().SwitchToDialog( new Application::CalibrationWindow5, null, null, null, null, null, null, null, null, null, false );
+  }
+}
+
+$rect <290,150,490,190>
+$output false
+class CalibrationWindow7 : Core::Group
+{
+  $rect <260,10,460,50>
+  inherited property Bounds = <0,0,240,320>;
+
+  $rect <260,120,460,160>
+  inherited method UpdateLayout()
+  {
+    // Always invoke the inherited method.
+    super( aSize );
+
+    /*
+
+      HINT:
+
+      This method exists for sophisticated layout calculation. Please note, that in 
+      most cases it is completely sufficient to use the views property 'Layout' to
+      determine how the view should behave when the component is resized.
+
+    */
+
+    /*
+
+      TO DO:
+
+      Put here the code to calculate new position and size of enclosed views. The
+      current (new) size of the component itself is passed in the parameter aSize.
+      For example:
+
+        SomeView.Bounds = rect( 10, 10, aSize.x - 20, aSize.y - 20 );
+
+    */
+  }
+
+  $rect <260,80,460,120>
+  inherited method UpdateViewState()
+  {
+    // Always invoke the inherited method.
+    super( aState );
+
+    /*
+
+      HINT 1:
+
+      This method is invoked automatically when the state set of the component has
+      been changed. The new state set can be found in the parameter aState.
+      Following are the important states:
+
+        Enabled   --> The component can react to user inputs.
+
+        Selected  --> The component is selected in context of its owner.
+
+        Focused   --> The component is selected in context of its owner and 
+                      the owner can react to keyboard events. In this manner the
+                      component is also able to react to keyboard events.
+
+        Modal     --> The component is modal. All events are redirected to this
+                      component.
+
+      To determine whether a state is currently active or not you have to test
+      the aState parameter. For example to test the 'Selected' state:
+
+        if ( aState.contains( Core::ViewState[ Selected ]))
+        {
+          ... yes, this component is currently selected.
+        }
+
+    */
+
+    /*
+
+      HINT 2:
+
+      Alternatively you can request this method invocation by executing explicitly
+      following code:
+
+
+        InvalidateViewState();
+
+    */
+      
+    /*
+
+      TO DO 1:
+
+      Put here the code to ensure that the visual aspect of the component does
+      reflect its current state. For example, depending on its 'Enabled' state
+      a component may appear with full colors or pale if it is disabled:
+
+        if ( aState.contains( Core::ViewState[ Enabled ]))
+        {
+          SomeBackgroundView.Opacity = 255;
+          SomeTextView.Color         = #000000FF;
+        }
+        else
+        {
+          SomeBackgroundView.Opacity = 128;
+          SomeTextView.Color         = #00000080;
+        }
+
+
+      TO DO 2:
+
+      You can evaluate here also the state of any other member in your component.
+      For example in a push-button component, the button should appear highlighted
+      as long as the user holds the finger within a touch area of the button:
+
+        if ( SomeTouchHandler.Down && SomeTouchHandler.Inside )
+          HighlightedBackground.Visible = true;
+        else
+          HighlightedBackground.Visible = false;
+
+      The touch handler itself only requests the update method to be called. Use
+      for this purpose 'InvalidateViewState()' method.
+
+
+      TO DO 3:
+
+      You can calculate here also the position/size of views accordingly to the
+      state of any other member in your component. For example in a slider you
+      can calculate the position of the slider knob from some properties like
+      'SliderValue' and 'SliderRange':
+
+        SliderKnob.Bounds.origin.x = ( SliderValue * Bounds.w ) / SliderRange;
+
+      Changing the 'SliderValue' or 'SliderRange' property should only request
+      the update method to be called. Use for this purpose 'InvalidateViewState()'
+      method.
+
+    */
+  }
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Background
+  {
+    preset Bounds = <0,0,240,320>;
+    preset Color = #00000099;
+  }
+
+  // This is a filled rectangle view.
+  $rect <20,20,160,60>
+  object Views::Rectangle Rectangle
+  {
+    preset Bounds = <30,30,210,290>;
+    preset Color = #DCDCDCFF;
+  }
+
+  // Variable to reference the device class the entire lifetime of the application. \
+  // This avoids that the device class will be deleted by the Garbage Collector.
+  $rect <510,10,710,50>
+  var Application::DeviceClass Device = Application::Device;
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton Previous
+  {
+    preset Bounds = <30,240,80,290>;
+    preset OnRelease = PreviosDialog;
+    preset IconFrame = 2;
+    preset Icon = Resources::NavigationIconsMedium;
+    preset Label = "";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton Next
+  {
+    preset Bounds = <160,240,210,290>;
+    preset OnRelease = ExitDialog;
+    preset IconFrame = 8;
+    preset Icon = Resources::NavigationIconsMedium;
+    preset Label = "";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton PushButton
+  {
+    preset Bounds = <45,172,195,222>;
+    preset Label = "Load";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::ValueDisplay ValueDisplay
+  {
+    preset Layout = Core::Layout[AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <30,116,210,148>;
+    preset Unit = "";
+    preset Precision = 0;
+    preset Appearance = WidgetSet::ValueDisplay_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text Text
+  {
+    preset Bounds = <30,49,210,79>;
+    preset String = "200 mm";
+    preset Font = Application::TitelFont;
+    preset Color = #000000FF;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton Previous1
+  {
+    preset Bounds = <185,5,235,55>;
+    preset OnRelease = ExitDialog;
+    preset IconFrame = 9;
+    preset Icon = Resources::NavigationIconsMedium;
+    preset Label = "";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <260,200,460,240>
+  slot ExitDialog
+  {
+    if ( IsActiveDialog( true ))
+      Owner.DismissDialog( this, Application::FadeInOutCentered, null, null, null, null, true );
+  }
+
+  $rect <260,280,460,320>
+  slot PreviosDialog
+  {
+    if (IsActiveDialog(true)) 
+      GetRoot().SwitchToDialog( new Application::CalibrationWindow6, null, null, null, null, null, null, null, null, null, false );
+  }
+}
+
+$rect <150,260,400,300>
+$output false
+autoobject Effects::SlideTransition SlideRight
+{
+  preset Alignment = Effects::DialogAlignment[AlignHorzCenter, AlignVertCenter];
+  preset Direction = Core::Direction.Right;
+}
+
+$rect <150,300,400,340>
+$output false
+autoobject Effects::SlideTransition SlideLeft
+{
+  preset Direction = Core::Direction.Left;
+}
+
+$rect <150,340,400,380>
+$output false
+autoobject Effects::FadeInOutTransition FadeInOutCentered;
+
+$rect <70,-110,270,-70>
+$output false
+class Settings : Core::Group
+{
+  $rect <260,10,460,50>
+  inherited property Bounds = <0,0,240,320>;
+
+  $rect <260,120,460,160>
+  inherited method UpdateLayout()
+  {
+    // Always invoke the inherited method.
+    super( aSize );
+
+    /*
+
+      HINT:
+
+      This method exists for sophisticated layout calculation. Please note, that in 
+      most cases it is completely sufficient to use the views property 'Layout' to
+      determine how the view should behave when the component is resized.
+
+    */
+
+    /*
+
+      TO DO:
+
+      Put here the code to calculate new position and size of enclosed views. The
+      current (new) size of the component itself is passed in the parameter aSize.
+      For example:
+
+        SomeView.Bounds = rect( 10, 10, aSize.x - 20, aSize.y - 20 );
+
+    */
+  }
+
+  $rect <260,80,460,120>
+  inherited method UpdateViewState()
+  {
+    // Always invoke the inherited method.
+    super( aState );
+
+    /*
+
+      HINT 1:
+
+      This method is invoked automatically when the state set of the component has
+      been changed. The new state set can be found in the parameter aState.
+      Following are the important states:
+
+        Enabled   --> The component can react to user inputs.
+
+        Selected  --> The component is selected in context of its owner.
+
+        Focused   --> The component is selected in context of its owner and 
+                      the owner can react to keyboard events. In this manner the
+                      component is also able to react to keyboard events.
+
+        Modal     --> The component is modal. All events are redirected to this
+                      component.
+
+      To determine whether a state is currently active or not you have to test
+      the aState parameter. For example to test the 'Selected' state:
+
+        if ( aState.contains( Core::ViewState[ Selected ]))
+        {
+          ... yes, this component is currently selected.
+        }
+
+    */
+
+    /*
+
+      HINT 2:
+
+      Alternatively you can request this method invocation by executing explicitly
+      following code:
+
+
+        InvalidateViewState();
+
+    */
+      
+    /*
+
+      TO DO 1:
+
+      Put here the code to ensure that the visual aspect of the component does
+      reflect its current state. For example, depending on its 'Enabled' state
+      a component may appear with full colors or pale if it is disabled:
+
+        if ( aState.contains( Core::ViewState[ Enabled ]))
+        {
+          SomeBackgroundView.Opacity = 255;
+          SomeTextView.Color         = #000000FF;
+        }
+        else
+        {
+          SomeBackgroundView.Opacity = 128;
+          SomeTextView.Color         = #00000080;
+        }
+
+
+      TO DO 2:
+
+      You can evaluate here also the state of any other member in your component.
+      For example in a push-button component, the button should appear highlighted
+      as long as the user holds the finger within a touch area of the button:
+
+        if ( SomeTouchHandler.Down && SomeTouchHandler.Inside )
+          HighlightedBackground.Visible = true;
+        else
+          HighlightedBackground.Visible = false;
+
+      The touch handler itself only requests the update method to be called. Use
+      for this purpose 'InvalidateViewState()' method.
+
+
+      TO DO 3:
+
+      You can calculate here also the position/size of views accordingly to the
+      state of any other member in your component. For example in a slider you
+      can calculate the position of the slider knob from some properties like
+      'SliderValue' and 'SliderRange':
+
+        SliderKnob.Bounds.origin.x = ( SliderValue * Bounds.w ) / SliderRange;
+
+      Changing the 'SliderValue' or 'SliderRange' property should only request
+      the update method to be called. Use for this purpose 'InvalidateViewState()'
+      method.
+
+    */
+  }
+
+  // To do:
+  // 
+  // - Adjust the visible size of your component (the thick blue border).
+  // 
+  // - The simplest way to compose the appearance of the component is to use the \
+  // 'Views' and 'Widget Sets' from the Gallery.
+  // 
+  // - To react to touch or keyboard events use the templates from the Gallery folder \
+  // 'Event Handlers'.
+  // 
+  // - To perform transitions (animations) use the templates from the Gallery folder \
+  // 'Effects'.
+  // 
+  // - To implement the interface of the component use the 'Property' template from \
+  // the Gallery folder 'Chora'.
+  // 
+  // - To store values use the 'Variable' and 'Array' templates available in the \
+  // Gallery folder 'Chora'.
+  // 
+  // - To implement behavior use the 'Method' and 'Slot Method' templates available \
+  // in the Gallery folder 'Chora'.
+  // 
+  // - In the method 'UpdateViewState()' you can put code to update the state of \
+  // views enclosed in your component.
+  // 
+  // - In the method 'UpdateLayout()' you can put code to perform sophisticated layout \
+  // calculation for enclosed views.
+  note legend Note1
+  {
+    attr Bounds = <470,290,1250,610>;
+  }
+
+  // This is a filled rectangle view.
+  $rect <20,20,160,60>
+  object Views::Rectangle Rectangle
+  {
+    preset Bounds = <0,0,240,320>;
+    preset Color = #DCDCDCFF;
+  }
+
+  // This is an ordinary text view.
+  $rect <20,20,160,60>
+  object Views::Text Text
+  {
+    preset Bounds = <0,0,240,51>;
+    preset String = "Settings";
+    preset Font = Application::TitelFont;
+    preset Color = #000000FF;
+  }
+
+  $rect <260,200,460,240>
+  slot UpdateViewMenu
+  {
+    if ( IsActiveDialog( true ))
+      Owner.DismissDialog( this, null, null, null, null, null, true );
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton MenuButton
+  {
+    preset Bounds = <0,270,50,320>;
+    preset OnRelease = UpdateViewMenu;
+    preset IconFrame = 12;
+    preset Icon = Resources::NavigationIconsMedium;
+    preset Label = "";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  // Variable to reference the device class the entire lifetime of the application. \
+  // This avoids that the device class will be deleted by the Garbage Collector.
+  $rect <510,10,710,50>
+  var Application::DeviceClass Device = Application::Device;
+
+  $rect <20,20,160,60>
+  object WidgetSet::ToggleButton ToggleButton
+  {
+    preset Bounds = <25,64,215,114>;
+    preset Outlet = ^Application::Device.Lamptest;
+    preset Label = "Lamptest";
+    preset Appearance = WidgetSet::Switch_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::ToggleButton ToggleButton1
+  {
+    preset Bounds = <25,110,215,160>;
+    preset Outlet = ^Application::Device.Precision;
+    preset Checked = false;
+    preset Label = "Precision";
+    preset Appearance = WidgetSet::Switch_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::HorizontalSlider HorizontalSlider
+  {
+    preset Bounds = <20,174,220,224>;
+    preset Outlet = ^Application::Device.SelectWire;
+    preset MaxValue = 2;
+    preset CurrentValue = 1;
+    preset Appearance = WidgetSet::HorizontalSlider_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text Text1
+  {
+    preset Bounds = <0,216,64,246>;
+    preset String = "L";
+    preset Font = Application::Font;
+    preset Color = #000000FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text Text2
+  {
+    preset Bounds = <176,216,240,246>;
+    preset String = "L/N";
+    preset Font = Application::Font;
+    preset Color = #000000FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text Text3
+  {
+    preset Bounds = <76,216,164,246>;
+    preset String = "L/N/PE";
+    preset Font = Application::Font;
+    preset Color = #000000FF;
+  }
+}
+
+// This is a font resource.
+$rect <550,40,750,80>
+$output false
+resource Resources::Font Font1
+{
+  attr fontname FontName = Cambria Math;
+  attr fontheight Height = 32;
+  attr fontquality Quality = High;
+  attr fontranges Ranges = 0x20-0xFF;
+  attr fontaspectratio AspectRatio = 1.0;
+  attr fontbold Bold = false;
+  attr fontitalic Italic = false;
+  attr fontkerning Kerning = true;
+  attr fontheightmode HeightMode = Compatible;
+  attr fontrowdistance RowDistance;
 }

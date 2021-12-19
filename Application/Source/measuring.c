@@ -163,7 +163,7 @@ void MEAS_timer_init(void)
  * @n The DMA triggers the transfer complete interrupt when all data is ready.
  * @n The input is ADC3_IN4 = GPIO PF6
  *****************************************************************************/
-void ADC3_IN4_DMA_init(void)
+void ADC3_IN4_DMA_init(uint8_t arraySize)
 {
 	MEAS_data_ready = false;
 	__HAL_RCC_ADC3_CLK_ENABLE();					// Enable Clock for ADC3
@@ -181,7 +181,7 @@ void ADC3_IN4_DMA_init(void)
 	DMA2_Stream1->CR |= DMA_SxCR_PSIZE_1;			// Peripheral data size = 32 bit
 	DMA2_Stream1->CR |= DMA_SxCR_MINC;				// Increment memory address pointer
 	DMA2_Stream1->CR |= DMA_SxCR_TCIE;				// Transfer complete interrupt enable
-	DMA2_Stream1->NDTR = ADC_NUMS;					// Number of data items to transfer
+	DMA2_Stream1->NDTR = arraySize;					// Number of data items to transfer
 	DMA2_Stream1->PAR = (uint32_t)&ADC3->DR;		// Peripheral register address
 	DMA2_Stream1->M0AR = (int32_t)ADC_PAD1_samples;	// Buffer memory loc. address
 }
@@ -213,7 +213,7 @@ void ADC3_IN4_DMA_start(void)
  * @n The DMA triggers the transfer complete interrupt when all data is ready.
  * @n The input is ADC3_IN4 = GPIO PF6
  *****************************************************************************/
-void ADC3_IN6_DMA_init(void)
+void ADC3_IN6_DMA_init(uint8_t arraySize)
 {
 	MEAS_data_ready = false;
 	__HAL_RCC_ADC3_CLK_ENABLE();					// Enable Clock for ADC3
@@ -231,7 +231,7 @@ void ADC3_IN6_DMA_init(void)
 	DMA2_Stream1->CR |= DMA_SxCR_PSIZE_1;			// Peripheral data size = 32 bit
 	DMA2_Stream1->CR |= DMA_SxCR_MINC;				// Increment memory address pointer
 	DMA2_Stream1->CR |= DMA_SxCR_TCIE;				// Transfer complete interrupt enable
-	DMA2_Stream1->NDTR = ADC_NUMS;					// Number of data items to transfer
+	DMA2_Stream1->NDTR = arraySize;					// Number of data items to transfer
 	DMA2_Stream1->PAR = (uint32_t)&ADC3->DR;		// Peripheral register address
 	DMA2_Stream1->M0AR = (int32_t)ADC_PAD2_samples;	// Buffer memory loc. address
 }
@@ -266,7 +266,7 @@ void ADC3_IN6_DMA_start(void)
  * @n The input used with ADC1 is ADC123_IN13 = GPIO PC3
  * @n The input used with ADC2 is ADC12_IN5 = GPIO PA5
  *****************************************************************************/
-void ADC1_IN11_ADC2_IN13_dual_init(void)
+void ADC1_IN11_ADC2_IN13_dual_init(uint8_t arraySize)
 {
 	MEAS_data_ready = false;
 	__HAL_RCC_ADC1_CLK_ENABLE();		// Enable Clock for ADC1
@@ -287,7 +287,7 @@ void ADC1_IN11_ADC2_IN13_dual_init(void)
 	DMA2_Stream4->CR |= DMA_SxCR_PSIZE_1;	// Peripheral data size = 32 bit
 	DMA2_Stream4->CR |= DMA_SxCR_MINC;	// Increment memory address pointer
 	DMA2_Stream4->CR |= DMA_SxCR_TCIE;	// Transfer complete interrupt enable
-	DMA2_Stream4->NDTR = ADC_NUMS;		// Number of data items to transfer
+	DMA2_Stream4->NDTR = arraySize;		// Number of data items to transfer
 	DMA2_Stream4->PAR = (uint32_t)&ADC->CDR;	// Peripheral register address
 	DMA2_Stream4->M0AR = (int32_t)ADC_HALL_samples;	// Buffer memory loc. address
 }
@@ -355,7 +355,7 @@ void DMA2_Stream4_IRQHandler(void)
 		ADC2->CR2 &= ~ADC_CR2_ADON;		// Disable ADC2
 		ADC->CCR &= ~ADC_CCR_DMA_1;		// Disable DMA mode
 		/* Extract combined samples */
-		for (int32_t i = ADC_NUMS-1; i >= 0; i--){
+		for (int32_t i = ADC_NUMS_ACU-1; i >= 0; i--){
 			ADC_HALL1_samples[i] = (ADC_HALL_samples[i] >> 16);
 			ADC_HALL2_samples[i]   = (ADC_HALL_samples[i] & 0xffff);
 		}

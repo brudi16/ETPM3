@@ -48,29 +48,17 @@ view unit Application
   attr enableGrid = true;
   attr enableWireMode = false;
   attr grid = 10;
-  attr scrollTo = <-7,-547>;
+  attr scrollTo = <-7,-599>;
   attr zoom = 0.75;
 }
 
-view class Application::Settings
+view class Application::DetectorScreen
 {
   attr codeColSelect = false;
   attr codeFirstPos = <0,0>;
-  attr codeInspector = UpdateViewDebug;
-  attr codeSelEnd = <49,1>;
-  attr codeSelStart = <49,1>;
-  attr enableWireMode = false;
-  attr scrollTo = <-7,-196>;
-  attr zoom = 1.0;
-}
-
-view class Application::Debug
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeInspector = UpdateViewMenu;
-  attr codeSelEnd = <0,0>;
-  attr codeSelStart = <0,0>;
+  attr codeInspector = onEvent;
+  attr codeSelEnd = <46,8>;
+  attr codeSelStart = <46,8>;
   attr enableWireMode = false;
   attr scrollTo = <-7,-7>;
   attr zoom = 1.0;
@@ -80,23 +68,9 @@ view class Application::DeviceClass
 {
   attr codeColSelect = false;
   attr codeFirstPos = <0,0>;
-  attr codeInspector = Init;
-  attr codeSelEnd = <15,7>;
-  attr codeSelStart = <15,7>;
-  attr enableWireMode = false;
-  attr scrollTo = <-60,-5>;
-  attr zoom = 1.0;
-}
-
-view class Application::Calibration
-{
-  attr enableWireMode = false;
-  attr scrollTo = <-7,-7>;
-  attr zoom = 1.0;
-}
-
-view class Application::DetectorScreen
-{
+  attr codeInspector = UpdateMainsDetected;
+  attr codeSelEnd = <0,0>;
+  attr codeSelStart = <0,0>;
   attr enableWireMode = false;
   attr scrollTo = <-7,-7>;
   attr zoom = 1.0;
