@@ -22,7 +22,7 @@
 
 
 uint8_t measCase = 0;
-uint8_t arraySize = ADC_NUMS;
+uint16_t arraySize = ADC_NUMS;
 int32_t selectetWire = 1;
 
 
@@ -61,7 +61,7 @@ int32_t cmGetDistance(void){
     // Function call of all required functions to return the distance value...
     int32_t distance; // Distance in mm
 	
-		distance = getDistance(ADC_PAD1_samples,ADC_PAD2_samples, arraySize);
+		distance = getDistance(pad1Values,pad2Values, arraySize);
     return distance;
 }
 
@@ -86,8 +86,8 @@ int32_t cmGetAngle(void){
  */
 int32_t cmGetDebugHall1(void){
     // Function call of all required functions to return a debug value...
-		calc_removeDc(ADC_HALL1_samples,ADC_NUMS);
-    int32_t hall = (int32_t)calc_peakToPeak_av(ADC_HALL1_samples, ADC_NUMS); // Debug hall value
+		calc_removeDc(hall1Values,ADC_NUMS);
+    int32_t hall = (int32_t)calc_peakToPeak_av(hall1Values, ADC_NUMS); // Debug hall value
 
     
 
@@ -102,8 +102,8 @@ int32_t cmGetDebugHall1(void){
  */
 int32_t cmGetDebugHall2(void){
     // Function call of all required functions to return a debug value...
-    calc_removeDc(ADC_HALL2_samples,ADC_NUMS);
-    int32_t hall = (int32_t)calc_peakToPeak_av(ADC_HALL2_samples, ADC_NUMS); // Debug hall value
+    calc_removeDc(hall2Values,ADC_NUMS);
+    int32_t hall = (int32_t)calc_peakToPeak_av(hall2Values, ADC_NUMS); // Debug hall value
 
     return hall;
 }
@@ -116,8 +116,8 @@ int32_t cmGetDebugHall2(void){
  */
 int32_t cmGetDebugPad1(void){
     // Function call of all required functions to return a debug value...
-    calc_removeDc(ADC_PAD1_samples,ADC_NUMS);
-    int32_t pad = (int32_t)calc_peakToPeak_av(ADC_PAD1_samples, ADC_NUMS); // Debug pad value
+    calc_removeDc(pad1Values,ADC_NUMS);
+    int32_t pad = (int32_t)calc_peakToPeak_av(pad1Values, ADC_NUMS); // Debug pad value
 
     return pad;
 }
@@ -130,8 +130,8 @@ int32_t cmGetDebugPad1(void){
  */
 int32_t cmGetDebugPad2(void){
     // Function call of all required functions to return a debug value...
-    calc_removeDc(ADC_PAD2_samples,ADC_NUMS);
-    int32_t pad = (int32_t)calc_peakToPeak_av(ADC_PAD2_samples, ADC_NUMS); // Debug pad value
+    calc_removeDc(pad2Values,ADC_NUMS);
+    int32_t pad = (int32_t)calc_peakToPeak_av(pad2Values, ADC_NUMS); // Debug pad value
     return pad;
 }
 
@@ -188,9 +188,11 @@ void adcMeas(void){
 		case 2:
 			ADC1_IN11_ADC2_IN13_dual_init(arraySize);	// Initialize ADC1 IN11 & ADC2 IN13
 			ADC1_IN11_ADC2_IN13_dual_start();	// Start measurement with ADC1 IN11 & ADC2 IN13
-			measCase = 0;
+			measCase = 3;
 			break;
-
+        case 3:
+            cpyArrays(arraySize);
+            measCase = 0;
 		default:
 			break;
 		}

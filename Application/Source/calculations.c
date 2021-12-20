@@ -17,7 +17,8 @@
 #include "stm32f429i_discovery_ts.h"
 
 #include "calculations.h"
-//#include "measuring.h"
+#include "measuring.h"
+#include "API.h"
 #include "LUT.h"
 #include "math.h"
 
@@ -29,16 +30,26 @@
 #define NUM_PERIODS		= ((ADC_NUMS/ADC_FS)/(1/50))	///< Number of periods
 #define VALS_PER_PERIOD = (ADC_NUMS/NUM_PERIODS)		///< Number of values in a period
 
+/******************************************************************************
+ * Variables
+ *****************************************************************************/
+int32_t pad1Values[ADC_NUMS_ACU];
+int32_t pad2Values[ADC_NUMS_ACU];
+int32_t hall1Values[ADC_NUMS_ACU];
+int32_t hall2Values[ADC_NUMS_ACU];
 
 /******************************************************************************
  * Functions
  *****************************************************************************/
 
 /** ***************************************************************************
- * @brief
+ * @brief Calculate the DC-Value of the signal
+ * This funciton calculates the DC-Value of the signal by calculating its mean.
+ * The mean is calculted by summ up all values and divide by the number of values.
  *
- *
- * @n
+ * @param ADC_samples   Array with measured values
+ * @param size          Size of the Array
+ * @return int32_t      DC-Value of the signal
  *****************************************************************************/
 int32_t calc_dcValue(int32_t ADC_samples[], uint16_t size){
 	int32_t dcValue = 0;
@@ -53,6 +64,7 @@ int32_t calc_dcValue(int32_t ADC_samples[], uint16_t size){
 
 /** ***************************************************************************
  * @brief removes DC value form the array
+ * Goes through every value of the Array and removes its DC-Value.
  * 
  * @param ADC_samples 	Array with measured values
  * @param size 			Size of the Array
@@ -234,4 +246,14 @@ float calcStdDev(int32_t array[], int32_t size) {
     }
     return sqrt(SD / 10);
 }
-// int8_t Calc_Angle()
+
+void cpyArrays(int16_t size){
+    int16_t i;
+
+    for(i=0;i<size; i++){
+        pad1Values[i]    = ADC_PAD1_samples[i];
+        pad2Values[i]    = ADC_PAD2_samples[i];
+        hall1Values[i]   = ADC_HALL1_samples[i];
+        hall2Values[i]   = ADC_HALL2_samples[i];
+    }
+}
