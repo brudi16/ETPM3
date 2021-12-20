@@ -73,7 +73,8 @@ int32_t cmGetDistance(void){
  */
 int32_t cmGetAngle(void){
     // Function call of all required functions to return the angle value...
-    int32_t angle = 52; // Angle in degree
+    int32_t angle; // Angle in degree
+    angle = getAngle();
     return angle;
 }
 
