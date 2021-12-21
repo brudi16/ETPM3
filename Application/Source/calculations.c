@@ -247,8 +247,8 @@ float calcStdDev(int32_t array[], int32_t size) {
     return sqrt(SD / 10);
 }
 
-void cpyArrays(int16_t size){
-    int16_t i;
+void cpyArrays(uint16_t size){
+    uint16_t i;
 
     for(i=0;i<size; i++){
         pad1Values[i]    = ADC_PAD1_samples[i];

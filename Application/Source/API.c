@@ -86,8 +86,8 @@ int32_t cmGetAngle(void){
  */
 int32_t cmGetDebugHall1(void){
     // Function call of all required functions to return a debug value...
-		calc_removeDc(hall1Values,ADC_NUMS);
-    int32_t hall = (int32_t)calc_peakToPeak_av(hall1Values, ADC_NUMS); // Debug hall value
+		calc_removeDc(hall1Values,arraySize);
+    int32_t hall = (int32_t)calc_peakToPeak_av(hall1Values, arraySize); // Debug hall value
 
     
 
@@ -102,8 +102,8 @@ int32_t cmGetDebugHall1(void){
  */
 int32_t cmGetDebugHall2(void){
     // Function call of all required functions to return a debug value...
-    calc_removeDc(hall2Values,ADC_NUMS);
-    int32_t hall = (int32_t)calc_peakToPeak_av(hall2Values, ADC_NUMS); // Debug hall value
+    calc_removeDc(hall2Values,arraySize);
+    int32_t hall = (int32_t)calc_peakToPeak_av(hall2Values, arraySize); // Debug hall value
 
     return hall;
 }
@@ -116,8 +116,8 @@ int32_t cmGetDebugHall2(void){
  */
 int32_t cmGetDebugPad1(void){
     // Function call of all required functions to return a debug value...
-    calc_removeDc(pad1Values,ADC_NUMS);
-    int32_t pad = (int32_t)calc_peakToPeak_av(pad1Values, ADC_NUMS); // Debug pad value
+    calc_removeDc(pad1Values,arraySize);
+    int32_t pad = (int32_t)calc_peakToPeak_av(pad1Values, arraySize); // Debug pad value
 
     return pad;
 }
@@ -130,8 +130,8 @@ int32_t cmGetDebugPad1(void){
  */
 int32_t cmGetDebugPad2(void){
     // Function call of all required functions to return a debug value...
-    calc_removeDc(pad2Values,ADC_NUMS);
-    int32_t pad = (int32_t)calc_peakToPeak_av(pad2Values, ADC_NUMS); // Debug pad value
+    calc_removeDc(pad2Values,arraySize);
+    int32_t pad = (int32_t)calc_peakToPeak_av(pad2Values, arraySize); // Debug pad value
     return pad;
 }
 
