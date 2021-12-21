@@ -10,9 +10,9 @@
 /******************************************************************************
  * Defines
  *****************************************************************************/
-int32_t getDistance(int32_t array1[], int32_t array2[], int32_t size);
+int32_t getDistance(uint16_t size);
 int32_t getAngle(void);
-
+void removeDC(uint16_t size);
 
 
 #define PAD_TO_PAD_DISTANCE     25        ///< Distance between pads in mm

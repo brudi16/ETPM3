@@ -40,18 +40,13 @@ int32_t distance2 = 0;
  * @param array2 Array with values form pad 2
  * @param size   Size of the arrays
 *****************************************************************************/
-int32_t getDistance(int32_t array1[], int32_t array2[], int32_t size){
+int32_t getDistance(uint16_t size){
     int32_t peakToPeak1 = 0, peakToPeak2 = 0;
     int32_t distanceAv = 0;
 
-
-    // Remove DC values from Array
-    calc_removeDc(array1, size);
-    calc_removeDc(array2, size);
-
     // Calculate peak to peak Values of both arrays
-    peakToPeak1 = calc_peakToPeak_av(array1, size);
-    peakToPeak2 = calc_peakToPeak_av(array2, size);
+    peakToPeak1 = calc_peakToPeak_av(pad1Values, size);
+    peakToPeak2 = calc_peakToPeak_av(pad2Values, size);
 
     distance1 = getXFromY(pad1Lut, size, peakToPeak1);
     distance2 = getXFromY(pad2Lut, size, peakToPeak2);
@@ -95,4 +90,11 @@ int32_t getAngle(void){
 
 
     return y;
+}
+
+void removeDC(uint16_t size){
+		calc_removeDc(pad1Values, size);
+		calc_removeDc(pad2Values, size);
+		calc_removeDc(hall1Values, size);
+		calc_removeDc(hall2Values, size);
 }
