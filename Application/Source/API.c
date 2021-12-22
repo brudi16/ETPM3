@@ -36,7 +36,7 @@ void cmInitAll(void){
     // Function call of all initialisation functions...
 
     ExtLedInit(); // initialize all GPIOs for lamptest
-		initLUT();
+    initLUT();
 }
 
 /**

@@ -29,7 +29,7 @@
 // Signal
 #define NUM_PERIODS		= ((ADC_NUMS/ADC_FS)/(1/50))	///< Number of periods
 #define VALS_PER_PERIOD = (ADC_NUMS/NUM_PERIODS)		///< Number of values in a period
-
+#define DEBUG																				///< Activate for debugging
 /******************************************************************************
  * Variables
  *****************************************************************************/
@@ -37,6 +37,10 @@ int32_t pad1Values[ADC_NUMS_ACU];
 int32_t pad2Values[ADC_NUMS_ACU];
 int32_t hall1Values[ADC_NUMS_ACU];
 int32_t hall2Values[ADC_NUMS_ACU];
+
+int32_t debugArray[ADC_NUMS_ACU] = {
+	#include "debugArray.csv"
+};
 
 /******************************************************************************
  * Functions
@@ -251,9 +255,14 @@ void cpyArrays(uint16_t size){
     uint16_t i;
 
     for(i=0;i<size; i++){
+			#ifndef DEBUG
         pad1Values[i]    = ADC_PAD1_samples[i];
         pad2Values[i]    = ADC_PAD2_samples[i];
         hall1Values[i]   = ADC_HALL1_samples[i];
         hall2Values[i]   = ADC_HALL2_samples[i];
+			#endif
+			#ifdef DEBUG
+				
+			#endif
     }
 }
