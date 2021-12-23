@@ -1,11 +1,12 @@
 $version 1.0
 
+attr active = Application::DeviceClass;
 attr callStackMonitor_Show = false;
 attr codeColSelect = false;
 attr codeFirstPos = <0,0>;
-attr codeInspector = Application::DeviceClass.Init;
-attr codeSelEnd = <15,7>;
-attr codeSelStart = <15,7>;
+attr codeInspector = Application::DeviceClass.UpdateStandartDeviation;
+attr codeSelEnd = <0,0>;
+attr codeSelStart = <0,0>;
 attr connectInspectors = false;
 attr debug_TrackUpdates = false;
 attr extractDoc_ClassOverview = true;
@@ -34,7 +35,7 @@ view Project
   attr enableGrid = true;
   attr enableWireMode = false;
   attr grid = 10;
-  attr scrollTo = <-103,-518>;
+  attr scrollTo = <-103,-406>;
   attr zoom = 0.75;
 }
 
@@ -52,31 +53,19 @@ view unit Application
   attr zoom = 0.75;
 }
 
-view class Application::DetectorScreen
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeInspector = onEvent;
-  attr codeSelEnd = <46,8>;
-  attr codeSelStart = <46,8>;
-  attr enableWireMode = false;
-  attr scrollTo = <-7,-7>;
-  attr zoom = 1.0;
-}
-
 view class Application::DeviceClass
 {
   attr codeColSelect = false;
   attr codeFirstPos = <0,0>;
-  attr codeInspector = UpdateMainsDetected;
+  attr codeInspector = UpdateStandartDeviation;
   attr codeSelEnd = <0,0>;
   attr codeSelStart = <0,0>;
   attr enableWireMode = false;
-  attr scrollTo = <-7,-7>;
+  attr scrollTo = <-7,73>;
   attr zoom = 1.0;
 }
 
-view class Application::DistanceMeasurement
+view class Application::CurrentMeasurement
 {
   attr enableWireMode = false;
   attr scrollTo = <-7,-7>;

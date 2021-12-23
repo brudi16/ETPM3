@@ -363,6 +363,13 @@ int DeviceDriver_ProcessData( void )
 
   #endif
 
+  #ifdef _ApplicationDeviceClass__UpdateStandartDeviation_
+
+      ApplicationDeviceClass__UpdateStandartDeviation( DeviceObject, (XInt32)cmGetStandartDeviation() );
+      needUpdate = 1;
+
+  #endif
+
 #endif
 
   /*

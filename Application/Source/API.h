@@ -22,5 +22,6 @@ void adcMeas(void);
 void cmSetPrecision(bool precision);
 void cmGetSelectetWire(int32_t selection);
 bool cmMainsDetected(void);
+int32_t cmGetStandartDeviation(void);
 
 #endif /* INC_API_H_ */

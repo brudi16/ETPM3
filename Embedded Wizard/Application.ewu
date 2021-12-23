@@ -288,6 +288,24 @@ $rect <290,-190,490,-150>
 $output false
 class DetectorScreen : Core::Group
 {
+  $rect <554,161,734,201>
+  inherited method Init()
+  {
+    if(Device.MainsDetected){
+      ShowIcon.Enabled = true;
+      ShowText.Enabled = true;
+      ShowIcon.StartEffect;
+      ShowText.StartEffect;
+    } else {
+      Image.Visible = false;
+      WarningMessage.Visible = false;
+      ShowIcon.StopEffect;
+      ShowText.StopEffect;
+      ShowIcon.Enabled = false;
+      ShowText.Enabled = false;
+    }
+  }
+
   $rect <260,0,460,40>
   inherited property Bounds = <0,0,240,320>;
 
@@ -432,6 +450,7 @@ class DetectorScreen : Core::Group
     preset Bounds = <56,62,184,211>;
     preset Animated = false;
     preset Bitmap = Application::WarnSign;
+    preset Visible = false;
   }
 
   $rect <20,20,160,60>
@@ -441,6 +460,7 @@ class DetectorScreen : Core::Group
     preset String = "MAINS CABLE\nDETECTED!";
     preset Font = Application::Font;
     preset Color = #000000FF;
+    preset Visible = false;
   }
 
   $rect <20,20,160,60>
@@ -472,14 +492,19 @@ class DetectorScreen : Core::Group
   $rect <550,60,750,100>
   object Effects::BoolEffect ShowIcon
   {
-    preset Outlet = null;
+    preset Outlet = ^Image.Visible;
+    preset CycleDuration = 1000;
+    preset InterCycleDelay = 500;
+    preset InitialDelay = 0;
     preset Enabled = true;
   }
 
   $rect <550,100,750,140>
   object Effects::BoolEffect ShowText
   {
-    preset Outlet = null;
+    preset Outlet = ^WarningMessage.Visible;
+    preset NoOfCycles = 1;
+    preset InterCycleDelay = 500;
     preset Enabled = true;
   }
 
@@ -500,15 +525,19 @@ class DetectorScreen : Core::Group
   $rect <460,240,660,280>
   slot onEvent
   {
-    //if(Device.MainsDetected){
-    //  postsignal ShowIcon.StartEffect;
-    //  postsignal ShowText.StartEffect;
-    //} else {
-    //  postsignal ShowIcon.StopEffect;
-    //  postsignal ShowText.StopEffect;
-    //}
-    Image.Visible = Device.MainsDetected;
-    WarningMessage.Visible = Device.MainsDetected;
+    if(Device.MainsDetected){
+      ShowIcon.Enabled = true;
+      ShowText.Enabled = true;
+      ShowIcon.StartEffect;
+      ShowText.StartEffect;
+    } else {
+      Image.Visible = false;
+      WarningMessage.Visible = false;
+      ShowIcon.StopEffect;
+      ShowText.StopEffect;
+      ShowIcon.Enabled = false;
+      ShowText.Enabled = false;
+    }
   }
 
   // The object 'PropertyObserver' is a handler of property notifications. When the \
@@ -714,8 +743,8 @@ class CurrentMeasurement : Core::Group
     preset Bounds = <0,80,240,261>;
     preset Enabled = true;
     preset Outlet = ^Application::Device.Current;
-    preset MaxValue = 10;
-    preset CurrentValue = 5;
+    preset MaxValue = 5;
+    preset CurrentValue = 3;
     preset Appearance = Application::BlueGauge;
   }
 
@@ -723,10 +752,14 @@ class CurrentMeasurement : Core::Group
   object WidgetSet::ValueDisplay ValueDisplay
   {
     preset Layout = Core::Layout[];
-    preset Bounds = <83,160,157,192>;
+    preset Bounds = <82,160,159,192>;
     preset Outlet = ^Application::Device.Current;
     preset Unit = "A";
     preset Precision = 1;
+    preset NoOfDigits = 0;
+    preset CurrentBias = 0;
+    preset CurrentFactor = 0.001;
+    preset CurrentValue = 1578;
     preset Appearance = WidgetSet::ValueDisplay_Medium;
   }
 
@@ -1243,17 +1276,18 @@ class DistanceMeasurement : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::ValueDisplay ValueDisplay2
   {
-    preset Bounds = <136,279,234,311>;
+    preset Bounds = <125,279,223,311>;
+    preset Outlet = ^Application::Device.StandartDeviation;
     preset Unit = "mm";
     preset Precision = 0;
-    preset CurrentValue = 99;
-    preset Appearance = WidgetSet::ValueDisplay_Medium;
+    preset CurrentValue = 100;
+    preset Appearance = WidgetSet::ValueDisplay_Small;
   }
 
   $rect <20,20,160,60>
   object Views::Text Text1
   {
-    preset Bounds = <60,279,125,311>;
+    preset Bounds = <71,279,136,311>;
     preset String = "Std. Dev.";
     preset Font = Application::Font1;
     preset Color = #000000FF;
@@ -1874,9 +1908,10 @@ class DeviceClass : Templates::DeviceClass
   }
 
   $rect <970,280,1170,320>
-  property bool MainsDetected = false;
+  property bool MainsDetected = 0;
 
   $rect <970,320,1170,360>
+  $output true
   method void UpdateMainsDetected( arg bool aNewValue )
   {
     // Only if the reported value does differ from the one stored currently in the property.
@@ -1894,6 +1929,7 @@ class DeviceClass : Templates::DeviceClass
   property bool Precision;
 
   $rect <970,420,1170,460>
+  $output true
   onset Precision
   {
     // The value doesn't change - nothing to do.
@@ -1946,6 +1982,56 @@ class DeviceClass : Templates::DeviceClass
 
     // Notify all associated property observers.
     notifyobservers ^SelectWire;
+  }
+
+  $rect <270,480,470,520>
+  property int32 StandartDeviation;
+
+  $rect <270,520,470,560>
+  $output true
+  method void UpdateStandartDeviation( arg int32 aNewValue )
+  {
+    // Only if the reported value does differ from the one stored currently in the property.
+    if ( aNewValue != pure StandartDeviation )
+    {
+      // Remember the new value in the internal memory of the property.
+      pure StandartDeviation = aNewValue;
+
+      // Notify all associated property observers.
+      notifyobservers ^StandartDeviation;
+    }
+  }
+
+  $rect <500,480,700,520>
+  property bool SelectedCalibration = 0;
+
+  $rect <500,520,700,560>
+  $output true
+  onset SelectedCalibration
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure SelectedCalibration == value )
+      return;
+
+    // Remember the property's new value.
+    pure SelectedCalibration = value;
+
+    // TO DO:
+    // 
+    // Now you can handle the alternation of the property.
+    $if !$prototyper
+      native ( value )
+      {
+        if(value){
+          DeviceDriver_SetPrecision(true);
+        } else {
+          DeviceDriver_SetPrecision(false);
+        }
+      }
+    $endif
+
+    // Notify all associated property observers.
+    notifyobservers ^SelectedCalibration;
   }
 }
 
@@ -2532,11 +2618,11 @@ class Calibration : Core::Group
   slot OpenCalibrationDialog
   {
     if (IsActiveDialog(true)) 
-      GetRoot().PresentDialog( new Application::CalibrationWindow1, Application::FadeInOutCentered, null, null, null, null, null, null, null, false );
+      GetRoot().PresentDialog( new Application::SelectCalibration, Application::FadeInOutCentered, null, null, null, null, null, null, null, false );
   }
 }
 
-$rect <70,70,270,110>
+$rect <70,110,270,150>
 $output false
 class CalibrationWindow1 : Core::Group
 {
@@ -2754,7 +2840,7 @@ class CalibrationWindow1 : Core::Group
   }
 }
 
-$rect <70,110,270,150>
+$rect <70,150,270,190>
 $output false
 class CalibrationWindow2 : Core::Group
 {
@@ -2990,7 +3076,7 @@ class CalibrationWindow2 : Core::Group
   }
 }
 
-$rect <70,150,270,190>
+$rect <70,190,270,230>
 $output false
 class CalibrationWindow3 : Core::Group
 {
@@ -3226,7 +3312,7 @@ class CalibrationWindow3 : Core::Group
   }
 }
 
-$rect <70,190,270,230>
+$rect <290,70,490,110>
 $output false
 class CalibrationWindow4 : Core::Group
 {
@@ -3462,7 +3548,7 @@ class CalibrationWindow4 : Core::Group
   }
 }
 
-$rect <290,70,490,110>
+$rect <290,110,490,150>
 $output false
 class CalibrationWindow5 : Core::Group
 {
@@ -3698,7 +3784,7 @@ class CalibrationWindow5 : Core::Group
   }
 }
 
-$rect <290,110,490,150>
+$rect <290,150,490,190>
 $output false
 class CalibrationWindow6 : Core::Group
 {
@@ -3934,7 +4020,7 @@ class CalibrationWindow6 : Core::Group
   }
 }
 
-$rect <290,150,490,190>
+$rect <290,190,490,230>
 $output false
 class CalibrationWindow7 : Core::Group
 {
@@ -4461,4 +4547,222 @@ resource Resources::Font Font1
   attr fontkerning Kerning = true;
   attr fontheightmode HeightMode = Compatible;
   attr fontrowdistance RowDistance;
+}
+
+$rect <70,70,270,110>
+$output false
+class SelectCalibration : Core::Group
+{
+  $rect <260,10,460,50>
+  inherited property Bounds = <0,0,240,320>;
+
+  $rect <260,120,460,160>
+  inherited method UpdateLayout()
+  {
+    // Always invoke the inherited method.
+    super( aSize );
+
+    /*
+
+      HINT:
+
+      This method exists for sophisticated layout calculation. Please note, that in 
+      most cases it is completely sufficient to use the views property 'Layout' to
+      determine how the view should behave when the component is resized.
+
+    */
+
+    /*
+
+      TO DO:
+
+      Put here the code to calculate new position and size of enclosed views. The
+      current (new) size of the component itself is passed in the parameter aSize.
+      For example:
+
+        SomeView.Bounds = rect( 10, 10, aSize.x - 20, aSize.y - 20 );
+
+    */
+  }
+
+  $rect <260,80,460,120>
+  inherited method UpdateViewState()
+  {
+    // Always invoke the inherited method.
+    super( aState );
+
+    /*
+
+      HINT 1:
+
+      This method is invoked automatically when the state set of the component has
+      been changed. The new state set can be found in the parameter aState.
+      Following are the important states:
+
+        Enabled   --> The component can react to user inputs.
+
+        Selected  --> The component is selected in context of its owner.
+
+        Focused   --> The component is selected in context of its owner and 
+                      the owner can react to keyboard events. In this manner the
+                      component is also able to react to keyboard events.
+
+        Modal     --> The component is modal. All events are redirected to this
+                      component.
+
+      To determine whether a state is currently active or not you have to test
+      the aState parameter. For example to test the 'Selected' state:
+
+        if ( aState.contains( Core::ViewState[ Selected ]))
+        {
+          ... yes, this component is currently selected.
+        }
+
+    */
+
+    /*
+
+      HINT 2:
+
+      Alternatively you can request this method invocation by executing explicitly
+      following code:
+
+
+        InvalidateViewState();
+
+    */
+      
+    /*
+
+      TO DO 1:
+
+      Put here the code to ensure that the visual aspect of the component does
+      reflect its current state. For example, depending on its 'Enabled' state
+      a component may appear with full colors or pale if it is disabled:
+
+        if ( aState.contains( Core::ViewState[ Enabled ]))
+        {
+          SomeBackgroundView.Opacity = 255;
+          SomeTextView.Color         = #000000FF;
+        }
+        else
+        {
+          SomeBackgroundView.Opacity = 128;
+          SomeTextView.Color         = #00000080;
+        }
+
+
+      TO DO 2:
+
+      You can evaluate here also the state of any other member in your component.
+      For example in a push-button component, the button should appear highlighted
+      as long as the user holds the finger within a touch area of the button:
+
+        if ( SomeTouchHandler.Down && SomeTouchHandler.Inside )
+          HighlightedBackground.Visible = true;
+        else
+          HighlightedBackground.Visible = false;
+
+      The touch handler itself only requests the update method to be called. Use
+      for this purpose 'InvalidateViewState()' method.
+
+
+      TO DO 3:
+
+      You can calculate here also the position/size of views accordingly to the
+      state of any other member in your component. For example in a slider you
+      can calculate the position of the slider knob from some properties like
+      'SliderValue' and 'SliderRange':
+
+        SliderKnob.Bounds.origin.x = ( SliderValue * Bounds.w ) / SliderRange;
+
+      Changing the 'SliderValue' or 'SliderRange' property should only request
+      the update method to be called. Use for this purpose 'InvalidateViewState()'
+      method.
+
+    */
+  }
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Background
+  {
+    preset Bounds = <0,0,240,320>;
+    preset Color = #00000099;
+  }
+
+  // This is a filled rectangle view.
+  $rect <20,20,160,60>
+  object Views::Rectangle Rectangle
+  {
+    preset Bounds = <30,30,210,290>;
+    preset Color = #DCDCDCFF;
+  }
+
+  $rect <260,200,460,240>
+  slot ExitDialog
+  {
+    if ( IsActiveDialog( true ))
+      Owner.DismissDialog( this, Application::FadeInOutCentered, null, null, null, null, true );
+  }
+
+  // Variable to reference the device class the entire lifetime of the application. \
+  // This avoids that the device class will be deleted by the Garbage Collector.
+  $rect <510,10,710,50>
+  var Application::DeviceClass Device = Application::Device;
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton PushButton
+  {
+    preset Bounds = <49,209,199,259>;
+    preset OnRelease = RefTwoDialog;
+    preset Label = "5 A";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text Text
+  {
+    preset Bounds = <30,37,210,101>;
+    preset String = "Select\nReference";
+    preset Font = Application::TitelFont;
+    preset Color = #000000FF;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton Previous1
+  {
+    preset Bounds = <185,5,235,55>;
+    preset OnRelease = ExitDialog;
+    preset IconFrame = 9;
+    preset Icon = Resources::NavigationIconsMedium;
+    preset Label = "";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <260,240,460,280>
+  slot RefOneDialog
+  {
+    if (IsActiveDialog(true)){
+      Device.SelectedCalibration = false;
+      GetRoot().SwitchToDialog( new Application::CalibrationWindow1, null, null, null, null, null, null, null, null, null, false );
+    }
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton PushButton1
+  {
+    preset Bounds = <49,147,199,197>;
+    preset OnRelease = RefOneDialog;
+    preset Label = "1.2 A";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <260,280,460,320>
+  slot RefTwoDialog
+  {
+    if (IsActiveDialog(true)){
+      Device.SelectedCalibration = true;
+      GetRoot().SwitchToDialog( new Application::CalibrationWindow1, null, null, null, null, null, null, null, null, null, false );
+    }
+  }
 }
