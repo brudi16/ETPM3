@@ -20,4 +20,6 @@ void cmSetPrecision(bool precision);
 void cmGetSelectetWire(int32_t selection);
 bool cmMainsDetected(void);
 
+extern uint16_t arraySize;
+
 #endif /* INC_API_H_ */

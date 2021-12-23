@@ -12,8 +12,8 @@
  * Defines
  *****************************************************************************/
 #define LUT_SIZE_PAD    200          ///< Length of the LUT for the Pads
-//#define LUT_X_SIZE_HALL   200          ///< Length of the LUT for the Hall Sensor
-//#define LUT_Y_SIZE_HALL   200          ///< Length of the LUT for the Hall Sensor
+//#define LUT_X_SIZE_HALL   200          ///< x length of the LUT for the Hall Sensor
+//#define LUT_Y_SIZE_HALL   200          ///< Y length of the LUT for the Hall Sensor
 
 extern uint16_t pad1Lut[LUT_SIZE_PAD];
 extern uint16_t pad2Lut[LUT_SIZE_PAD];
