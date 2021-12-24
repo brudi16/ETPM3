@@ -136,18 +136,8 @@ int32_t cmGetDebugPad2(void){
  * This funktion calls all initialisation funktion for the cabel monitor hardware.
  * 
  */
-void cmSetLampTest(void){
-    ExtLedSetLamptest(); // Switch all LEDs on
-}
-
-/**
- * @brief Lamptest off funktion
- * 
- * This funktion calls all initialisation funktion for the cabel monitor hardware.
- * 
- */
-void cmDisableLampTest(void){
-    ExtLedDisableLamptest(); // Switch all LEDs off
+void cmSetLampTest(bool set){
+    ExtLedSetLamptest(set); // Switch all LEDs on
 }
 
 /**

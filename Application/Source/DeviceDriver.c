@@ -471,39 +471,8 @@ void DeviceDriver_SetTime( XUInt32 aTime )
 *   In this implementation simply the LED is switched on or off.
 *
 *******************************************************************************/
-void DeviceDriver_SetLampTest( void )
-{
-  /*
-     In case you are using an operating system to communicate with your
-     device driver that is running within its own thread/task/process,
-     send a message to the device driver and transmit the new value.
-     Please note, that this function is called within the context of the main
-     GUI thread.
-  */
-
-  /*
-     Here we are accessing directly the device driver by calling a certain
-     BSP / driver function.
-  */
-    cmSetLampTest();
-    //adcMeas();
-}
-
-void DeviceDriver_DisableLampTest( void )
-{
-  /*
-     In case you are using an operating system to communicate with your
-     device driver that is running within its own thread/task/process,
-     send a message to the device driver and transmit the new value.
-     Please note, that this function is called within the context of the main
-     GUI thread.
-  */
-
-  /*
-     Here we are accessing directly the device driver by calling a certain
-     BSP / driver function.
-  */
-    cmDisableLampTest();
+void DeviceDriver_SetLampTest(bool set){
+  cmSetLampTest(set);
 }
 
 /**

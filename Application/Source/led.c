@@ -112,18 +112,14 @@ void ExtLedSet(uint8_t ledNum, bool status){
 	}
 }
 
-void ExtLedSetLamptest(void){
-	uint8_t i;
-
-	for (i=0; i<8; i++){
-		ExtLedSet(i, true);
-	}
-}
-
-void ExtLedDisableLamptest(void){
-	uint8_t i;
-	
-	for (i=0; i<8; i++){
-		ExtLedSet(i, false);
+void ExtLedSetLamptest(bool set){
+	if(set){
+		for (uint8_t i=0; i<8; i++){
+			ExtLedSet(i, true);
+		}
+	} else{
+		for (uint8_t i=0; i<8; i++){
+			ExtLedSet(i, false);
+		}
 	}
 }

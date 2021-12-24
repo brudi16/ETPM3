@@ -1985,33 +1985,9 @@ class DeviceClass : Templates::DeviceClass
   }
 
   $rect <270,480,470,520>
-  property float TestFloat;
-
-  $rect <270,520,470,560>
-  onset TestFloat
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure TestFloat == value )
-      return;
-
-    // Remember the property's new value.
-    pure TestFloat = value;
-
-    // TO DO:
-    // 
-    // Now you can handle the alternation of the property.
-  }
-
-  $rect <270,560,470,600>
-  onget TestFloat
-  {
-    return pure TestFloat;
-  }
-
-  $rect <500,480,700,520>
   property int32 StandartDeviation;
 
-  $rect <500,520,700,560>
+  $rect <270,520,470,560>
   $output true
   method void UpdateStandartDeviation( arg int32 aNewValue )
   {
@@ -2026,10 +2002,10 @@ class DeviceClass : Templates::DeviceClass
     }
   }
 
-  $rect <730,480,930,520>
+  $rect <500,480,700,520>
   property bool SelectedCalibration = 0;
 
-  $rect <730,520,930,560>
+  $rect <500,520,700,560>
   $output true
   onset SelectedCalibration
   {

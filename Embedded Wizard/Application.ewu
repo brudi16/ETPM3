@@ -1769,11 +1769,7 @@ class DeviceClass : Templates::DeviceClass
     $if !$prototyper
       native ( value )
       {
-        if(value){
-          DeviceDriver_SetLampTest();
-        } else {
-          DeviceDriver_DisableLampTest();
-        }
+        DeviceDriver_SetLampTest(value);
       }
     $endif
 
