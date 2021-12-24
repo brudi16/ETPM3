@@ -73,7 +73,7 @@ bool MEAS_data_ready = true;			///< New data is ready
 //static uint32_t ADC_sample_count = 0;	///< Index for buffer
 int32_t ADC_PAD1_samples[ADC_NUMS_ACU];
 int32_t ADC_PAD2_samples[ADC_NUMS_ACU];
-int32_t ADC_HALL_samples[ADC_NUMS_ACU];
+int32_t ADC_PAD_samples[ADC_NUMS_ACU];
 int32_t ADC_HALL1_samples[ADC_NUMS_ACU];
 int32_t ADC_HALL2_samples[ADC_NUMS_ACU];
 
@@ -110,10 +110,10 @@ void SystemClock_Config(void){
  * @brief Configure GPIOs in analog mode.
  *
  * @note The input number for the ADCs is not equal to the GPIO pin number!
- * - ADC3_IN4 = GPIO PF6 (PAD 1)
- * - ADC3_IN6 = GPIO PF8 (PAD 2)
- * - ADC123_IN11 = GPIO PC1 (Hall Sensor 1)
- * - ADC123_IN13 = GPIO PC3 (Hall Sensor 2)
+ * - ADC3_IN4 = GPIO PF6 (HALL Sensor 1)
+ * - ADC3_IN6 = GPIO PF8 (HALL Sensor 2)
+ * - ADC123_IN11 = GPIO PC1 (PAD 1)
+ * - ADC123_IN13 = GPIO PC3 (PAD 2)
  *****************************************************************************/
 void MEAS_GPIO_analog_init(void){
 	__HAL_RCC_GPIOF_CLK_ENABLE();				// Enable Clock for GPIO port F
@@ -183,7 +183,7 @@ void ADC3_IN4_DMA_init(uint8_t arraySize)
 	DMA2_Stream1->CR |= DMA_SxCR_TCIE;				// Transfer complete interrupt enable
 	DMA2_Stream1->NDTR = arraySize;					// Number of data items to transfer
 	DMA2_Stream1->PAR = (uint32_t)&ADC3->DR;		// Peripheral register address
-	DMA2_Stream1->M0AR = (int32_t)ADC_PAD1_samples;	// Buffer memory loc. address
+	DMA2_Stream1->M0AR = (int32_t)ADC_HALL1_samples;	// Buffer memory loc. address
 }
 
 
@@ -233,7 +233,7 @@ void ADC3_IN6_DMA_init(uint8_t arraySize)
 	DMA2_Stream1->CR |= DMA_SxCR_TCIE;				// Transfer complete interrupt enable
 	DMA2_Stream1->NDTR = arraySize;					// Number of data items to transfer
 	DMA2_Stream1->PAR = (uint32_t)&ADC3->DR;		// Peripheral register address
-	DMA2_Stream1->M0AR = (int32_t)ADC_PAD2_samples;	// Buffer memory loc. address
+	DMA2_Stream1->M0AR = (int32_t)ADC_HALL2_samples;	// Buffer memory loc. address
 }
 
 
@@ -289,7 +289,7 @@ void ADC1_IN11_ADC2_IN13_dual_init(uint8_t arraySize)
 	DMA2_Stream4->CR |= DMA_SxCR_TCIE;	// Transfer complete interrupt enable
 	DMA2_Stream4->NDTR = arraySize;		// Number of data items to transfer
 	DMA2_Stream4->PAR = (uint32_t)&ADC->CDR;	// Peripheral register address
-	DMA2_Stream4->M0AR = (int32_t)ADC_HALL_samples;	// Buffer memory loc. address
+	DMA2_Stream4->M0AR = (int32_t)ADC_PAD_samples;	// Buffer memory loc. address
 }
 
 /** ***************************************************************************
@@ -356,8 +356,8 @@ void DMA2_Stream4_IRQHandler(void)
 		ADC->CCR &= ~ADC_CCR_DMA_1;		// Disable DMA mode
 		/* Extract combined samples */
 		for (int32_t i = ADC_NUMS_ACU-1; i >= 0; i--){
-			ADC_HALL1_samples[i] = (ADC_HALL_samples[i] >> 16);
-			ADC_HALL2_samples[i]   = (ADC_HALL_samples[i] & 0xffff);
+			ADC_PAD1_samples[i] = (ADC_PAD_samples[i] >> 16);
+			ADC_PAD2_samples[i]   = (ADC_PAD_samples[i] & 0xffff);
 		}
 		ADC_reset();
 		MEAS_data_ready = true;
