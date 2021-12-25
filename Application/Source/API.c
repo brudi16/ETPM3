@@ -216,11 +216,11 @@ void cmGetSelectetWire(int32_t selection){
  * @return true 
  */
 bool cmMainsDetected(void){
-    int32_t distance = 50;
+    int32_t distance = cmGetDebugPad1();
     if(distance <= 100){
-        return 1;
-    } else{
         return 0;
+    } else{
+        return 1;
     }
 }
 
