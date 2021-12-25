@@ -4,9 +4,6 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-uint8_t measCase;
-
-
 void cmInitAll(void);
 int32_t cmGetCurrent(void);
 int32_t cmGetDistance(void);
@@ -23,5 +20,7 @@ void cmGetSelectetWire(int32_t selection);
 bool cmMainsDetected(void);
 int32_t cmGetStandartDeviation(void);
 void cmSetDistanceLED(bool set);
+
+extern uint16_t arraySize;
 
 #endif /* INC_API_H_ */

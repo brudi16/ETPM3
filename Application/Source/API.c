@@ -16,12 +16,13 @@
 #include "measuring.h"
 #include "calculations.h"
 #include "signalProcessing.h"
+#include "LUT.h"
 #include "stm32f4xx.h"
 #include "stm32f429i_discovery.h"
 
 
 uint8_t measCase = 0;
-uint8_t arraySize = ADC_NUMS;
+uint16_t arraySize = ADC_NUMS;
 int32_t selectetWire = 1;
 
 
@@ -35,6 +36,7 @@ void cmInitAll(void){
     // Function call of all initialisation functions...
 
     ExtLedInit(); // initialize all GPIOs for lamptest
+    initLUT();
 }
 
 /**
@@ -57,7 +59,9 @@ int32_t cmGetCurrent(void){
  */
 int32_t cmGetDistance(void){
     // Function call of all required functions to return the distance value...
-    int32_t distance = 152; // Distance in mm
+    int32_t distance; // Distance in mm
+	
+		distance = getDistance(arraySize);
     return distance;
 }
 
@@ -69,7 +73,8 @@ int32_t cmGetDistance(void){
  */
 int32_t cmGetAngle(void){
     // Function call of all required functions to return the angle value...
-    int32_t angle = 52; // Angle in degree
+    int32_t angle; // Angle in degree
+    angle = getAngle();
     return angle;
 }
 
@@ -81,8 +86,7 @@ int32_t cmGetAngle(void){
  */
 int32_t cmGetDebugHall1(void){
     // Function call of all required functions to return a debug value...
-		calc_removeDc(ADC_HALL1_samples,ADC_NUMS);
-    int32_t hall = (int32_t)calc_peakToPeak_av(ADC_HALL1_samples, ADC_NUMS); // Debug hall value
+    int32_t hall = (int32_t)calc_peakToPeak_av(hall1Values, arraySize); // Debug hall value
 
     
 
@@ -97,8 +101,7 @@ int32_t cmGetDebugHall1(void){
  */
 int32_t cmGetDebugHall2(void){
     // Function call of all required functions to return a debug value...
-    calc_removeDc(ADC_HALL2_samples,ADC_NUMS);
-    int32_t hall = (int32_t)calc_peakToPeak_av(ADC_HALL2_samples, ADC_NUMS); // Debug hall value
+    int32_t hall = (int32_t)calc_peakToPeak_av(hall2Values, arraySize); // Debug hall value
 
     return hall;
 }
@@ -111,8 +114,7 @@ int32_t cmGetDebugHall2(void){
  */
 int32_t cmGetDebugPad1(void){
     // Function call of all required functions to return a debug value...
-    calc_removeDc(ADC_PAD1_samples,ADC_NUMS);
-    int32_t pad = (int32_t)calc_peakToPeak_av(ADC_PAD1_samples, ADC_NUMS); // Debug pad value
+    int32_t pad = (int32_t)calc_peakToPeak_av(pad1Values, arraySize); // Debug pad value
 
     return pad;
 }
@@ -125,8 +127,7 @@ int32_t cmGetDebugPad1(void){
  */
 int32_t cmGetDebugPad2(void){
     // Function call of all required functions to return a debug value...
-    calc_removeDc(ADC_PAD2_samples,ADC_NUMS);
-    int32_t pad = (int32_t)calc_peakToPeak_av(ADC_PAD2_samples, ADC_NUMS); // Debug pad value
+    int32_t pad = (int32_t)calc_peakToPeak_av(pad2Values, arraySize); // Debug pad value
     return pad;
 }
 
@@ -173,9 +174,13 @@ void adcMeas(void){
 		case 2:
 			ADC1_IN11_ADC2_IN13_dual_init(arraySize);	// Initialize ADC1 IN11 & ADC2 IN13
 			ADC1_IN11_ADC2_IN13_dual_start();	// Start measurement with ADC1 IN11 & ADC2 IN13
-			measCase = 0;
+			measCase = 3;
 			break;
-
+     case 3:
+      cpyArrays(arraySize);
+      measCase = 0;
+			removeDC(arraySize);
+			break;
 		default:
 			break;
 		}

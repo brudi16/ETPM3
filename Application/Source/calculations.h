@@ -10,6 +10,7 @@
 #define SRC_CALCULATIONS_H_
 
 //#include "stdint.h"
+#include "measuring.h"
 
 /******************************************************************************
  * Functions
@@ -28,6 +29,18 @@ int32_t LinearInterpol(int32_t x0, int32_t y0, int32_t x1, int32_t y1, int32_t x
 
 // Search function
 int32_t getXFromY(uint16_t array[], int32_t size, int32_t yValue);
+
+// Copy function
+void cpyArrays(uint16_t size);
+
+/******************************************************************************
+ * external variables
+ *****************************************************************************/
+
+extern int32_t pad1Values[ADC_NUMS_ACU];
+extern int32_t pad2Values[ADC_NUMS_ACU];
+extern int32_t hall1Values[ADC_NUMS_ACU];
+extern int32_t hall2Values[ADC_NUMS_ACU];
 
 #endif /* SRC_CALCULATIONS_H_ */
 
