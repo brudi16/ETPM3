@@ -252,6 +252,7 @@ int DeviceDriver_ProcessData( void )
      get all necessary data you want to provide to the GUI application.
   */
   adcMeas();
+  cmSetDistanceLED(true);
 
 #ifdef _ApplicationDeviceClass_
 

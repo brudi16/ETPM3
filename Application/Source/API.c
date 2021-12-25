@@ -221,3 +221,7 @@ bool cmMainsDetected(void){
 int32_t cmGetStandartDeviation(void){
     return 57;
 }
+
+void cmSetDistanceLED(bool set){
+    ExtLedSetDistance(true, 123);
+}
