@@ -19,7 +19,7 @@
  *****************************************************************************/
 void ExtLedInit(void);
 void ExtLedSet(uint8_t ledNum, bool status);
-void ExtLedSetLamptest(void);
-void ExtLedDisableLamptest(void);
+void ExtLedSetLamptest(bool set);
+void ExtLedSetDistance(bool set ,int32_t distance);
 
 #endif /* INC_LED_H_ */

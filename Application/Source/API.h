@@ -12,13 +12,14 @@ int32_t cmGetDebugHall1(void);
 int32_t cmGetDebugHall2(void);
 int32_t cmGetDebugPad1(void);
 int32_t cmGetDebugPad2(void);
-void cmSetLampTest(void);
-void cmDisableLampTest(void);
+void cmSetLampTest(bool set);
 void adcInit(void);
 void adcMeas(void);
 void cmSetPrecision(bool precision);
 void cmGetSelectetWire(int32_t selection);
 bool cmMainsDetected(void);
+int32_t cmGetStandartDeviation(void);
+void cmSetDistanceLED(bool set);
 
 extern uint16_t arraySize;
 

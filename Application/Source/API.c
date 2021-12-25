@@ -1,7 +1,7 @@
 /**
  * @file API.c
  * @author Yves Röhrig, roehryve@students.zhaw.ch
- * @brief 
+ * @brief This file contains the API and serves as an interface between the hardware functions and the Graphical User Interface.
  * @version 0.1
  * @date 2021-12-06
  * 
@@ -27,7 +27,7 @@ int32_t selectetWire = 1;
 
 
 /**
- * @brief Main initialisation funtkion
+ * @brief Initialisation call for all hardware functions
  * 
  * This funktion calls all initialisation funktion for the cabel monitor hardware.
  * 
@@ -137,18 +137,8 @@ int32_t cmGetDebugPad2(void){
  * This funktion calls all initialisation funktion for the cabel monitor hardware.
  * 
  */
-void cmSetLampTest(void){
-    ExtLedSetLamptest(); // Switch all LEDs on
-}
-
-/**
- * @brief Lamptest off funktion
- * 
- * This funktion calls all initialisation funktion for the cabel monitor hardware.
- * 
- */
-void cmDisableLampTest(void){
-    ExtLedDisableLamptest(); // Switch all LEDs off
+void cmSetLampTest(bool set){
+    ExtLedSetLamptest(set); // Switch all LEDs on
 }
 
 /**
@@ -226,10 +216,17 @@ void cmGetSelectetWire(int32_t selection){
  * @return true 
  */
 bool cmMainsDetected(void){
-    if(selectetWire >=1){
-        return true;
-    } else{
-        return false;
-    }
-    
+    return 1;
+}
+
+/**
+ * @brief Get Standart Deviation
+ * 
+ */
+int32_t cmGetStandartDeviation(void){
+    return 57;
+}
+
+void cmSetDistanceLED(bool set){
+    ExtLedSetDistance(true, 123);
 }
