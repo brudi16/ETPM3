@@ -22,12 +22,13 @@
 extern bool MEAS_data_ready;
 extern bool DAC_active;
 
-#define ADC_NUMS		60			    ///< Number of samples for standart measurement
+#define ADC_NUMS		120			    ///< Number of samples for standart measurement
 #define ADC_NUMS_ACU	(4*ADC_NUMS)	///< Number of samples for acurate measurement
 #define ADC_DAC_RES		12			    ///< Resolution
-#define ADC_FS			600			    ///< Sampling freq. => 12 samples for a 50Hz period
+#define ADC_FS			1200			///< Sampling freq. => 24 samples for a 50Hz period
 #define ADC_CLOCK		84000000	    ///< APB2 peripheral clock frequency
 #define ADC_CLOCKS_PS	15			    ///< Clocks/sample: 3 hold + 12 conversion
+#define ADC_SPP         (ADC_FS/50)     ///< Number of samples per period
 #define TIM_CLOCK		84000000	    ///< APB1 timer clock frequency
 #define TIM_TOP			9			    ///< Timer top value
 #define TIM_PRESCALE	(TIM_CLOCK/ADC_FS/(TIM_TOP+1)-1) ///< Clock prescaler

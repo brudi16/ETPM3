@@ -96,7 +96,7 @@ void calc_removeDc(int32_t ADC_samples[], uint16_t size){
  *****************************************************************************/
 uint32_t calc_peakToPeak_av(int32_t ADC_samples[], uint16_t size){
 	uint16_t i1, i2;
-	uint8_t nPeriods = size / 12;
+	uint8_t nPeriods = size / ADC_SPP;
 	int32_t maxTmp, minTmp, max = 0, min = 0, peakToPeakValue, tmpVal;
 
 	// Loop for periods
@@ -104,7 +104,7 @@ uint32_t calc_peakToPeak_av(int32_t ADC_samples[], uint16_t size){
         maxTmp = 0;
         minTmp = 0;
 		// Loop for values in periods
-		for(i2=0; i2 < 12; i2++){
+		for(i2=0; i2 < ADC_SPP; i2++){
 			// get actual value from Array
             tmpVal = ADC_samples[((nPeriods * i1)+i2)];
 			if(tmpVal > maxTmp){
@@ -227,7 +227,7 @@ float calcStdDev(int32_t array[], int32_t size) {
     uint16_t i, peakPeakArray[10] = {0,0,0,0,0,0,0,0,0,0};
 
     uint16_t i1, i2;
-	uint8_t nPeriods = size / 12;
+	uint8_t nPeriods = size / ADC_SPP;
 	int32_t maxTmp, minTmp, peakToPeakValue, tmpVal;
 
 	for(i1=0; i1 < nPeriods; i1++){
