@@ -1,14 +1,17 @@
-/**
+/** ***************************************************************************
  * @file API.c
- * @author Yves Röhrig, roehryve@students.zhaw.ch
- * @brief This file contains the API and serves as an interface between the hardware functions and the Graphical User Interface.
- * @version 0.1
- * @date 2021-12-06
- * 
- * @copyright Copyright (c) 2021
- * 
- */
+ * @brief API functions for interacting with the Hardware
+ *
+ * This file contains the API and serves as an interface between the hardware functions and the Graphical User Interface.
+ * @n
+ *
+ * @author  Yves Röhrig, roehryve@students.zhaw.ch
+ * @date	25.12.2021
+ *****************************************************************************/
 
+/******************************************************************************
+ * Includes
+ *****************************************************************************/
 #include <stdint.h>
 #include <stdbool.h>
 #include "API.h"
@@ -20,18 +23,23 @@
 #include "stm32f4xx.h"
 #include "stm32f429i_discovery.h"
 
-
+/******************************************************************************
+ * Variables
+ *****************************************************************************/
 uint8_t measCase = 0;
 uint16_t arraySize = ADC_NUMS;
 int32_t selectetWire = 1;
 
+/******************************************************************************
+ * Functions
+ *****************************************************************************/
 
-/**
+/** ***************************************************************************
  * @brief Initialisation call for all hardware functions
  * 
  * This funktion calls all initialisation funktion for the cabel monitor hardware.
- * 
- */
+ *
+ *****************************************************************************/
 void cmInitAll(void){
     // Function call of all initialisation functions...
 
@@ -39,24 +47,26 @@ void cmInitAll(void){
     initLUT();
 }
 
-/**
+/** ***************************************************************************
  * @brief Current meassurement funktion
  * 
- * This funktion calls all initialisation funktion for the cabel monitor hardware.
- * 
- */
+ * Get the calculated Currend.
+ *
+ * @return Currend in mA
+ *****************************************************************************/
 int32_t cmGetCurrent(void){
     // Function call of all required functions to return the current value...
     int32_t current = selectetWire; // This variable represense the meassured current in ampere
     return current;
 }
 
-/**
+/** ***************************************************************************
  * @brief Distance meassurement funktion
  * 
- * This funktion calls all initialisation funktion for the cabel monitor hardware.
- * 
- */
+ * Get the calculated Distance.
+ *
+ * @return Distance in mm
+ *****************************************************************************/
 int32_t cmGetDistance(void){
     // Function call of all required functions to return the distance value...
     int32_t distance; // Distance in mm
@@ -65,12 +75,13 @@ int32_t cmGetDistance(void){
     return distance;
 }
 
-/**
+/** ***************************************************************************
  * @brief Angle meassurement funktion
  * 
- * This funktion calls all initialisation funktion for the cabel monitor hardware.
- * 
- */
+ * Get the calculated Angle.
+ *
+ * @return Angle in grade
+ *****************************************************************************/
 int32_t cmGetAngle(void){
     // Function call of all required functions to return the angle value...
     int32_t angle; // Angle in degree
@@ -78,40 +89,39 @@ int32_t cmGetAngle(void){
     return angle;
 }
 
-/**
- * @brief Debug funktion
+/** ***************************************************************************
+ * @brief Debug funktion for the HALL1 Sensor
  * 
- * This funktion calls a debug funktion for the cabel monitor hardware.
- * 
- */
+ * This function returns a debug value for testing purposes.
+ *
+ * @return Debug value for Hall1
+ *****************************************************************************/
 int32_t cmGetDebugHall1(void){
     // Function call of all required functions to return a debug value...
     int32_t hall = (int32_t)calc_peakToPeak_av(hall1Values, arraySize); // Debug hall value
-
-    
-
     return hall;
 }
 
-/**
- * @brief Debug funktion
+/** ***************************************************************************
+ * @brief Debug funktion for the HALL2 Sensor
  * 
- * This funktion calls a debug funktion for the cabel monitor hardware.
- * 
- */
+ * This function returns a debug value for testing purposes.
+ *
+ * @return Debug value for Hall2
+ *****************************************************************************/
 int32_t cmGetDebugHall2(void){
     // Function call of all required functions to return a debug value...
     int32_t hall = (int32_t)calc_peakToPeak_av(hall2Values, arraySize); // Debug hall value
-
     return hall;
 }
 
-/**
- * @brief Debug funktion
+/** ***************************************************************************
+ * @brief Debug funktion for PAD1
  * 
- * This funktion calls a debug funktion for the cabel monitor hardware.
- * 
- */
+ * This function returns a debug value for testing purposes.
+ *
+ * @return Debug value for PAD1
+ *****************************************************************************/
 int32_t cmGetDebugPad1(void){
     // Function call of all required functions to return a debug value...
     int32_t pad = (int32_t)calc_peakToPeak_av(pad1Values, arraySize); // Debug pad value
@@ -119,32 +129,37 @@ int32_t cmGetDebugPad1(void){
     return pad;
 }
 
-/**
- * @brief Debug funktion
+/** ***************************************************************************
+ * @brief Debug funktion for PAD2
  * 
- * This funktion calls a debug funktion for the cabel monitor hardware.
- * 
- */
+ * This function returns a debug value for testing purposes.
+ *
+ * @return Debug value for PAD2
+ *****************************************************************************/
 int32_t cmGetDebugPad2(void){
     // Function call of all required functions to return a debug value...
     int32_t pad = (int32_t)calc_peakToPeak_av(pad2Values, arraySize); // Debug pad value
     return pad;
 }
 
-/**
- * @brief Lamptest on funktion
+/** ***************************************************************************
+ * @brief Test LED's off the cable monitor hardware
  * 
- * This funktion calls all initialisation funktion for the cabel monitor hardware.
+ * This function returns a debug value for testing purposes.
  * 
- */
+ * @param set Set and reset the Lamptest
+ *
+ *****************************************************************************/
 void cmSetLampTest(bool set){
     ExtLedSetLamptest(set); // Switch all LEDs on
 }
 
-/**
+/** ***************************************************************************
  * @brief ADC initialisation
  * 
- */
+ * Initialisation of the ADC's to read analog values from the cable monitor hardware.
+ *
+ *****************************************************************************/
 void adcInit(void){
     SystemClock_Config();				// Configure system clocks
     gyro_disable();						// Disable gyro, use those analog inputs
@@ -152,10 +167,15 @@ void adcInit(void){
 	MEAS_timer_init();					// Configure the timer
 }
 
-/**
- * @brief ADC Measuring
+/** ***************************************************************************
+ * @brief Performe analog measurement
  * 
- */
+ * This function prepares the ADCs and then starts the measurement.
+ * Each ADC measurement is taken after the previous measurement is completed.
+ * The results in the DMA's target array are copied before the calculation
+ * functions change them.
+ *
+ *****************************************************************************/
 void adcMeas(void){
 	if(MEAS_data_ready){
 		switch (measCase){
@@ -187,10 +207,14 @@ void adcMeas(void){
 	}
 }
 
-/**
+/** ***************************************************************************
  * @brief Set Precision
  * 
- */
+ * Switch between to differend ADC sample lenght.
+ * 
+ * @param precision Set if more samples needed
+ *
+ *****************************************************************************/
 void cmSetPrecision(bool precision){
     if(precision){
         arraySize = ADC_NUMS_ACU;
@@ -199,22 +223,29 @@ void cmSetPrecision(bool precision){
     }
 }
 
-/**
+/** ***************************************************************************
  * @brief Get selectet Wire
  * 
- * @param selection 
- */
+ * A global variable is overwritten with the transfer value of the function.
+ * 
+ * @param selection Represents the set wire arrangement in the cable to be measured. 
+ *
+ *****************************************************************************/
 void cmGetSelectetWire(int32_t selection){
     if(selection <= 2){
         selectetWire = selection;    
     }
 }
 
-/**
- * @brief 
+/** ***************************************************************************
+ * @brief Mains Detected
  * 
- * @return true 
- */
+ * The ADC value of the pads is compared with a set reference value and if this
+ * value is exceeded or not reached, the return value is changed.
+ * 
+ * @return True if a mains cable is detected 
+ *
+ *****************************************************************************/
 bool cmMainsDetected(void){
     int32_t distance = cmGetDebugPad1();
     if(distance <= 100){
@@ -224,14 +255,24 @@ bool cmMainsDetected(void){
     }
 }
 
-/**
- * @brief Get Standart Deviation
+/** ***************************************************************************
+ * @brief Standart Deviation
  * 
- */
+ * This function returns the standard deviation in mm.
+ * 
+ * @return Standart deviation in mm 
+ *
+ *****************************************************************************/
 int32_t cmGetStandartDeviation(void){
     return 57;
 }
 
+/** ***************************************************************************
+ * @brief Enable Distance LED
+ * 
+ * @param set Turn on and off the Distance LED's. 
+ *
+ *****************************************************************************/
 void cmSetDistanceLED(bool set){
     ExtLedSetDistance(true, 123);
 }
