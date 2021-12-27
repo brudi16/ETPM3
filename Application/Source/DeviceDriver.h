@@ -1,38 +1,38 @@
 /** ***************************************************************************
-*
-* E M B E D D E D   W I Z A R D   P R O J E C T
-*
-*                                                Copyright (c) TARA Systems GmbH
-*                                    written by Paul Banach and Manfred Schweyer
-*
-********************************************************************************
-*
-* This software is delivered "as is" and shows the usage of other software
-* components. It is provided as an example software which is intended to be
-* modified and extended according to particular requirements.
-*
-* TARA Systems hereby disclaims all warranties and conditions with regard to the
-* software, including all implied warranties and conditions of merchantability
-* and non-infringement of any third party IPR or other rights which may result
-* from the use or the inability to use the software.
-*
-********************************************************************************
-*
-* DESCRIPTION:
-*   This file implements an interface between an Embedded Wizard generated UI
-*   application and a certain device. Please consider this file only as template
-*   that is intended to show the binding between an UI application and the
-*   underlying system (e.g. middleware, BSP, hardware driver, protocol, ...).
-*
-*   This device driver is the counterpart to a device class implemented within
-*   your Embedded Wizard project.
-*
-*   Feel free to adapt this file according your needs!
-*
-*   Within this sample, we demonstrate the access to the board LED and the
-*   hardware button. Furthemore, the console interface is used to print a string.
-*
-*****************************************************************************/
+ * 
+ * @file DeviceDriver.h
+ *
+ *
+ * @copyright TARA Systems GmbH
+ * @author Paul Banach and Manfred Schweyer
+ *
+ ********************************************************************************
+ *
+ * @n This software is delivered "as is" and shows the usage of other software
+ * components. It is provided as an example software which is intended to be
+ * modified and extended according to particular requirements.
+ *
+ * @n TARA Systems hereby disclaims all warranties and conditions with regard to the
+ * software, including all implied warranties and conditions of merchantability
+ * and non-infringement of any third party IPR or other rights which may result
+ * from the use or the inability to use the software.
+ *
+ ********************************************************************************
+ *
+ * This file implements an interface between an Embedded Wizard generated UI
+ * application and a certain device. Please consider this file only as template
+ * that is intended to show the binding between an UI application and the
+ * underlying system (e.g. middleware, BSP, hardware driver, protocol, ...).
+ *
+ * This device driver is the counterpart to a device class implemented within
+ * your Embedded Wizard project.
+ *
+ * Feel free to adapt this file according your needs!
+ *
+ * Within this sample, we demonstrate the access to the board LED and the
+ * hardware button. Furthemore, the console interface is used to print a string.
+ *
+ *****************************************************************************/
 
 #ifndef DEVICEDRIVER_H
 #define DEVICEDRIVER_H
