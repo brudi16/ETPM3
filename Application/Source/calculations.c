@@ -328,3 +328,31 @@ void filter_hall(void){
         hall2Values[i] = tmpArray[i];
     }
 }
+/**
+ * @brief 
+ * 
+ * @param distance1 
+ * @param distance2 
+ * @return uint32_t 
+ */
+uint32_t calc_distance(uint32_t distance1, uint32_t distance2){
+    uint32_t distance;
+    int32_t difference;
+
+    difference = ((int32_t)distance1) - ((int32_t)distance2);
+		if(distance1 == 999 && distance2 == 999){
+				distance = 999;
+		}else if(distance1 == 999){
+				distance = distance2;
+		}else if(distance2 == 999){
+				distance = distance1;
+		}else if(difference > 50){
+        distance = distance1;
+    }else if(difference < -50){
+        distance = distance2;
+    }else{
+        distance = ((distance1 + distance2)/2);
+    }
+
+    return distance;
+}
