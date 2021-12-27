@@ -8,19 +8,20 @@
  * @author  Pavel Müller, muellpav@students.zhaw.ch
  * @date	28.11.2021
  *****************************************************************************/
-
+#define ARM_MATH_CM4				///< Set the arm Math to Cortex M4
 /******************************************************************************
  * Includes
  *****************************************************************************/
 #include "stm32f4xx.h"
 #include "stm32f429i_discovery.h"
 #include "stm32f429i_discovery_ts.h"
+#include "arm_math.h"
 
 #include "calculations.h"
 #include "measuring.h"
 #include "API.h"
 #include "LUT.h"
-#include "math.h"
+//#include "math.h"
 
 
 /******************************************************************************
@@ -30,6 +31,7 @@
 #define NUM_PERIODS		= ((ADC_NUMS/ADC_FS)/(1/50))	///< Number of periods
 #define VALS_PER_PERIOD = (ADC_NUMS/NUM_PERIODS)		///< Number of values in a period
 //#define DEBUG																				///< Activate for debugging
+
 /******************************************************************************
  * Variables
  *****************************************************************************/
@@ -40,6 +42,13 @@ int32_t hall2Values[ADC_NUMS_ACU];
 
 int32_t debugArray[ADC_NUMS_ACU] = {
 	#include "debugArray.csv"
+};
+
+const float aiir[] = {0.0023, 0, -0.0045, 0, 0.0023};   ///< A coefficients of the iir filter
+const float biir[] = {1.0, -3.4095, 4.7708, -3.1806};   ///< B coefficients of the iir filter
+
+const float bfir[] = {                                  ///< coefficients of the fir filter
+    #include "bfir.csv"
 };
 
 /******************************************************************************
@@ -251,6 +260,17 @@ float calcStdDev(int32_t array[], int32_t size) {
     return sqrt(SD / 10);
 }
 
+/** ***************************************************************************
+ * @brief Copy Arrays from measuring array to calculations array
+ * 
+ * The measured values are copied from measuring array to an array for the
+ * calculations. This prevents that the values are processed and overwritten
+ * by DAC on the same time.
+ * When debug is activated the arrays are initilized with a matlab generated
+ * array with a peak to peak value of 4095. 
+ *
+ * @param size Size of the array 
+ *****************************************************************************/
 void cpyArrays(uint16_t size){
     uint16_t i;
 
@@ -268,4 +288,12 @@ void cpyArrays(uint16_t size){
             hall2Values[i]   = debugArray[i];
 		#endif
     }
+}
+
+void filter_hall_init(void){
+    
+}
+
+void filter_hall_start(void){
+    //
 }

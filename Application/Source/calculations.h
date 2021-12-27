@@ -42,5 +42,6 @@ extern int32_t pad2Values[ADC_NUMS_ACU];
 extern int32_t hall1Values[ADC_NUMS_ACU];
 extern int32_t hall2Values[ADC_NUMS_ACU];
 
+
 #endif /* SRC_CALCULATIONS_H_ */
 
