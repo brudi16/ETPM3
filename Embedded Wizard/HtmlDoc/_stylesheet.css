@@ -1,0 +1,59 @@
+.Document            { background-color: #FFFFFF; color: black; font-family:Segoe UI, Segoe, Helvetica Neue, Helvetica, Tahoma, Verdana, Arial, sans-serif; font-weight:normal; }
+.Caption             { font-size:22px; text-align:center; text-decoration:none; }
+.Definition          { border-top-color: #AAAAAA; border-top-width: 1px; border-top-style: solid; }
+.Declaration         { font-family: Courier New; font-size:16px; text-align:left; padding-left:2em; padding-right:1em; }
+.Description         { font-size:16px; text-align:justify; padding-left:1em; padding-right:1em; }
+
+TABLE.Members        { border-color:#AAAAAA; border-style:solid; border-width:3px; }
+TH.Members           { font-size:16px; font-weight: normal; border-bottom-style:solid; border-bottom-width:2px; }
+TD.Members           { font-size:16px; font-weight: normal; }
+TD.Class             { text-align:left; padding:0px; }
+
+TABLE.Items          { border-color:#AAAAAA; border-style:solid; border-width:2px; }
+TH.Items1            { font-size:16px; font-weight: normal; border-bottom-style:solid; border-bottom-width:1px; border-right-style:solid; border-right-width:1px; }
+TH.Items2            { font-size:16px; font-weight: normal; border-bottom-style:solid; border-bottom-width:1px; }
+TD.Items1            { text-align:center; font-size:16px; font-weight: normal; border-top-style:solid; border-top-width:1px; border-right-style:solid; border-right-width:1px; padding-left:6px; padding-right:6px; }
+TD.Items2            { font-size:16px; font-weight: normal; border-top-style:solid; border-top-width:1px; text-align:justify; padding-left:6px; padding-right:6px; }
+
+TABLE.NoClass        { border-color:#AAAAAA; border-style:solid; border-width:2px; }
+TABLE.SuperClass     { border-color:#AAAAAA; border-style:solid; border-width:2px; }
+TABLE.ThisClass      { border-color:#AAAAAA; border-style:double; border-width:3px; }
+TH.NoClass           { font-size:16px; font-weight: normal; }
+TH.SuperClass        { font-size:16px; font-weight: normal; }
+TH.ThisClass         { font-size:16px; font-weight: normal; }
+TD.SuperClass        { font-size:16px; font-weight: normal; border-top-style:solid; border-top-width:1px; }
+TD.ThisClass         { font-size:16px; font-weight: normal; border-top-style:solid; border-top-width:1px; }
+
+A.ThisClass          { color:black; font-weight:normal; font-size:16px; text-decoration: none; }
+A.SuperClass         { color:black; font-weight:normal; font-size:16px; text-decoration: none; }
+A.NoClass            { color:black; font-weight:normal; font-size:16px; text-decoration: none; }
+
+UL.Description       { font-size:16px; font-weight: normal; }
+LI.Description       { }
+
+TABLE.Classes        { border-color:#AAAAAA; border-style:solid; border-width:3px; }
+A.Class              { color:black; font-weight:normal; font-size:14px; text-decoration: none; padding:2px; border-color: #AAAAAA; border-width:1px; border-style:solid; background-color:#EEEEEE; }
+A.OtherClass         { color:black; font-weight:normal; font-size:14px; text-decoration: none; padding:2px; border-color: #CCCCCC; border-width:1px; border-style:solid; background-color:#FEFEFE; }
+SPAN.OtherClass      { color:gray; font-weight:normal; font-size:14px; text-decoration: none; padding:2px; border-color: #CCCCCC; border-width:1px; border-style:solid; background-color:#FEFEFE ;}
+
+SPAN.NewMember       { color:black; font-weight:normal; font-size:14px; text-decoration: none; font-style: italic; }
+SPAN.InhMember       { color:gray;  font-weight:normal; font-size:14px; text-decoration: none; font-style: italic; }
+
+A.NewMember          { color:black; font-weight:normal; font-size:14px; text-decoration: none; }
+A.InhMember          { color:gray;  font-weight:normal; font-size:14px; text-decoration: none; }
+A                    { text-decoration:none; }
+A:hover              { text-decoration:underline; }
+A.Default            { text-decoration:underline; }
+
+SPAN.Name            { font-weight: bold; }
+
+DIV.NavArea          { position:fixed; width:370px; height:100%; z-index:1; border-right:1px solid #EEEEEE; background-color:#FAFAFA; font-weight:normal; font-size:16px; overflow-y:auto; overflow-x:hide; top:0; left:0; }
+DIV.NavList          { padding-left:1em; padding-top:1em; padding-bottom:1em;  }
+DIV.Content          { z-index:2; margin-left:370px; padding-left:3em; padding-right:1em; }
+DIV.NavList A        { display:block; color:#888888; }
+DIV.NavList SPAN     { display:block; color:black; }
+DIV.NavList DIV      { margin-left:1em; }
+
+P.Title              { text-align:center; font-size: 300%; margin-top:3em; }
+P.Info1              { text-align:center; font-size: 150%; margin-top:3em; }
+P.Info2              { text-align:center; font-size: 100%; margin-top:1em; }

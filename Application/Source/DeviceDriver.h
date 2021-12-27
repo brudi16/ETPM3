@@ -1,4 +1,4 @@
-/*******************************************************************************
+/** ***************************************************************************
 *
 * E M B E D D E D   W I Z A R D   P R O J E C T
 *
@@ -32,7 +32,7 @@
 *   Within this sample, we demonstrate the access to the board LED and the
 *   hardware button. Furthemore, the console interface is used to print a string.
 *
-*******************************************************************************/
+*****************************************************************************/
 
 #ifndef DEVICEDRIVER_H
 #define DEVICEDRIVER_H
@@ -46,7 +46,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-/*******************************************************************************
+/** ***************************************************************************
 * FUNCTION:
 *   DeviceDriver_Initialize
 *
@@ -62,11 +62,11 @@
 * RETURN VALUE:
 *   None
 *
-*******************************************************************************/
+*****************************************************************************/
 void DeviceDriver_Initialize( void );
 
 
-/*******************************************************************************
+/** ***************************************************************************
 * FUNCTION:
 *   DeviceDriver_Deinitialize
 *
@@ -82,11 +82,11 @@ void DeviceDriver_Initialize( void );
 * RETURN VALUE:
 *   None
 *
-*******************************************************************************/
+*****************************************************************************/
 void DeviceDriver_Deinitialize( void );
 
 
-/*******************************************************************************
+/** ***************************************************************************
 * FUNCTION:
 *   DeviceDriver_ProcessData
 *
@@ -104,11 +104,11 @@ void DeviceDriver_Deinitialize( void );
 *   The function returns a non-zero value if a property has changed or if a
 *   system event was triggered. If nothing happens, the function returns 0.
 *
-*******************************************************************************/
+*****************************************************************************/
 int DeviceDriver_ProcessData( void );
 
 
-/*******************************************************************************
+/** ***************************************************************************
 * FUNCTION:
 *   DeviceDriver_SetLedStatus
 *
@@ -118,11 +118,11 @@ int DeviceDriver_ProcessData( void );
 *   device should be changed.
 *   In this implementation the LED is switched on or off.
 *
-*******************************************************************************/
+*****************************************************************************/
 void DeviceDriver_SetLedStatus( XInt32 aValue );
 
 
-/*******************************************************************************
+/** ***************************************************************************
 * FUNCTION:
 *   DeviceDriver_PrintMessage
 *
@@ -132,11 +132,11 @@ void DeviceDriver_SetLedStatus( XInt32 aValue );
 *   happen.
 *   In this implementation the given message is printed via the console interface.
 *
-*******************************************************************************/
+*****************************************************************************/
 void DeviceDriver_PrintMessage( XString aText );
 
 
-/*******************************************************************************
+/** ***************************************************************************
 * FUNCTION:
 *   DeviceDriver_SetTime
 *
@@ -144,10 +144,10 @@ void DeviceDriver_PrintMessage( XString aText );
 *   This is a sample for a function called from the device class, when the
 *   system time (RTC time) should be changed.
 *
-*******************************************************************************/
+*****************************************************************************/
 void DeviceDriver_SetTime( XUInt32 aTime );
 
-/*******************************************************************************
+/** ***************************************************************************
 * FUNCTION:
 *   DeviceDriver_SetLampTest
 *
@@ -155,7 +155,7 @@ void DeviceDriver_SetTime( XUInt32 aTime );
 *   This is a function to test all LEDs on the external Hardware
 *   
 *
-*******************************************************************************/
+*****************************************************************************/
 void DeviceDriver_SetLampTest(bool set);
 void DeviceDriver_SetPrecision(bool precision);
 void DeviceDriver_SetWireSelection(int32_t selection);
