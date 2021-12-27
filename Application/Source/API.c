@@ -198,8 +198,9 @@ void adcMeas(void){
 			break;
      case 3:
       cpyArrays(arraySize);
-      measCase = 0;
 			removeDC(arraySize);
+			//filter_hall();
+			measCase = 0;
 			break;
 		default:
 			break;

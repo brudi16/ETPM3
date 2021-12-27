@@ -20,7 +20,7 @@
 #include "calculations.h"
 #include "measuring.h"
 #include "LUT.h"
-#include <math.h>
+#include "arm_math.h"
 
 
 /******************************************************************************
