@@ -118,20 +118,13 @@ void ExtLedSet(uint8_t ledNum, bool status){
  * @param set 
  */
 void ExtLedSetLamptest(bool set){
-	static int8_t state = 0;
 	if(set){
-		if(state != 1){
-			for (uint8_t i=0; i<8; i++){
-				ExtLedSet(i, true);
-			}
-			state = 1;
+		for (uint8_t i=0; i<8; i++){
+			ExtLedSet(i, true);
 		}
 	} else{
-		if(state != 2){
-			for (uint8_t i=0; i<8; i++){
-				ExtLedSet(i, false);
-			}
-			state = 2;
+		for (uint8_t i=0; i<8; i++){
+			ExtLedSet(i, false);
 		}
 	}
 }
@@ -143,62 +136,43 @@ void ExtLedSetLamptest(bool set){
  * @param distance in mm
  */
 void ExtLedSetDistance(bool set ,int32_t distance){
-	static int8_t state = 0;
 	if(set){
 		if(distance >= 200){
-			if(state != 1){
-				ExtLedSet(3, true);
-				ExtLedSet(4, false);
-				ExtLedSet(5, false);
-				ExtLedSet(6, false);
-				ExtLedSet(7, false);
-				state = 1;
-			}
-		} else if (distance >= 150){
-			if(state != 2){
-				ExtLedSet(3, true);
-				ExtLedSet(4, true);
-				ExtLedSet(5, false);
-				ExtLedSet(6, false);
-				ExtLedSet(7, false);
-				state = 2;
-			}
-		} else if (distance >= 100){
-			if(state != 3){
-				ExtLedSet(3, true);
-				ExtLedSet(4, true);
-				ExtLedSet(5, true);
-				ExtLedSet(6, false);
-				ExtLedSet(7, false);
-				state = 3;
-			}
-		} else if (distance >= 50){
-			if(state != 4){
-				ExtLedSet(3, true);
-				ExtLedSet(4, true);
-				ExtLedSet(5, true);
-				ExtLedSet(6, true);
-				ExtLedSet(7, false);
-				state = 4;
-			}
-		} else if (distance >= 0){
-			if(state != 5){
-				ExtLedSet(3, true);
-				ExtLedSet(4, true);
-				ExtLedSet(5, true);
-				ExtLedSet(6, true);
-				ExtLedSet(7, true);
-				state = 5;
-			}
-		}
-	} else{
-		if(state != 0){
-			ExtLedSet(3, false);
+			ExtLedSet(3, true);
 			ExtLedSet(4, false);
 			ExtLedSet(5, false);
 			ExtLedSet(6, false);
 			ExtLedSet(7, false);
-			state = 0;
+		} else if (distance >= 150){
+			ExtLedSet(3, true);
+			ExtLedSet(4, true);
+			ExtLedSet(5, false);
+			ExtLedSet(6, false);
+			ExtLedSet(7, false);
+		} else if (distance >= 100){
+			ExtLedSet(3, true);
+			ExtLedSet(4, true);
+			ExtLedSet(5, true);
+			ExtLedSet(6, false);
+			ExtLedSet(7, false);
+		} else if (distance >= 50){
+			ExtLedSet(3, true);
+			ExtLedSet(4, true);
+			ExtLedSet(5, true);
+			ExtLedSet(6, true);
+			ExtLedSet(7, false);
+		} else if (distance >= 0){
+			ExtLedSet(3, true);
+			ExtLedSet(4, true);
+			ExtLedSet(5, true);
+			ExtLedSet(6, true);
+			ExtLedSet(7, true);
 		}
+	} else{
+		ExtLedSet(3, false);
+		ExtLedSet(4, false);
+		ExtLedSet(5, false);
+		ExtLedSet(6, false);
+		ExtLedSet(7, false);
 	}
 }
