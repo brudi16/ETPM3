@@ -1,27 +1,26 @@
 /*******************************************************************************
-*
-* E M B E D D E D   W I Z A R D   P R O J E C T
-*
-*                                                Copyright (c) TARA Systems GmbH
-*                                    written by Paul Banach and Manfred Schweyer
-*
-********************************************************************************
-*
-* This software is delivered "as is" and shows the usage of other software
-* components. It is provided as an example software which is intended to be
-* modified and extended according to particular requirements.
-*
-* TARA Systems hereby disclaims all warranties and conditions with regard to the
-* software, including all implied warranties and conditions of merchantability
-* and non-infringement of any third party IPR or other rights which may result
-* from the use or the inability to use the software.
-*
-********************************************************************************
-*
-* DESCRIPTION:
-*   This file contains basic defines and useful configuration macros.
-*
-*******************************************************************************/
+ *
+ * @file ewdef.h
+ *
+ * @copyright TARA Systems GmbH
+ * @author Paul Banach and Manfred Schweyer
+ *
+ ********************************************************************************
+ *
+ * @n This software is delivered "as is" and shows the usage of other software
+ * components. It is provided as an example software which is intended to be
+ * modified and extended according to particular requirements.
+ *
+ * @n TARA Systems hereby disclaims all warranties and conditions with regard to the
+ * software, including all implied warranties and conditions of merchantability
+ * and non-infringement of any third party IPR or other rights which may result
+ * from the use or the inability to use the software.
+ *
+ ********************************************************************************
+ *
+ * This file contains basic defines and useful configuration macros.
+ *
+ *******************************************************************************/
 
 #ifndef EWDEF_H
 #define EWDEF_H
@@ -72,5 +71,3 @@
 #define EW_STRINGIZE_ARG( aArg )  #aArg
 
 #endif
-
-/* mli, msy */
