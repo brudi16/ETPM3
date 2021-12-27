@@ -20,7 +20,6 @@
 #include "stm32f4xx.h"
 #include "stm32f429i_discovery.h"
 
-
 uint8_t measCase = 0;
 uint16_t arraySize = ADC_NUMS;
 int32_t selectetWire = 1;
@@ -178,8 +177,9 @@ void adcMeas(void){
 			break;
      case 3:
       cpyArrays(arraySize);
-      measCase = 0;
 			removeDC(arraySize);
+			//filter_hall();
+			measCase = 0;
 			break;
 		default:
 			break;

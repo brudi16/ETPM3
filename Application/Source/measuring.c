@@ -163,7 +163,7 @@ void MEAS_timer_init(void)
  * @n The DMA triggers the transfer complete interrupt when all data is ready.
  * @n The input is ADC3_IN4 = GPIO PF6
  *****************************************************************************/
-void ADC3_IN4_DMA_init(uint8_t arraySize)
+void ADC3_IN4_DMA_init(uint16_t arraySize)
 {
 	MEAS_data_ready = false;
 	__HAL_RCC_ADC3_CLK_ENABLE();					// Enable Clock for ADC3
@@ -213,7 +213,7 @@ void ADC3_IN4_DMA_start(void)
  * @n The DMA triggers the transfer complete interrupt when all data is ready.
  * @n The input is ADC3_IN4 = GPIO PF6
  *****************************************************************************/
-void ADC3_IN6_DMA_init(uint8_t arraySize)
+void ADC3_IN6_DMA_init(uint16_t arraySize)
 {
 	MEAS_data_ready = false;
 	__HAL_RCC_ADC3_CLK_ENABLE();					// Enable Clock for ADC3
@@ -266,7 +266,7 @@ void ADC3_IN6_DMA_start(void)
  * @n The input used with ADC1 is ADC123_IN13 = GPIO PC3
  * @n The input used with ADC2 is ADC12_IN5 = GPIO PA5
  *****************************************************************************/
-void ADC1_IN11_ADC2_IN13_dual_init(uint8_t arraySize)
+void ADC1_IN11_ADC2_IN13_dual_init(uint16_t arraySize)
 {
 	MEAS_data_ready = false;
 	__HAL_RCC_ADC1_CLK_ENABLE();		// Enable Clock for ADC1
