@@ -41,8 +41,10 @@ int32_t distance2 = 0;
  * @param size   Size of the arrays
 *****************************************************************************/
 int32_t getDistance(uint16_t arraySize){
-    int32_t peakToPeak1 = 0, peakToPeak2 = 0;
-    int32_t distanceAv = 0;
+
+    uint32_t peakToPeak1 = 0, peakToPeak2 = 0;
+    uint32_t distanceAv = 0;
+
 
     // Calculate peak to peak Values of both arrays
     peakToPeak1 = calc_peakToPeak_av(pad1Values, arraySize);
@@ -53,7 +55,7 @@ int32_t getDistance(uint16_t arraySize){
 
     distanceAv = ((distance1 + distance2)/2);
 
-    return distanceAv;
+    return (int32_t)distanceAv;
 }
 
 /** ***************************************************************************

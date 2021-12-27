@@ -194,15 +194,15 @@ int32_t LinearInterpol(int32_t x0, int32_t y0, int32_t x1, int32_t y1, int32_t x
  * @param yValue    y-value of the searched x-value
  * @return int32_t 
  *****************************************************************************/
-int32_t getXFromY(uint16_t array[], int32_t size, int32_t yValue){
-    int32_t xValue = 0; // Output variable
+uint32_t getXFromY(uint16_t array[], int32_t size, uint32_t yValue){
+    uint32_t xValue = 0; // Output variable
     int16_t i;      // Loop variable
 
     // Loop for all values of the array
     for(i=0; i<(size - 1); i++){
         // Check if the value is lower than lowest or higher than highes value
-        if(yValue > array[0] || yValue < array[(size+1)]){
-            xValue = 250;
+        if(yValue > array[0] || yValue < array[(size-1)]){
+            xValue = 999;
 						break;
         
         }else if(yValue == array[i]){

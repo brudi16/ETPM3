@@ -30,7 +30,7 @@ float calcStdDev(int32_t array[], int32_t size);
 int32_t LinearInterpol(int32_t x0, int32_t y0, int32_t x1, int32_t y1, int32_t xp);
 
 // Search function
-int32_t getXFromY(uint16_t array[], int32_t size, int32_t yValue);
+uint32_t getXFromY(uint16_t array[], int32_t size, uint32_t yValue);
 
 // Copy function
 void cpyArrays(uint16_t size);
