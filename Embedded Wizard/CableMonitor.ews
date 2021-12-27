@@ -35,7 +35,7 @@ view Project
   attr enableGrid = true;
   attr enableWireMode = false;
   attr grid = 10;
-  attr scrollTo = <-103,-406>;
+  attr scrollTo = <-103,-198>;
   attr zoom = 0.75;
 }
 
