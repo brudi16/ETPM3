@@ -202,7 +202,8 @@ int32_t getXFromY(uint16_t array[], int32_t size, int32_t yValue){
     for(i=0; i<(size - 1); i++){
         // Check if the value is lower than lowest or higher than highes value
         if(yValue > array[0] || yValue < array[(size+1)]){
-            return 0;
+            xValue = 250;
+						break;
         
         }else if(yValue == array[i]){
             xValue = i+1;
