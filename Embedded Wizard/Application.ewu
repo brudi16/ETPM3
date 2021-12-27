@@ -1249,20 +1249,23 @@ class DistanceMeasurement : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::ValueDisplay ValueDisplay
   {
-    preset Bounds = <47,144,194,176>;
+    preset Bounds = <0,144,194,176>;
     preset Outlet = ^Application::Device.Distance;
     preset Unit = "mm";
     preset Precision = 0;
+    preset CurrentValue = 0;
     preset Appearance = WidgetSet::ValueDisplay_Medium;
   }
 
   $rect <20,20,160,60>
   object WidgetSet::ValueDisplay ValueDisplay1
   {
-    preset Bounds = <87,226,153,258>;
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <0,226,153,258>;
     preset Outlet = ^Application::Device.Angle;
     preset Unit = "°";
     preset Precision = 0;
+    preset CurrentValue = 365;
     preset Appearance = WidgetSet::ValueDisplay_Medium;
   }
 
