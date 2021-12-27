@@ -46,11 +46,11 @@ void SystemClock_Config(void);
 void MEAS_GPIO_analog_init(void);
 void MEAS_timer_init(void);
 void ADC_reset(void);
-void ADC3_IN4_DMA_init(uint8_t arraySize);
+void ADC3_IN4_DMA_init(uint16_t arraySize);
 void ADC3_IN4_DMA_start(void);
-void ADC3_IN6_DMA_init(uint8_t arraySize);
+void ADC3_IN6_DMA_init(uint16_t arraySize);
 void ADC3_IN6_DMA_start(void);
-void ADC1_IN11_ADC2_IN13_dual_init(uint8_t arraySize);
+void ADC1_IN11_ADC2_IN13_dual_init(uint16_t arraySize);
 
 void ADC1_IN11_ADC2_IN13_dual_start(void);
 

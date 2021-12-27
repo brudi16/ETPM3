@@ -8,7 +8,7 @@
  * @author  Pavel Müller, muellpav@students.zhaw.ch
  * @date	28.11.2021
  *****************************************************************************/
-#define ARM_MATH_CM4				///< Set the arm Math to Cortex M4
+
 /******************************************************************************
  * Includes
  *****************************************************************************/
@@ -21,7 +21,6 @@
 #include "measuring.h"
 #include "API.h"
 #include "LUT.h"
-//#include "math.h"
 
 
 /******************************************************************************
@@ -47,7 +46,7 @@ int32_t debugArray[ADC_NUMS_ACU] = {
 const float aiir[] = {0.0023, 0, -0.0045, 0, 0.0023};   ///< A coefficients of the iir filter
 const float biir[] = {1.0, -3.4095, 4.7708, -3.1806};   ///< B coefficients of the iir filter
 
-const float bfir[] = {                                  ///< coefficients of the fir filter
+const float32_t bfir[] = {                                  ///< coefficients of the fir filter
     #include "bfir.csv"
 };
 
@@ -275,12 +274,15 @@ void cpyArrays(uint16_t size){
     uint16_t i;
 
     for(i=0;i<size; i++){
-	  #ifndef DEBUG
+        // Copy all values from measuring array to processing array
+	    #ifndef DEBUG
             pad1Values[i]    = ADC_PAD1_samples[i];
             pad2Values[i]    = ADC_PAD2_samples[i];
             hall1Values[i]   = ADC_HALL1_samples[i];
             hall2Values[i]   = ADC_HALL2_samples[i];
 		#endif
+        
+        // initialize all processing array with a predefined debugging array
 		#ifdef DEBUG
             pad1Values[i]    = debugArray[i];
             pad2Values[i]    = debugArray[i];
@@ -290,10 +292,38 @@ void cpyArrays(uint16_t size){
     }
 }
 
-void filter_hall_init(void){
-    
-}
+/** ***************************************************************************
+ * @brief filter values from Hall Sensors
+ *
+ * The measured Values from the Sensors are filtered used the fir filtering
+ * method.
+ * 
+ *****************************************************************************/
+void filter_hall(void){
+    // Variables
+    arm_fir_instance_f32 h1, h2;        // filter instances
+    arm_status status_h1, status_h2;    // status of filter
+    static float32_t state_h1[NUM_TAPS], state_h2[NUM_TAPS];
+    static float32_t tmpArray[ADC_NUMS_ACU];
+    int32_t i;
 
-void filter_hall_start(void){
-    //
+    // initialisaiton for filtering values of the hallsensor 1
+    arm_fir_init_f32(&h1, NUM_TAPS, (float32_t *)&bfir[0],&state_h1[0],arraySize);
+		
+    // filter the array
+    arm_fir_f32(&h1,(float32_t *)&hall1Values[0], &tmpArray[0], (uint32_t)arraySize);
+
+    for(i=0; i<arraySize; i++){
+        hall1Values[i] = tmpArray[i];
+    }
+		
+		// initialisaiton for filtering values of the hallsensor 2
+    arm_fir_init_f32(&h1, NUM_TAPS, (float32_t *)&bfir[0],&state_h2[0],arraySize);
+		
+    // filter the array
+    arm_fir_f32(&h1,(float32_t *)&hall2Values[0], &tmpArray[0], (uint32_t)arraySize);
+
+    for(i=0; i<arraySize; i++){
+        hall2Values[i] = tmpArray[i];
+    }
 }

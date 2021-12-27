@@ -12,6 +12,8 @@
 //#include "stdint.h"
 #include "measuring.h"
 
+#define NUM_TAPS 63
+
 /******************************************************************************
  * Functions
  *****************************************************************************/
@@ -32,6 +34,9 @@ int32_t getXFromY(uint16_t array[], int32_t size, int32_t yValue);
 
 // Copy function
 void cpyArrays(uint16_t size);
+
+// Filter
+void filter_hall(void);
 
 /******************************************************************************
  * external variables
