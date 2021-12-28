@@ -2,12 +2,18 @@
  * @file API.c
  * @brief API functions for interacting with the Hardware
  *
+ * Cable Monitor Application Programm Interface
+ * ============================================
+ * 
  * This file contains the API and serves as an interface between the hardware 
  * functions and the Graphical User Interface.
- * @n
+ * 
+ * @warning It is important to note that called functions do not have integrated
+ * waiting times. Otherwise, the user interface is only updated sporadically
+ * and usability is affected.
  *
- * @authors  Pavel Müller, Röhrig Yves
- * @date	25.12.2021
+ * @authors Pavel Müller, Röhrig Yves
+ * @date 25.12.2021
  *****************************************************************************/
 
 /******************************************************************************
@@ -38,7 +44,7 @@ int32_t selectetWire = 1;           ///< Number of wires that are measured
 /** ***************************************************************************
  * @brief Initialisation functions
  * 
- * This function initili
+ * This function is used to call all initialisation functions in one.
  *
  *****************************************************************************/
 void cmInitAll(void){
@@ -50,10 +56,10 @@ void cmInitAll(void){
 
 /** ***************************************************************************
  * @brief Current meassurement funktion
- * 
- * Get the calculated Currend.
- *
  * @return Currend in mA
+ * 
+ * When this function is called, the current measured el. current is returned in mA.
+ *
  *****************************************************************************/
 int32_t cmGetCurrent(void){
     // Function call of all required functions to return the current value...
@@ -63,25 +69,24 @@ int32_t cmGetCurrent(void){
 
 /** ***************************************************************************
  * @brief Distance meassurement funktion
- * 
- * Get the calculated Distance.
- *
  * @return Distance in mm
+ * 
+ * When this function is called, the current measured distance in mm is returned.
+ *
  *****************************************************************************/
 int32_t cmGetDistance(void){
     // Function call of all required functions to return the distance value...
     int32_t distance; // Distance in mm
-	
-		distance = getDistance(arraySize);
+	distance = getDistance(arraySize);
     return distance;
 }
 
 /** ***************************************************************************
  * @brief Angle meassurement funktion
- * 
- * Get the calculated Angle.
- *
  * @return Angle in grade
+ * 
+ * When this function is called, the current measured angle is returned in degrees.
+ *
  *****************************************************************************/
 int32_t cmGetAngle(void){
     // Function call of all required functions to return the angle value...
@@ -92,10 +97,10 @@ int32_t cmGetAngle(void){
 
 /** ***************************************************************************
  * @brief Debug funktion for the HALL1 Sensor
+ * @return Debug value for Hall1
  * 
  * This function returns a debug value for testing purposes.
  *
- * @return Debug value for Hall1
  *****************************************************************************/
 int32_t cmGetDebugHall1(void){
     // Function call of all required functions to return a debug value...
@@ -105,10 +110,10 @@ int32_t cmGetDebugHall1(void){
 
 /** ***************************************************************************
  * @brief Debug funktion for the HALL2 Sensor
+ * @return Debug value for Hall2
  * 
  * This function returns a debug value for testing purposes.
  *
- * @return Debug value for Hall2
  *****************************************************************************/
 int32_t cmGetDebugHall2(void){
     // Function call of all required functions to return a debug value...
@@ -118,10 +123,10 @@ int32_t cmGetDebugHall2(void){
 
 /** ***************************************************************************
  * @brief Debug funktion for PAD1
+ * @return Debug value for PAD1
  * 
  * This function returns a debug value for testing purposes.
  *
- * @return Debug value for PAD1
  *****************************************************************************/
 int32_t cmGetDebugPad1(void){
     // Function call of all required functions to return a debug value...
@@ -132,10 +137,10 @@ int32_t cmGetDebugPad1(void){
 
 /** ***************************************************************************
  * @brief Debug funktion for PAD2
+ * @return Debug value for PAD2
  * 
  * This function returns a debug value for testing purposes.
  *
- * @return Debug value for PAD2
  *****************************************************************************/
 int32_t cmGetDebugPad2(void){
     // Function call of all required functions to return a debug value...
@@ -144,11 +149,10 @@ int32_t cmGetDebugPad2(void){
 }
 
 /** ***************************************************************************
- * @brief Test LED's off the cable monitor hardware
+ * @brief Test all LED's of the cable monitor hardware
+ * @param set Set and reset the lamptest
  * 
- * This function returns a debug value for testing purposes.
- * 
- * @param set Set and reset the Lamptest
+ * This function controls the lamptest
  *
  *****************************************************************************/
 void cmSetLampTest(bool set){
@@ -211,10 +215,9 @@ void adcMeas(void){
 
 /** ***************************************************************************
  * @brief Set Precision
+ * @param precision Set if more samples needed
  * 
  * Switch between to differend ADC sample lenght.
- * 
- * @param precision Set if more samples needed
  *
  *****************************************************************************/
 void cmSetPrecision(bool precision){
@@ -227,10 +230,9 @@ void cmSetPrecision(bool precision){
 
 /** ***************************************************************************
  * @brief Get selectet Wire
+ * @param selection Represents the set wire arrangement in the cable to be measured.
  * 
- * A global variable is overwritten with the transfer value of the function.
- * 
- * @param selection Represents the set wire arrangement in the cable to be measured. 
+ * A global variable is overwritten with the transfer value of the function. 
  *
  *****************************************************************************/
 void cmGetSelectetWire(int32_t selection){
@@ -241,11 +243,10 @@ void cmGetSelectetWire(int32_t selection){
 
 /** ***************************************************************************
  * @brief Mains Detected
+ * @return True if a mains cable is detected
  * 
  * The ADC value of the pads is compared with a set reference value and if this
- * value is exceeded or not reached, the return value is changed.
- * 
- * @return True if a mains cable is detected 
+ * value is exceeded or not reached, the return value is changed. 
  *
  *****************************************************************************/
 bool cmMainsDetected(void){
@@ -259,10 +260,9 @@ bool cmMainsDetected(void){
 
 /** ***************************************************************************
  * @brief Standart Deviation
+ * @return Standart deviation in mm
  * 
- * This function returns the standard deviation in mm.
- * 
- * @return Standart deviation in mm 
+ * This function returns the standard deviation in mm. 
  *
  *****************************************************************************/
 int32_t cmGetStandartDeviation(void){
@@ -273,12 +273,11 @@ int32_t cmGetStandartDeviation(void){
 
 /** ***************************************************************************
  * @brief Enable Distance LED
- * 
  * @param set Turn on and off the Distance LED's. 
  *
  *****************************************************************************/
 void cmSetDistanceLED(bool set){
-    ExtLedSetDistance(true, 123);
+    ExtLedSetDistance(true, getDistance(arraySize));
 }
 
 /** ***************************************************************************

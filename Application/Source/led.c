@@ -1,11 +1,10 @@
 /** ***************************************************************************
- * @file
+ * @file led.c
  * @brief access of the external LEDs
  *
  * Initializes and controls the external LEDs.
- * @n
  *
- * @author  Pavel Müller, muellpav@students.zhaw.ch
+ * @author  Pavel Müller, Yves Röhrig
  * @date	26.11.2021
  *****************************************************************************/
 
@@ -25,8 +24,6 @@
 /** ***************************************************************************
  * @brief Initialize all external LEDs
  *
- *
- * @n
  *****************************************************************************/
 void ExtLedInit(void){
 
@@ -49,6 +46,14 @@ void ExtLedInit(void){
 
 }
 
+/** ***************************************************************************
+ * @brief Set all LEDs of the cable monitor hardware
+ * @param ledNum Number of the LED
+ * @param status Set to true or false to turn the LED on or off
+ *
+ * This function enables easy control of the LEDs
+ * 
+ *****************************************************************************/
 void ExtLedSet(uint8_t ledNum, bool status){
 	switch(ledNum){
 	case 0:											// RUN LED
@@ -113,29 +118,29 @@ void ExtLedSet(uint8_t ledNum, bool status){
 	}
 }
 
-/**
+/** ***************************************************************************
  * @brief Lamptest for the cable monitor hardware
+ * @param set Set this parameter true or false to turn all LEDs on or off
  * 
- * @param set 
- */
+ *****************************************************************************/
 void ExtLedSetLamptest(bool set){
 	if(set){
-		for (uint8_t i=0; i<8; i++){
+		for (uint8_t i=0; i<8; i++){	// switch on all LEDs
 			ExtLedSet(i, true);
 		}
 	} else{
-		for (uint8_t i=0; i<8; i++){
+		for (uint8_t i=0; i<8; i++){	// switch off all LEDs
 			ExtLedSet(i, false);
 		}
 	}
 }
 
-/**
+/** ***************************************************************************
  * @brief Logic for the distance LED's of the cable monitor
- * 
  * @param set activates the distance LED's if true
  * @param distance in mm
- */
+ * 
+ *****************************************************************************/
 void ExtLedSetDistance(bool set ,int32_t distance){
 	if(set){
 		if(distance >= 200){
@@ -180,7 +185,6 @@ void ExtLedSetDistance(bool set ,int32_t distance){
 
 
 /** ***************************************************************************
- *
  * @brief ExtLetRun
  *
  * This function controls the run LED on the cable monitor hardware
@@ -214,16 +218,14 @@ void ExtLetRun(void){
 }
 
 /** ***************************************************************************
- *
  * @brief ExtLetOl
- *
- * This function controls the overload LED on the cable monitor hardware.
- * 
  * @param led select OL led
  * @param data1 first adc data array
  * @param data2 second adc data array
  * @param size size of arrays
  * @param sensitivity set a value greater then one to change the sensitivity of the ol led
+ *
+ * This function controls the overload LED on the cable monitor hardware.
  *
  *****************************************************************************/
 void ExtLedOl(int8_t led, int32_t data1[], int32_t data2[], int16_t size, int8_t sensitivity){
