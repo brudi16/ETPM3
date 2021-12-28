@@ -26,29 +26,35 @@
 /******************************************************************************
  * Defines
  *****************************************************************************/
-// Signal
-#define NUM_PERIODS		= ((ADC_NUMS/ADC_FS)/(1/50))	///< Number of periods
-#define VALS_PER_PERIOD = (ADC_NUMS/NUM_PERIODS)		///< Number of values in a period
-//#define DEBUG																				///< Activate for debugging
+// Activate for debugging of calculations
+//#define DEBUG																					///< Activate for debugging
 
 /******************************************************************************
  * Variables
  *****************************************************************************/
-int32_t pad1Values[ADC_NUMS_ACU];
-int32_t pad2Values[ADC_NUMS_ACU];
-int32_t hall1Values[ADC_NUMS_ACU];
-int32_t hall2Values[ADC_NUMS_ACU];
+///Arrays from measured Signal
+int32_t pad1Values[ADC_NUMS_ACU];												///< Copied values from pad 1
+int32_t pad2Values[ADC_NUMS_ACU];												///< Copied values from pad 2
+int32_t hall1Values[ADC_NUMS_ACU];											///< Copied values from Hall Sensor 1
+int32_t hall2Values[ADC_NUMS_ACU];											///< Copied values from Hall Sensor 2
 
-int32_t debugArray[ADC_NUMS_ACU] = {
+uint32_t peakToPeakArrayPad1[NUM_PERIODS_MAX];												///< Pad 1 array with peak to peak values for every period of the signal
+uint32_t peakToPeakArrayPad2[NUM_PERIODS_MAX];												///< Pad 2 array with peak to peak values for every period of the signal
+uint32_t peakToPeakArrayHall1[NUM_PERIODS_MAX];											///< Hall Sensor 1 array with peak to peak values for every period of the signal
+uint32_t peakToPeakArrayHall2[NUM_PERIODS_MAX];											///< Hall Sensor 2 array with peak to peak values for every period of the signal
+
+int32_t debugArray[ADC_NUMS_ACU] = {										///< Array for debugging purpose
 	#include "debugArray.csv"
 };
 
+/// Arrays with filter coefficients
 const float aiir[] = {0.0023, 0, -0.0045, 0, 0.0023};   ///< A coefficients of the iir filter
 const float biir[] = {1.0, -3.4095, 4.7708, -3.1806};   ///< B coefficients of the iir filter
 
-const float32_t bfir[] = {                                  ///< coefficients of the fir filter
+const float32_t bfir[] = {                              ///< coefficients of the fir filter
     #include "bfir.csv"
 };
+
 
 /******************************************************************************
  * Functions
@@ -100,9 +106,10 @@ void calc_removeDc(int32_t ADC_samples[], uint16_t size){
  * 
  * @param ADC_samples 	Array with measured values
  * @param size 			Size of the Array
+ * @param peakPeakArray Array with peak to peaks values
  * @return uint32_t 
  *****************************************************************************/
-uint32_t calc_peakToPeak_av(int32_t ADC_samples[], uint16_t size){
+uint32_t calc_peakToPeak_av(int32_t ADC_samples[], uint16_t size, uint32_t peakPeakArray[]){
 	uint16_t i1, i2;
 	uint8_t nPeriods = size / ADC_SPP;
 	int32_t maxTmp, minTmp, max = 0, min = 0, peakToPeakValue, tmpVal;
@@ -124,6 +131,8 @@ uint32_t calc_peakToPeak_av(int32_t ADC_samples[], uint16_t size){
 		// Sum up all max and mins of periods
         max = max + maxTmp;
         min = min + minTmp;
+        // Store peak to peak values per period for other calculations
+        peakPeakArray[i1] = (uint32_t)(maxTmp - minTmp);
 	}
 	
 	// Calculate the average max and mins
@@ -227,33 +236,25 @@ uint32_t getXFromY(uint16_t array[], int32_t size, uint32_t yValue){
  * This function calculates the standart deviation of the peak to peak Values
  * of an anrray with measured values.
  * 
- * @param array Array with measured values
- * @param size Size of the array
+ * @param peakPeakArray Array with peak to peak values
+ * @param size  Size of the array
  * @return float 
  *****************************************************************************/
-float calcStdDev(int32_t array[], int32_t size) {
+uint32_t calcStdDev(int32_t peakPeakArray1[], int32_t peakPeakArray2[], int32_t size) {
     float mean = 0, SD = 0.0;
-    uint16_t i, peakPeakArray[10] = {0,0,0,0,0,0,0,0,0,0};
+    uint16_t i;//, peakPeakArray[10] = {0,0,0,0,0,0,0,0,0,0};
 
-    uint16_t i1, i2;
 	uint8_t nPeriods = size / ADC_SPP;
-	int32_t maxTmp, minTmp, peakToPeakValue, tmpVal;
 
-	for(i1=0; i1 < nPeriods; i1++){
-        maxTmp = 0;
-        minTmp = 0;
-		for(i2=0; i2 < 12; i2++){
-            tmpVal = array[((nPeriods * i1)+i2)];
-			if(tmpVal > maxTmp){
-				maxTmp = tmpVal;
-			}else if((tmpVal < minTmp)){
-				minTmp = tmpVal;
-			}
-		}
-        peakPeakArray[i1] = (maxTmp - minTmp);
-	}
+    // calculate the mean of the peak to peak values
+    for(i = 0; i < nPeriods; i++){
+        // Sum up the Array
+        mean = mean + peakPeakArray[i];
+    }
+    // calculate mean by deviding with number of Periods
+    mean = mean / nPeriods;
 
-    mean = calc_peakToPeak_av(array, size);
+    // calculate the variance
     for (i = 0; i < (nPeriods); ++i){
         SD += pow(peakPeakArray[i] - mean, 2);
     }
@@ -340,6 +341,7 @@ uint32_t calc_distance(uint32_t distance1, uint32_t distance2){
     int32_t difference;
 
     difference = ((int32_t)distance1) - ((int32_t)distance2);
+	
 		if(distance1 == 999 && distance2 == 999){
 				distance = 999;
 		}else if(distance1 == 999){
