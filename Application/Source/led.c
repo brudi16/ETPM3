@@ -13,6 +13,7 @@
  * Includes
  *****************************************************************************/
 #include "stm32f429i_discovery_ts.h"
+#include "stm32f4xx_hal.h"
 #include "led.h"
 #include <stdbool.h>
 
@@ -174,5 +175,40 @@ void ExtLedSetDistance(bool set ,int32_t distance){
 		ExtLedSet(5, false);
 		ExtLedSet(6, false);
 		ExtLedSet(7, false);
+	}
+}
+
+
+/** ***************************************************************************
+ *
+ * @brief ExtLetRun
+ *
+ * This function controls the run LED on the cable monitor hardware
+ *
+ *****************************************************************************/
+void ExtLetRun(void){
+	static uint32_t tickstart = 0;
+	uint32_t wait = 500;
+	static uint8_t state = 0;
+
+	switch(state){
+	case 0:
+		if((tickstart + wait) < HAL_GetTick()){
+			ExtLedSet(0, true);
+			tickstart = HAL_GetTick();
+			state = 1;
+		}
+		break;
+
+	case 1:
+		if((tickstart + wait) < HAL_GetTick()){
+			ExtLedSet(0, false);
+			tickstart = HAL_GetTick();
+			state = 0;
+		}
+		break;
+	
+	default:
+		break;
 	}
 }

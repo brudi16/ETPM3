@@ -277,3 +277,13 @@ int32_t cmGetStandartDeviation(void){
 void cmSetDistanceLED(bool set){
     ExtLedSetDistance(true, 123);
 }
+
+/** ***************************************************************************
+ * @brief Enable Distance LED
+ * 
+ * @param set Turn on and off the Distance LED's. 
+ *
+ *****************************************************************************/
+void cmRunLED(void){
+    ExtLetRun();
+}
