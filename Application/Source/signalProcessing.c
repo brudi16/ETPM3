@@ -41,19 +41,22 @@ int32_t distance2 = 0;
  * @param size   Size of the arrays
 *****************************************************************************/
 int32_t getDistance(uint16_t arraySize){
-    int32_t peakToPeak1 = 0, peakToPeak2 = 0;
-    int32_t distanceAv = 0;
+    // variables
+    uint32_t peakToPeak1 = 0, peakToPeak2 = 0;
+    uint32_t distanceAv = 0;
 
     // Calculate peak to peak Values of both arrays
     peakToPeak1 = calc_peakToPeak_av(pad1Values, arraySize);
     peakToPeak2 = calc_peakToPeak_av(pad2Values, arraySize);
 
+    // get the distance from the LUT
     distance1 = getXFromY(pad1Lut, LUT_SIZE_PAD, peakToPeak1);
     distance2 = getXFromY(pad2Lut, LUT_SIZE_PAD, peakToPeak2);
 
-    distanceAv = ((distance1 + distance2)/2);
+    // calculate distance
+    distanceAv = calc_distance(distance1,distance2);
 
-    return distanceAv;
+    return (int32_t)distanceAv;
 }
 
 /** ***************************************************************************

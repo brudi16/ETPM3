@@ -194,15 +194,15 @@ int32_t LinearInterpol(int32_t x0, int32_t y0, int32_t x1, int32_t y1, int32_t x
  * @param yValue    y-value of the searched x-value
  * @return int32_t 
  *****************************************************************************/
-int32_t getXFromY(uint16_t array[], int32_t size, int32_t yValue){
-    int32_t xValue = 0; // Output variable
+uint32_t getXFromY(uint16_t array[], int32_t size, uint32_t yValue){
+    uint32_t xValue = 0; // Output variable
     int16_t i;      // Loop variable
 
     // Loop for all values of the array
     for(i=0; i<(size - 1); i++){
         // Check if the value is lower than lowest or higher than highes value
-        if(yValue > array[0] || yValue < array[(size+1)]){
-            xValue = 250;
+        if(yValue > array[0] || yValue < array[(size-1)]){
+            xValue = 999;
 						break;
         
         }else if(yValue == array[i]){
@@ -327,4 +327,32 @@ void filter_hall(void){
     for(i=0; i<arraySize; i++){
         hall2Values[i] = tmpArray[i];
     }
+}
+/**
+ * @brief 
+ * 
+ * @param distance1 
+ * @param distance2 
+ * @return uint32_t 
+ */
+uint32_t calc_distance(uint32_t distance1, uint32_t distance2){
+    uint32_t distance;
+    int32_t difference;
+
+    difference = ((int32_t)distance1) - ((int32_t)distance2);
+		if(distance1 == 999 && distance2 == 999){
+				distance = 999;
+		}else if(distance1 == 999){
+				distance = distance2;
+		}else if(distance2 == 999){
+				distance = distance1;
+		}else if(difference > 50){
+        distance = distance1;
+    }else if(difference < -50){
+        distance = distance2;
+    }else{
+        distance = ((distance1 + distance2)/2);
+    }
+
+    return distance;
 }
