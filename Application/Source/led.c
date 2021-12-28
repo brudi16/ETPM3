@@ -212,3 +212,14 @@ void ExtLetRun(void){
 		break;
 	}
 }
+
+/** ***************************************************************************
+ *
+ * @brief ExtLetOl
+ *
+ * This function controls the overload LED on the cable monitor hardware
+ *
+ *****************************************************************************/
+void ExtLedOl(void){
+	
+}
