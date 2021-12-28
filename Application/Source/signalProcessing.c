@@ -46,8 +46,8 @@ int32_t getDistance(uint16_t arraySize){
     uint32_t distanceAv = 0;
 
     // Calculate peak to peak Values of both arrays
-    peakToPeak1 = calc_peakToPeak_av(pad1Values, arraySize);
-    peakToPeak2 = calc_peakToPeak_av(pad2Values, arraySize);
+    peakToPeak1 = calc_peakToPeak_av(pad1Values, arraySize, peakToPeakArrayHall1);
+    peakToPeak2 = calc_peakToPeak_av(pad2Values, arraySize, peakToPeakArrayHall2);
 
     // get the distance from the LUT
     distance1 = getXFromY(pad1Lut, LUT_SIZE_PAD, peakToPeak1);
