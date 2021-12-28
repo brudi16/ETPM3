@@ -1,10 +1,9 @@
 /** ***************************************************************************
  * 
  * @file DeviceDriver.h
- *
- *
+ * @brief see DeviceDriver.c
  * @copyright TARA Systems GmbH
- * @author Paul Banach and Manfred Schweyer
+ * @authors Paul Banach, Manfred Schweyer, Pavel Müller, Yves Röhrig
  *
  ********************************************************************************
  *
@@ -47,22 +46,14 @@
 #include <stdint.h>
 
 /** ***************************************************************************
-* FUNCTION:
-*   DeviceDriver_Initialize
-*
-* DESCRIPTION:
-*   The function DeviceDriver_Initialize() initializes the module and prepares all
-*   necessary things to access or communicate with the real device.
-*   The function has to be called from your main module, after the initialization
-*   of your GUI application.
-*
-* ARGUMENTS:
-*   None
-*
-* RETURN VALUE:
-*   None
-*
-*****************************************************************************/
+ * @brief DeviceDriver_Initialize
+ *
+ * The function DeviceDriver_Initialize() initializes the module and prepares all
+ * necessary things to access or communicate with the real device.
+ * The function has to be called from your main module, after the initialization
+ * of your GUI application.
+ *
+ *****************************************************************************/
 void DeviceDriver_Initialize( void );
 
 
