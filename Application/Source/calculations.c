@@ -131,7 +131,7 @@ void calc_removeDc(int32_t ADC_samples[], uint16_t size){
 	// Calculate DC value of the Array
 	dcValue = calc_dcValue(ADC_samples, size);
 
-	// Subtract Dc value from Array
+	// Subtract Dc-value from array
 	for(i=0; i < size; i++){
 		ADC_samples[i] = ADC_samples[i] - dcValue;
 	}
@@ -142,11 +142,25 @@ void calc_removeDc(int32_t ADC_samples[], uint16_t size){
  * 
  * @param[in] ADC_samples 	Array with measured values
  * @param[in] size 			Size of the Array
- * @param[in] peakPeakArray Array with peak to peaks values
- * @return uint32_t 
+ * @param[out] peakPeakArray Array with peak to peaks values
+ * @return peak to peak value
  * 
- * Calculate the peak to peak value for every period and average it for filtering.
+ * Peak to Peak calucation
+ * -----------------------
+ * With to for-loops the array is processed. The first loop, loops the periods
+ * and the second loop ist for the values in the period.
+ * @n
+ * The loop for the values searches the maximum and minimum values of the actual 
+ * period. This max and min values are summed up in two variables. For calculation
+ * of the standart deviation the peak to peak values per period are stored in the
+ * peakPeakArray. After the loop the summed up values are devided by the number of 
+ * periods to get the average peak to peak value over all periods of the signal.
+ * The averaging is done to get a filter effect.
  * 
+ * @warning
+ * Before using this function the dc-value has to bee removed from the array
+ * passed to this function. Without previously removing the dc-value the peak
+ * to peak value will be incorrect.
  *****************************************************************************/
 uint32_t calc_peakToPeak_av(int32_t ADC_samples[], uint16_t size, uint32_t peakPeakArray[]){
 	uint16_t i1, i2;
@@ -185,47 +199,20 @@ uint32_t calc_peakToPeak_av(int32_t ADC_samples[], uint16_t size, uint32_t peakP
 }
 
 /** ***************************************************************************
- * @brief calculate RMS value
- * Calculates the RMS value of an array of measured Data.
- * IMPORTANT!!! The DC Value first has to be removed.
- * 
- * @param ADC_samples 
- * @param size 
- * @return uint32_t 
- *****************************************************************************/
-uint32_t calc_RMSValue (int32_t ADC_samples[], uint16_t size){
-    uint32_t rmsValue = 0;
-    uint16_t i;
-    int32_t tmp;
-    float32_t tmpfloat = 0;
-
-	// Sum up all squared Values from the Array
-    for(i=0;i<size; i++){
-        tmp = ADC_samples[i];
-        tmpfloat = tmpfloat + (tmp * tmp);
-    }
-
-	// Divide by size of the Array
-    tmpfloat = tmpfloat / size;
-	// Make square root of the value
-    tmpfloat = sqrtf(tmpfloat);
-	// convert it to uint32_t
-    rmsValue = (uint32_t)tmpfloat;
-    return rmsValue;
-}
-
-/** ***************************************************************************
  * @brief Linear interpolation between 2 given points
  * 
- * With two given points and the x-value of the searched point the corresponding
- * y-value is calculated with the linear interpolation method.
+ * @param[in] x0 X-Coordinate of the first point
+ * @param[in] y0 Y-Coordinate of the first point
+ * @param[in] x1 X-Coordinate of the second point
+ * @param[in] y1 Y-Coordinate of the second point
+ * @param[in] xp X-Coordinate of the searched point
+ * @return Y-Coordinate of the searched point 
  * 
- * @param x0 X-Coordinate of the first point
- * @param y0 Y-Coordinate of the first point
- * @param x1 X-Coordinate of the second point
- * @param y1 Y-Coordinate of the second point
- * @param xp X-Coordinate of the searched point
- * @return int32_t yp Y-Coordinate of the searched point 
+ * With two given points and the x-value of the searched point the corresponding
+ * y-value is calculated with the linear interpolation method. This function is used
+ * for the calibration process (see LUT.c) to calculate the LUT values between 
+ * calibration points.
+ * 
  *****************************************************************************/
 int32_t LinearInterpol(int32_t x0, int32_t y0, int32_t x1, int32_t y1, int32_t xp){
     float32_t yp = 0;
@@ -238,10 +225,13 @@ int32_t LinearInterpol(int32_t x0, int32_t y0, int32_t x1, int32_t y1, int32_t x
 /** ***************************************************************************
  * @brief Search the corresponding x-value to a given y-value
  * 
- * @param array     Array with y-values
- * @param size      Size of the array
- * @param yValue    y-value of the searched x-value
+ * @param[in] array     Array with y-values
+ * @param[in] size      Size of the array
+ * @param[in] yValue    y-value of the searched x-value
  * @return int32_t 
+ * 
+ * @if
+ * 
  *****************************************************************************/
 uint32_t getXFromY(uint16_t array[], int32_t size, uint32_t yValue){
     uint32_t xValue = 0;    // Output variable
