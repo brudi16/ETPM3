@@ -2,10 +2,11 @@
  * @file API.c
  * @brief API functions for interacting with the Hardware
  *
- * This file contains the API and serves as an interface between the hardware functions and the Graphical User Interface.
+ * This file contains the API and serves as an interface between the hardware 
+ * functions and the Graphical User Interface.
  * @n
  *
- * @author  Yves Röhrig, roehryve@students.zhaw.ch
+ * @authors  Pavel Müller, Röhrig Yves
  * @date	25.12.2021
  *****************************************************************************/
 
@@ -26,18 +27,18 @@
 /******************************************************************************
  * Variables
  *****************************************************************************/
-uint8_t measCase = 0;
-uint16_t arraySize = ADC_NUMS;
-int32_t selectetWire = 1;
+uint8_t measCase = 0;               ///< Value of the actual measuring Case
+uint16_t arraySize = ADC_NUMS;      ///< Value of the actual numbers of measuring values
+int32_t selectetWire = 1;           ///< Number of wires that are measured
 
 /******************************************************************************
  * Functions
  *****************************************************************************/
 
 /** ***************************************************************************
- * @brief Initialisation call for all hardware functions
+ * @brief Initialisation functions
  * 
- * This funktion calls all initialisation funktion for the cabel monitor hardware.
+ * This function initili
  *
  *****************************************************************************/
 void cmInitAll(void){
