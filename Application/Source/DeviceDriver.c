@@ -1,10 +1,8 @@
 /** ***************************************************************************
- * 
  * @file DeviceDriver.c
- *
- *
+ * @brief Device integration file template provided by Embedded Wizzard 
  * @copyright TARA Systems GmbH
- * @author Paul Banach and Manfred Schweyer
+ * @authors Paul Banach, Manfred Schweyer, Pavel Müller, Yves Röhrig
  *
  ********************************************************************************
  * 
@@ -131,9 +129,9 @@ void DeviceDriver_Initialize( void )
   /* Configure interrupt for hardware button */
   EwBspInOutInitButton( HardButtonIsrCallback );
 
-  cmInitAll();
-
-  adcInit();
+    /* Calling all API initialisation functions */
+    cmInitAll();
+    adcInit();
 
 #ifdef _ApplicationDeviceClass_
 
@@ -455,7 +453,6 @@ void DeviceDriver_SetLampTest(bool set){
 
 /** ***************************************************************************
  * @brief Switch beween "normal" and "precision" meassurement
- * 
  * @param precision 
  *****************************************************************************/
 void DeviceDriver_SetPrecision(bool precision){
@@ -468,7 +465,6 @@ void DeviceDriver_SetPrecision(bool precision){
 
 /** ***************************************************************************
  * @brief Get the selectet wire
- * 
  * @param selection 
  *****************************************************************************/
 void DeviceDriver_SetWireSelection(int32_t selection){
