@@ -21,6 +21,7 @@ bool cmMainsDetected(void);
 int32_t cmGetStandartDeviation(void);
 void cmSetDistanceLED(bool set);
 void cmRunLED(void);
+void cmOlLed(void);
 
 extern uint16_t arraySize;
 

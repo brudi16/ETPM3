@@ -233,6 +233,7 @@ int DeviceDriver_ProcessData( void )
   adcMeas();
   cmSetDistanceLED(true);
   cmRunLED();
+  cmOlLed();
 
 #ifdef _ApplicationDeviceClass_
 

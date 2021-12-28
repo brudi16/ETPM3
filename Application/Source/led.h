@@ -22,5 +22,6 @@ void ExtLedSet(uint8_t ledNum, bool status);
 void ExtLedSetLamptest(bool set);
 void ExtLedSetDistance(bool set ,int32_t distance);
 void ExtLetRun(void);
+void ExtLedOl(int8_t led, int32_t data1[], int32_t data2[], int16_t size, int8_t sensitivity);
 
 #endif /* INC_LED_H_ */
