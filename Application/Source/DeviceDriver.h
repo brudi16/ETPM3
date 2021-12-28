@@ -3,7 +3,7 @@
  * @file DeviceDriver.h
  * @brief see DeviceDriver.c
  * @copyright TARA Systems GmbH
- * @author Paul Banach and Manfred Schweyer
+ * @authors Paul Banach, Manfred Schweyer, Pavel Müller, Yves Röhrig
  *
  ********************************************************************************
  *

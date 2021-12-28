@@ -1,6 +1,8 @@
 /** ***************************************************************************
- * @file
+ * @file measuring.h
  * @brief See measuring.c
+ * @author Hanspeter Hochreutener, Pavel Müller, Yves Röhrig
+ * @date 17.06.2021
  *
  * Prefixes MEAS, ADC, DAC
  *

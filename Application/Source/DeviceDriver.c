@@ -2,7 +2,7 @@
  * @file DeviceDriver.c
  * @brief Device integration file template provided by Embedded Wizzard 
  * @copyright TARA Systems GmbH
- * @author Paul Banach and Manfred Schweyer
+ * @authors Paul Banach, Manfred Schweyer, Pavel Müller, Yves Röhrig
  *
  ********************************************************************************
  * 

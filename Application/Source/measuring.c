@@ -1,5 +1,5 @@
 /** ***************************************************************************
- * @file
+ * @file measuring.c
  * @brief Measuring voltages with the ADC(s) in different configurations
  *
  *
@@ -46,7 +46,7 @@
  *
  *
  * ----------------------------------------------------------------------------
- * @author Hanspeter Hochreutener, hhrt@zhaw.ch
+ * @author Hanspeter Hochreutener, Pavel Müller, Yves Röhrig
  * @date 17.06.2021
  *****************************************************************************/
 
