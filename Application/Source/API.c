@@ -2,10 +2,11 @@
  * @file API.c
  * @brief API functions for interacting with the Hardware
  *
- * This file contains the API and serves as an interface between the hardware functions and the Graphical User Interface.
+ * This file contains the API and serves as an interface between the hardware 
+ * functions and the Graphical User Interface.
  * @n
  *
- * @author  Yves Röhrig, roehryve@students.zhaw.ch
+ * @authors  Pavel Müller, Röhrig Yves
  * @date	25.12.2021
  *****************************************************************************/
 
@@ -26,18 +27,18 @@
 /******************************************************************************
  * Variables
  *****************************************************************************/
-uint8_t measCase = 0;
-uint16_t arraySize = ADC_NUMS;
-int32_t selectetWire = 1;
+uint8_t measCase = 0;               ///< Value of the actual measuring Case
+uint16_t arraySize = ADC_NUMS;      ///< Value of the actual numbers of measuring values
+int32_t selectetWire = 1;           ///< Number of wires that are measured
 
 /******************************************************************************
  * Functions
  *****************************************************************************/
 
 /** ***************************************************************************
- * @brief Initialisation call for all hardware functions
+ * @brief Initialisation functions
  * 
- * This funktion calls all initialisation funktion for the cabel monitor hardware.
+ * This function initili
  *
  *****************************************************************************/
 void cmInitAll(void){
@@ -98,7 +99,7 @@ int32_t cmGetAngle(void){
  *****************************************************************************/
 int32_t cmGetDebugHall1(void){
     // Function call of all required functions to return a debug value...
-    int32_t hall = (int32_t)calc_peakToPeak_av(hall1Values, arraySize); // Debug hall value
+    int32_t hall = (int32_t)calc_peakToPeak_av(hall1Values, arraySize, peakToPeakArrayHall1); // Debug hall value
     return hall;
 }
 
@@ -111,7 +112,7 @@ int32_t cmGetDebugHall1(void){
  *****************************************************************************/
 int32_t cmGetDebugHall2(void){
     // Function call of all required functions to return a debug value...
-    int32_t hall = (int32_t)calc_peakToPeak_av(hall2Values, arraySize); // Debug hall value
+    int32_t hall = (int32_t)calc_peakToPeak_av(hall2Values, arraySize, peakToPeakArrayHall2); // Debug hall value
     return hall;
 }
 
@@ -124,7 +125,7 @@ int32_t cmGetDebugHall2(void){
  *****************************************************************************/
 int32_t cmGetDebugPad1(void){
     // Function call of all required functions to return a debug value...
-    int32_t pad = (int32_t)calc_peakToPeak_av(pad1Values, arraySize); // Debug pad value
+    int32_t pad = (int32_t)calc_peakToPeak_av(pad1Values, arraySize, peakToPeakArrayPad1); // Debug pad value
 
     return pad;
 }
@@ -138,7 +139,7 @@ int32_t cmGetDebugPad1(void){
  *****************************************************************************/
 int32_t cmGetDebugPad2(void){
     // Function call of all required functions to return a debug value...
-    int32_t pad = (int32_t)calc_peakToPeak_av(pad2Values, arraySize); // Debug pad value
+    int32_t pad = (int32_t)calc_peakToPeak_av(pad2Values, arraySize, peakToPeakArrayPad2); // Debug pad value
     return pad;
 }
 
@@ -265,7 +266,9 @@ bool cmMainsDetected(void){
  *
  *****************************************************************************/
 int32_t cmGetStandartDeviation(void){
-    return 57;
+    int32_t stdDev = 0;
+    stdDev = (int32_t)calcStdDev(peakToPeakArrayPad1,peakToPeakArrayPad2, arraySize);
+    return stdDev;
 }
 
 /** ***************************************************************************
