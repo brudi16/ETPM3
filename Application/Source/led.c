@@ -13,6 +13,7 @@
  * Includes
  *****************************************************************************/
 #include "stm32f429i_discovery_ts.h"
+#include "stm32f4xx_hal.h"
 #include "led.h"
 #include <stdbool.h>
 
@@ -118,20 +119,13 @@ void ExtLedSet(uint8_t ledNum, bool status){
  * @param set 
  */
 void ExtLedSetLamptest(bool set){
-	static int8_t state = 0;
 	if(set){
-		if(state != 1){
-			for (uint8_t i=0; i<8; i++){
-				ExtLedSet(i, true);
-			}
-			state = 1;
+		for (uint8_t i=0; i<8; i++){
+			ExtLedSet(i, true);
 		}
 	} else{
-		if(state != 2){
-			for (uint8_t i=0; i<8; i++){
-				ExtLedSet(i, false);
-			}
-			state = 2;
+		for (uint8_t i=0; i<8; i++){
+			ExtLedSet(i, false);
 		}
 	}
 }
@@ -143,62 +137,89 @@ void ExtLedSetLamptest(bool set){
  * @param distance in mm
  */
 void ExtLedSetDistance(bool set ,int32_t distance){
-	static int8_t state = 0;
 	if(set){
 		if(distance >= 200){
-			if(state != 1){
-				ExtLedSet(3, true);
-				ExtLedSet(4, false);
-				ExtLedSet(5, false);
-				ExtLedSet(6, false);
-				ExtLedSet(7, false);
-				state = 1;
-			}
-		} else if (distance >= 150){
-			if(state != 2){
-				ExtLedSet(3, true);
-				ExtLedSet(4, true);
-				ExtLedSet(5, false);
-				ExtLedSet(6, false);
-				ExtLedSet(7, false);
-				state = 2;
-			}
-		} else if (distance >= 100){
-			if(state != 3){
-				ExtLedSet(3, true);
-				ExtLedSet(4, true);
-				ExtLedSet(5, true);
-				ExtLedSet(6, false);
-				ExtLedSet(7, false);
-				state = 3;
-			}
-		} else if (distance >= 50){
-			if(state != 4){
-				ExtLedSet(3, true);
-				ExtLedSet(4, true);
-				ExtLedSet(5, true);
-				ExtLedSet(6, true);
-				ExtLedSet(7, false);
-				state = 4;
-			}
-		} else if (distance >= 0){
-			if(state != 5){
-				ExtLedSet(3, true);
-				ExtLedSet(4, true);
-				ExtLedSet(5, true);
-				ExtLedSet(6, true);
-				ExtLedSet(7, true);
-				state = 5;
-			}
-		}
-	} else{
-		if(state != 0){
-			ExtLedSet(3, false);
+			ExtLedSet(3, true);
 			ExtLedSet(4, false);
 			ExtLedSet(5, false);
 			ExtLedSet(6, false);
 			ExtLedSet(7, false);
+		} else if (distance >= 150){
+			ExtLedSet(3, true);
+			ExtLedSet(4, true);
+			ExtLedSet(5, false);
+			ExtLedSet(6, false);
+			ExtLedSet(7, false);
+		} else if (distance >= 100){
+			ExtLedSet(3, true);
+			ExtLedSet(4, true);
+			ExtLedSet(5, true);
+			ExtLedSet(6, false);
+			ExtLedSet(7, false);
+		} else if (distance >= 50){
+			ExtLedSet(3, true);
+			ExtLedSet(4, true);
+			ExtLedSet(5, true);
+			ExtLedSet(6, true);
+			ExtLedSet(7, false);
+		} else if (distance >= 0){
+			ExtLedSet(3, true);
+			ExtLedSet(4, true);
+			ExtLedSet(5, true);
+			ExtLedSet(6, true);
+			ExtLedSet(7, true);
+		}
+	} else{
+		ExtLedSet(3, false);
+		ExtLedSet(4, false);
+		ExtLedSet(5, false);
+		ExtLedSet(6, false);
+		ExtLedSet(7, false);
+	}
+}
+
+
+/** ***************************************************************************
+ *
+ * @brief ExtLetRun
+ *
+ * This function controls the run LED on the cable monitor hardware
+ *
+ *****************************************************************************/
+void ExtLetRun(void){
+	static uint32_t tickstart = 0;
+	uint32_t wait = 500;
+	static uint8_t state = 0;
+
+	switch(state){
+	case 0:
+		if((tickstart + wait) < HAL_GetTick()){
+			ExtLedSet(0, true);
+			tickstart = HAL_GetTick();
+			state = 1;
+		}
+		break;
+
+	case 1:
+		if((tickstart + wait) < HAL_GetTick()){
+			ExtLedSet(0, false);
+			tickstart = HAL_GetTick();
 			state = 0;
 		}
+		break;
+	
+	default:
+		break;
 	}
+}
+
+/** ***************************************************************************
+ *
+ * @brief ExtLetOl
+ *
+ * This function controls the overload LED on the cable monitor hardware
+ *
+ *****************************************************************************/
+void ExtLedOl(void){
+	
 }

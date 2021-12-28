@@ -20,6 +20,7 @@ void cmGetSelectetWire(int32_t selection);
 bool cmMainsDetected(void);
 int32_t cmGetStandartDeviation(void);
 void cmSetDistanceLED(bool set);
+void cmRunLED(void);
 
 extern uint16_t arraySize;
 

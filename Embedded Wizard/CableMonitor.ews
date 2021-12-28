@@ -2,10 +2,10 @@ $version 1.0
 
 attr callStackMonitor_Show = false;
 attr codeColSelect = false;
-attr codeFirstPos = <0,6>;
-attr codeInspector = Application::DeviceClass.OnSetLamptest;
-attr codeSelEnd = <3,14>;
-attr codeSelStart = <3,14>;
+attr codeFirstPos = <0,3>;
+attr codeInspector = Application::Inline;
+attr codeSelEnd = <25,15>;
+attr codeSelStart = <25,15>;
 attr connectInspectors = false;
 attr debug_TrackUpdates = false;
 attr extractDoc_ClassOverview = true;
