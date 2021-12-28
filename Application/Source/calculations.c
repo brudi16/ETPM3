@@ -13,7 +13,6 @@
  * Calculations of Amplitude
  * ----------------------------------------------------------------------------
  * - Calculate peak to peak value of the signal
- * - Calculate RMS-value of the signal
  * 
  * Interpolation
  * ----------------------------------------------------------------------------
@@ -30,7 +29,7 @@
  * 
  * Statistic
  * ----------------------------------------------------------------------------
- * - Calculation of the standart deviation
+ * - Calculation of the standard deviation
  * 
  * Filter
  * ----------------------------------------------------------------------------
