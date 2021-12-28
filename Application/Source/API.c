@@ -282,11 +282,18 @@ void cmSetDistanceLED(bool set){
 }
 
 /** ***************************************************************************
- * @brief Enable Distance LED
- * 
- * @param set Turn on and off the Distance LED's. 
+ * @brief Enable run LED 
  *
  *****************************************************************************/
 void cmRunLED(void){
     ExtLetRun();
+}
+
+/** ***************************************************************************
+ * @brief Enable overload LED
+ *
+ *****************************************************************************/
+void cmOlLed(void){
+    ExtLedOl(1, ADC_PAD1_samples, ADC_PAD2_samples, arraySize, 15);
+    ExtLedOl(2, ADC_HALL1_samples, ADC_HALL2_samples, arraySize, 15);
 }

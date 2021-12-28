@@ -217,9 +217,41 @@ void ExtLetRun(void){
  *
  * @brief ExtLetOl
  *
- * This function controls the overload LED on the cable monitor hardware
+ * This function controls the overload LED on the cable monitor hardware.
+ * 
+ * @param led select OL led
+ * @param data1 first adc data array
+ * @param data2 second adc data array
+ * @param size size of arrays
+ * @param sensitivity set a value greater then one to change the sensitivity of the ol led
  *
  *****************************************************************************/
-void ExtLedOl(void){
-	
+void ExtLedOl(int8_t led, int32_t data1[], int32_t data2[], int16_t size, int8_t sensitivity){
+	int8_t zeroCounter1 = 0;
+	int8_t maxCounter1 = 0;
+	int8_t zeroCounter2 = 0;
+	int8_t maxCounter2 = 0;
+
+	for(int16_t i=0; i<size; i++){
+		if(data1[i] <= 20){
+			zeroCounter1++;
+		}
+		if(data1[i] >= 4075){
+			maxCounter1++;
+		}
+		if(data2[i] <= 20){
+			zeroCounter2++;
+		}
+		if(data2[i] >= 4075){
+			maxCounter2++;
+		}
+	}
+
+	if ((zeroCounter1 >= sensitivity)||(maxCounter1 >= sensitivity)){
+		ExtLedSet(led, true);
+	} else if ((zeroCounter2 >= sensitivity)||(maxCounter2 >= sensitivity)){
+		ExtLedSet(led, true);
+	} else{
+		ExtLedSet(led, false);
+	}
 }
