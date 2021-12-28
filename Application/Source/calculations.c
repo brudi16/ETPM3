@@ -236,29 +236,56 @@ uint32_t getXFromY(uint16_t array[], int32_t size, uint32_t yValue){
  * This function calculates the standart deviation of the peak to peak Values
  * of an anrray with measured values.
  * 
- * @param peakPeakArray Array with peak to peak values
+ * @param peakPeakArray1 Array with peak to peak values
+ * @param peakPeakArray2
  * @param size  Size of the array
  * @return float 
  *****************************************************************************/
-uint32_t calcStdDev(int32_t peakPeakArray1[], int32_t peakPeakArray2[], int32_t size) {
-    float mean = 0, SD = 0.0;
-    uint16_t i;//, peakPeakArray[10] = {0,0,0,0,0,0,0,0,0,0};
+uint32_t calcStdDev(uint32_t peakPeakArray1[], uint32_t peakPeakArray2[], int32_t size) {
+    float mean1 = 0, mean2 = 0;
+    float SD = 0.0, SD1 = 0.0, SD2 = 0.0;
+    uint16_t i;
+    uint32_t distanceArray1[NUM_PERIODS_MAX] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+    uint32_t distanceArray2[NUM_PERIODS_MAX] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
 	uint8_t nPeriods = size / ADC_SPP;
 
+    // get distance for every value of the array
+    for (i = 0; i < nPeriods; i++){
+        distanceArray1[i] = getXFromY(pad1Lut, LUT_SIZE_PAD, peakPeakArray1[i]);
+        distanceArray2[i] = getXFromY(pad2Lut, LUT_SIZE_PAD, peakPeakArray2[i]);
+    }
+    
     // calculate the mean of the peak to peak values
     for(i = 0; i < nPeriods; i++){
         // Sum up the Array
-        mean = mean + peakPeakArray[i];
+        mean1 = mean1 + distanceArray1[i];
+        mean2 = mean2 + distanceArray2[i];
     }
     // calculate mean by deviding with number of Periods
-    mean = mean / nPeriods;
+    mean1 = mean1 / nPeriods;
+    mean2 = mean2 / nPeriods;
 
     // calculate the variance
     for (i = 0; i < (nPeriods); ++i){
-        SD += pow(peakPeakArray[i] - mean, 2);
+        SD1 += pow((distanceArray1[i] - mean1), 2);
+        SD2 += pow((distanceArray2[i] - mean2), 2);
     }
-    return sqrt(SD / 10);
+
+    // calculate the standart deviation from the variance
+    SD1 = sqrt(SD1 / nPeriods);
+    SD1 = sqrt(SD1 / nPeriods);
+
+    // 
+    if(SD1 > SD2){
+        SD = SD1;
+    }else if (SD1 < SD2){
+        SD = SD2;
+    }else{
+        SD = 999;
+    }
+
+    return (uint32_t)SD;
 }
 
 /** ***************************************************************************

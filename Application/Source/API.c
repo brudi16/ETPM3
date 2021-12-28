@@ -265,7 +265,9 @@ bool cmMainsDetected(void){
  *
  *****************************************************************************/
 int32_t cmGetStandartDeviation(void){
-    return 57;
+    int32_t stdDev = 0;
+    stdDev = (int32_t)calcStdDev(peakToPeakArrayPad1,peakToPeakArrayPad2, arraySize);
+    return stdDev;
 }
 
 /** ***************************************************************************

@@ -31,7 +31,7 @@ int32_t LinearInterpol(int32_t x0, int32_t y0, int32_t x1, int32_t y1, int32_t x
 uint32_t calc_distance(uint32_t distance1, uint32_t distance2);
 
 // Advanced calculations
-uint32_t calcStdDev(int32_t peakPeakArray1[], int32_t peakPeakArray2[], int32_t size);
+uint32_t calcStdDev(uint32_t peakPeakArray1[], uint32_t peakPeakArray2[], int32_t size);
 int32_t LinearInterpol(int32_t x0, int32_t y0, int32_t x1, int32_t y1, int32_t xp);
 
 // Search function
