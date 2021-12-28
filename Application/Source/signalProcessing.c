@@ -2,10 +2,13 @@
  * @file
  * @brief Process the array with measured Values
  *
- * Functions for processing signals
+ * Functions for processing measured Values:
+ * - Calculation of distance 
+ * - Calculate angle to the main Cable with distances
+ * - Copy Arrays from measurement array to processing array
  * @n
  *
- * @author  Pavel Müller, muellpav@students.zhaw.ch
+ * @author  Pavel Müller, Yves Röhrig
  * @date	10.12.2021
  *****************************************************************************/
 
@@ -20,8 +23,6 @@
 #include "calculations.h"
 #include "measuring.h"
 #include "LUT.h"
-//#include "arm_math.h"
-
 
 /******************************************************************************
  * Variables
@@ -34,11 +35,16 @@ int32_t distance2 = 0;
  *****************************************************************************/
 
 /** ***************************************************************************
- * @brief Get the Distance object
+ * @brief Get the Distance
  * 
- * @param array1 Array with values from pad 1
- * @param array2 Array with values form pad 2
- * @param size   Size of the arrays
+ * @param[in] size   Size of the arrays
+ * 
+ * This function calculates the distance from the two global arrays with the 
+ * measured pad values. The following steps are done:
+ * - The peak to peak Value of both arrays is calculated
+ * - The distance is calculated from the LUT with the peak to peak values
+ * - The average distance is calculated
+ * 
 *****************************************************************************/
 int32_t getDistance(uint16_t arraySize){
     // variables
@@ -62,9 +68,21 @@ int32_t getDistance(uint16_t arraySize){
 /** ***************************************************************************
  * @brief Get the Angle to the main cable
  * 
- * calculates the angle by the difference from the two distances
- * 
  * @return int32_t 
+ * 
+ * calculates the angle by the difference from the two distances of the pads.
+ * As the Distance between the center of the two pads is 25mm this physical
+ * information is used to calculate the angle to the main cable. For this the
+ * difference between the distances is calculated. With the difference the
+ * following cases are possible:
+ * - difference is between -25 and -18  -> -90°
+ * - difference is between -18 and -6   -> -45°
+ * - difference is between -6 and 6     ->   0°
+ * - difference is between 6 and 18     ->  45°
+ * - difference is between 18 and 25    ->  90°
+ * - In all other cases the angle is set to 999°
+ * 
+ * @warning For correct function the LUT for the pads must be calibrated well.
  *****************************************************************************/
 int32_t getAngle(void){
     int32_t y = 0, diff;
@@ -94,7 +112,14 @@ int32_t getAngle(void){
 
     return y;
 }
-
+/** ***************************************************************************
+ * @brief Remove the DC-value from all arrays
+ * 
+ * @param[in] size Size of the arrays
+ * 
+ * The DC-Value is removed from all arrays with the function calc_removeDC from
+ * calculations.c.
+ *****************************************************************************/
 void removeDC(uint16_t size){
 		calc_removeDc(pad1Values, size);
 		calc_removeDc(pad2Values, size);

@@ -1,9 +1,15 @@
 /** ***************************************************************************
  * @file
- * @brief LUT for the PAD and Hallsensor
- *
- *
+ * @brief Function for LUTs
+ * This file contains the following functionality:
  * @n
+ * Operations with the LUT
+ * -----------------------
+ * - Initialisation of LUT arrays with the start Values
+ * 
+ * Calibration of the LUT
+ * ----------------------
+ * - Interpolation of measured calibration values
  *
  * @author  Pavel Müller, muellpav@students.zhaw.ch
  * @date	06.12.2021
@@ -18,25 +24,34 @@
 #include "calculations.h"
 #include "LUT.h"
 
-
-const uint16_t padLutStartValues[] = {          ///< Start values for the LUT of the Pads
+/******************************************************************************
+ * Variables
+ *****************************************************************************/
+const uint16_t padLutStartValues[] = {          ///< Start values for the LUT of the Pads (included with a .csv)
     #include "lutPad.csv"
 };
 
-//const int16_t hallLutStartValues[] = {
-    //#include "lutHall.csv"
-//};
-
-//uint16_t padLut[LUT_SIZE_PAD];
+const int16_t hallLutStartValues[] = {          ///< Start values for the LUT of the Hall Sensors (included with a .csv)
+    #include "lutHall.csv"
+};
 
 uint16_t pad1Lut[LUT_SIZE_PAD];                 ///< LUT for the pad 1
 uint16_t pad2Lut[LUT_SIZE_PAD];                 ///< LUT for the pad 2
 
-//int16_t hallLut[LUT_SIZE];
 
-//uint16_t hall1Lut[LUT_HALL_SIZE];             ///< LUT for the Hall Sensor 1
-//uint16_t hall2Lut[LUT_HALL_SIZE];             ///< LUT for the Hall Sensor 2
+uint16_t hall1Lut[LUT_HALL_SIZE];             ///< LUT for the Hall Sensor 1
+uint16_t hall2Lut[LUT_HALL_SIZE];             ///< LUT for the Hall Sensor 2
 
+/******************************************************************************
+ * Functions
+ *****************************************************************************/
+
+/** ****************************************************************************
+ * @brief Initialisation of the LUTs
+ * 
+ * All LUTs are initialised with the start values. 
+ * 
+ ******************************************************************************/
 void initLUT(void){
     #ifdef LUT_SIZE_PAD
         uint16_t i;
@@ -54,13 +69,17 @@ void initLUT(void){
     #endif
 }
 
-/**
+/** ****************************************************************************
  * @brief interpolate Calibration values
  * 
- * @param x1 Array with calibration Distances for pad 1
- * @param y1 Array with measured calibration values for pad 2
- * @param xySize Size of the calibration array
- */
+ * @param[in] x1 Array with calibration Distances for pad 1
+ * @param[in] y1 Array with measured calibration values for pad 2
+ * @param[in] xySize Size of the calibration array
+ * 
+ * The LUT for the distances is filled with interpolated values. These values are
+ * calculated form the interpolated calibration array.
+ * 
+ ******************************************************************************/
 void interpolCalDistance(int16_t x1[], int16_t y1[], int16_t x2[], int16_t y2[], int32_t xySize){
     int16_t i,j;
     bool l;
