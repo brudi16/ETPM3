@@ -34,6 +34,7 @@ int32_t cmGetStandartDeviation(void);
 void cmSetDistanceLED(bool set);
 void cmRunLED(void);
 void cmOlLed(void);
+void cmSetCalibrationValue(int32_t setArray, int32_t setPosition);
 
 extern uint16_t arraySize;
 

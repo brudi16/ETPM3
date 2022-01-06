@@ -470,3 +470,11 @@ void DeviceDriver_SetPrecision(bool precision){
 void DeviceDriver_SetWireSelection(int32_t selection){
   cmGetSelectetWire(selection);
 }
+
+/** ***************************************************************************
+ * @brief Get the selectet wire
+ * @param selection 
+ *****************************************************************************/
+void DeviceDriver_SetCalibrationValue(int32_t setArray, int32_t setPosition){
+  cmSetCalibrationValue(setArray, setPosition);
+}
