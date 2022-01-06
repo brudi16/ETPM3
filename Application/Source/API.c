@@ -296,3 +296,11 @@ void cmOlLed(void){
     ExtLedOl(1, ADC_PAD1_samples, ADC_PAD2_samples, arraySize, 15);
     ExtLedOl(2, ADC_HALL1_samples, ADC_HALL2_samples, arraySize, 15);
 }
+
+/** ***************************************************************************
+ * @brief Enable overload LED
+ *
+ *****************************************************************************/
+void cmSetCalibrationValue(int32_t setArray, int32_t setPosition){
+    cmSetLampTest(true);
+}
