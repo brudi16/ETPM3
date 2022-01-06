@@ -13,7 +13,6 @@
  * Calculations of Amplitude
  * ----------------------------------------------------------------------------
  * - Calculate peak to peak value of the signal
- * - Calculate RMS-value of the signal
  * 
  * Interpolation
  * ----------------------------------------------------------------------------
@@ -30,7 +29,7 @@
  * 
  * Statistic
  * ----------------------------------------------------------------------------
- * - Calculation of the standart deviation
+ * - Calculation of the standard deviation
  * 
  * Filter
  * ----------------------------------------------------------------------------
@@ -225,12 +224,17 @@ int32_t LinearInterpol(int32_t x0, int32_t y0, int32_t x1, int32_t y1, int32_t x
 /** ***************************************************************************
  * @brief Search the corresponding x-value to a given y-value
  * 
- * @param[in] array     Array with y-values
+ * @param[in] array     LUT Array with y-values
  * @param[in] size      Size of the array
  * @param[in] yValue    y-value of the searched x-value
- * @return int32_t 
+ * @return X-value from the given Y-value
  * 
- * @if
+ * This function searches in the LUT array from the input, the given Value. If the given
+ * value is between two values of the array, the value is searched which is difference
+ * to the given value is lower.
+ * @n
+ * When the yValue is lower than the lowest or higher than the highest value
+ * of the LUT the output is set to 999.
  * 
  *****************************************************************************/
 uint32_t getXFromY(uint16_t array[], int32_t size, uint32_t yValue){
@@ -242,8 +246,8 @@ uint32_t getXFromY(uint16_t array[], int32_t size, uint32_t yValue){
         // Check if the value is lower than lowest or higher than highes value
         if(yValue > array[0] || yValue < array[(size-1)]){
             xValue = 999;
-						break;
-        
+            break;
+        // Check if the actual value from the array is equal to the y-value
         }else if(yValue == array[i]){
             xValue = i+1;
         // Check if y value is higher than next value and lower than actual value from array
@@ -264,13 +268,18 @@ uint32_t getXFromY(uint16_t array[], int32_t size, uint32_t yValue){
 /** ***************************************************************************
  * @brief Calculate the standart deviation
  * 
- * This function calculates the standart deviation of the peak to peak Values
- * of an anrray with measured values.
+ * @param[in] peakPeakArray1 first Array with peak to peak values
+ * @param[in] peakPeakArray2 second Array with peak to peak values
+ * @param[in] size  Size of the arrays
+ * @return Standart deviation in mm
  * 
- * @param peakPeakArray1 Array with peak to peak values
- * @param peakPeakArray2
- * @param size  Size of the array
- * @return float32_t 
+ * This function calculates the standart deviation of the peak to peak Values
+ * of an anrray with peak to peak values. Frist all peak to peak values are
+ * converted into distances with the function getXFromY Then the mean value of 
+ * these distances is calculated. With this mean and the array of distances the
+ * variance is calculated. The calculation of the standart deviation is then 
+ * processed by takin the root of the variance.
+ * 
  *****************************************************************************/
 uint32_t calcStdDev(uint32_t peakPeakArray1[], uint32_t peakPeakArray2[], int32_t size) {
     float32_t mean1 = 0, mean2 = 0;
@@ -307,7 +316,7 @@ uint32_t calcStdDev(uint32_t peakPeakArray1[], uint32_t peakPeakArray2[], int32_
     SD1 = sqrt(SD1 / nPeriods);
     SD1 = sqrt(SD1 / nPeriods);
 
-    // 
+    // Combining the two standart deviations to one
     if(SD1 > SD2){
         SD = SD1;
     }else if (SD1 < SD2){
@@ -322,13 +331,14 @@ uint32_t calcStdDev(uint32_t peakPeakArray1[], uint32_t peakPeakArray2[], int32_
 /** ***************************************************************************
  * @brief Copy Arrays from measuring array to calculations array
  * 
- * The measured values are copied from measuring array to an array for the
+ * @param[in] size size of the arrays that are copied.
+ * 
+ * The measured values are copied from measuring array to an other array for the
  * calculations. This prevents that the values are processed and overwritten
  * by DAC on the same time.
  * When debug is activated the arrays are initilized with a matlab generated
  * array with a peak to peak value of 4095. 
- *
- * @param size Size of the array 
+
  *****************************************************************************/
 void cpyArrays(uint16_t size){
     uint16_t i;
@@ -353,10 +363,13 @@ void cpyArrays(uint16_t size){
 }
 
 /** ***************************************************************************
- * @brief filter values from Hall Sensors
+ * @brief filter values from the Hall Sensors
  *
  * The measured Values from the Sensors are filtered used the fir filtering
  * method.
+ * 
+ * @warning This function doesn't work properly. Until the bug is fixed it is
+ * commented out in API.c line 207.
  * 
  *****************************************************************************/
 void filter_hall(void){
@@ -387,13 +400,22 @@ void filter_hall(void){
         hall2Values[i] = tmpArray[i];
     }
 }
-/**
- * @brief 
+/** ***************************************************************************
+ * @brief calculation of distance
  * 
- * @param distance1 
- * @param distance2 
- * @return uint32_t 
- */
+ * @param distance1 distance calculated from the pad 1
+ * @param distance2 distance calculated from the pad 2
+ * @return distance
+ * 
+ * This function processes the two distances from the pads. 
+ * - When both pads are out of range (999) then the output is also set to 999.
+ * - When one of the pad is out of range of the LUT then only the other pad is 
+ * used for the distance. 
+ * - If the difference of the distance is higher than 50mm, the output is set to
+ * the pad with the higher value
+ * - In all other cases the mean of the two distances is putted out.
+ * 
+ *****************************************************************************/
 uint32_t calc_distance(uint32_t distance1, uint32_t distance2){
     uint32_t distance;
     int32_t difference;
