@@ -41,3 +41,29 @@ int16_t calHall2_5A[NUM_CALB_POINTS];                                       ///<
 /******************************************************************************
  * Functions
  *****************************************************************************/
+
+void setCalPnt(int32_t arrayNum, int32_t pointNum, int32_t value){
+    
+    switch (arrayNum)
+    {
+    case 0: calPad1[pointNum] = value;
+        break;
+    case 1: calPad2[pointNum] = value;
+        break;
+    case 2: calHall1_1A2[pointNum] = value;
+        break;
+    case 3: calHall2_1A2[pointNum] = value;
+        break;
+    case 4: calHall1_5A[pointNum] = value;
+        break;
+    case 5: calHall2_5A[pointNum] = value;
+        break;
+    default: // this should nerver happen
+        break;
+    }
+
+}
+
+void calibrate(int32_t type,int32_t pointNum){
+    
+}
