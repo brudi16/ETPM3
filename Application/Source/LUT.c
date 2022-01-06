@@ -31,16 +31,16 @@ const uint16_t padLutStartValues[] = {          ///< Start values for the LUT of
     #include "lutPad.csv"
 };
 
-const int16_t hallLutStartValues[] = {          ///< Start values for the LUT of the Hall Sensors (included with a .csv)
-    #include "lutHall.csv"
-};
+//const int16_t hallLutStartValues[] = {          ///< Start values for the LUT of the Hall Sensors (included with a .csv)
+//    #include "lutHall.csv"
+//};
 
 uint16_t pad1Lut[LUT_SIZE_PAD];                 ///< LUT for the pad 1
 uint16_t pad2Lut[LUT_SIZE_PAD];                 ///< LUT for the pad 2
 
 
-uint16_t hall1Lut[LUT_HALL_SIZE];             ///< LUT for the Hall Sensor 1
-uint16_t hall2Lut[LUT_HALL_SIZE];             ///< LUT for the Hall Sensor 2
+//uint16_t hall1Lut[LUT_HALL_SIZE];             ///< LUT for the Hall Sensor 1
+//uint16_t hall2Lut[LUT_HALL_SIZE];             ///< LUT for the Hall Sensor 2
 
 /******************************************************************************
  * Functions
