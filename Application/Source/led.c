@@ -15,6 +15,10 @@
 #include "stm32f4xx_hal.h"
 #include "led.h"
 #include <stdbool.h>
+/******************************************************************************
+ * Variables
+ *****************************************************************************/
+bool lamptestOn = false;
 
 
 /******************************************************************************
@@ -128,10 +132,12 @@ void ExtLedSetLamptest(bool set){
 		for (uint8_t i=0; i<8; i++){	// switch on all LEDs
 			ExtLedSet(i, true);
 		}
+		lamptestOn = true;
 	} else{
 		for (uint8_t i=0; i<8; i++){	// switch off all LEDs
 			ExtLedSet(i, false);
 		}
+		lamptestOn = false;
 	}
 }
 
@@ -142,44 +148,46 @@ void ExtLedSetLamptest(bool set){
  * 
  *****************************************************************************/
 void ExtLedSetDistance(bool set ,int32_t distance){
-	if(set){
-		if(distance >= 200){
-			ExtLedSet(3, true);
+	if(!lamptestOn){
+		if(set){
+			if(distance >= 200){
+				ExtLedSet(3, true);
+				ExtLedSet(4, false);
+				ExtLedSet(5, false);
+				ExtLedSet(6, false);
+				ExtLedSet(7, false);
+			} else if (distance >= 150){
+				ExtLedSet(3, true);
+				ExtLedSet(4, true);
+				ExtLedSet(5, false);
+				ExtLedSet(6, false);
+				ExtLedSet(7, false);
+			} else if (distance >= 100){
+				ExtLedSet(3, true);
+				ExtLedSet(4, true);
+				ExtLedSet(5, true);
+				ExtLedSet(6, false);
+				ExtLedSet(7, false);
+			} else if (distance >= 50){
+				ExtLedSet(3, true);
+				ExtLedSet(4, true);
+				ExtLedSet(5, true);
+				ExtLedSet(6, true);
+				ExtLedSet(7, false);
+			} else if (distance >= 0){
+				ExtLedSet(3, true);
+				ExtLedSet(4, true);
+				ExtLedSet(5, true);
+				ExtLedSet(6, true);
+				ExtLedSet(7, true);
+			}
+		} else{
+			ExtLedSet(3, false);
 			ExtLedSet(4, false);
 			ExtLedSet(5, false);
 			ExtLedSet(6, false);
 			ExtLedSet(7, false);
-		} else if (distance >= 150){
-			ExtLedSet(3, true);
-			ExtLedSet(4, true);
-			ExtLedSet(5, false);
-			ExtLedSet(6, false);
-			ExtLedSet(7, false);
-		} else if (distance >= 100){
-			ExtLedSet(3, true);
-			ExtLedSet(4, true);
-			ExtLedSet(5, true);
-			ExtLedSet(6, false);
-			ExtLedSet(7, false);
-		} else if (distance >= 50){
-			ExtLedSet(3, true);
-			ExtLedSet(4, true);
-			ExtLedSet(5, true);
-			ExtLedSet(6, true);
-			ExtLedSet(7, false);
-		} else if (distance >= 0){
-			ExtLedSet(3, true);
-			ExtLedSet(4, true);
-			ExtLedSet(5, true);
-			ExtLedSet(6, true);
-			ExtLedSet(7, true);
 		}
-	} else{
-		ExtLedSet(3, false);
-		ExtLedSet(4, false);
-		ExtLedSet(5, false);
-		ExtLedSet(6, false);
-		ExtLedSet(7, false);
 	}
 }
 
