@@ -203,25 +203,27 @@ void ExtLetRun(void){
 	uint32_t wait = 500;
 	static uint8_t state = 0;
 
-	switch(state){
-	case 0:
-		if((tickstart + wait) < HAL_GetTick()){
-			ExtLedSet(0, true);
-			tickstart = HAL_GetTick();
-			state = 1;
-		}
-		break;
+	if(!lamptestOn){
+		switch(state){
+		case 0:
+			if((tickstart + wait) < HAL_GetTick()){
+				ExtLedSet(0, true);
+				tickstart = HAL_GetTick();
+				state = 1;
+			}
+			break;
 
-	case 1:
-		if((tickstart + wait) < HAL_GetTick()){
-			ExtLedSet(0, false);
-			tickstart = HAL_GetTick();
-			state = 0;
+		case 1:
+			if((tickstart + wait) < HAL_GetTick()){
+				ExtLedSet(0, false);
+				tickstart = HAL_GetTick();
+				state = 0;
+			}
+			break;
+		
+		default:
+			break;
 		}
-		break;
-	
-	default:
-		break;
 	}
 }
 
@@ -257,11 +259,13 @@ void ExtLedOl(int8_t led, int32_t data1[], int32_t data2[], int16_t size, int8_t
 		}
 	}
 
-	if ((zeroCounter1 >= sensitivity)||(maxCounter1 >= sensitivity)){
-		ExtLedSet(led, true);
-	} else if ((zeroCounter2 >= sensitivity)||(maxCounter2 >= sensitivity)){
-		ExtLedSet(led, true);
-	} else{
-		ExtLedSet(led, false);
+	if(!lamptestOn){
+		if ((zeroCounter1 >= sensitivity)||(maxCounter1 >= sensitivity)){
+			ExtLedSet(led, true);
+		} else if ((zeroCounter2 >= sensitivity)||(maxCounter2 >= sensitivity)){
+			ExtLedSet(led, true);
+		} else{
+			ExtLedSet(led, false);
+		}
 	}
 }
