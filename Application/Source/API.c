@@ -36,6 +36,7 @@
 uint8_t measCase = 0;               ///< Value of the actual measuring Case
 uint16_t arraySize = ADC_NUMS;      ///< Value of the actual numbers of measuring values
 int32_t selectetWire = 1;           ///< Number of wires that are measured
+bool calibrationOn = false;
 
 /******************************************************************************
  * Functions
@@ -221,7 +222,7 @@ void adcMeas(void){
  *
  *****************************************************************************/
 void cmSetPrecision(bool precision){
-    if(precision){
+    if((precision) || (calibrationOn)){
         arraySize = ADC_NUMS_ACU;
     } else{
         arraySize = ADC_NUMS;
@@ -303,4 +304,15 @@ void cmOlLed(void){
  *****************************************************************************/
 void cmSetCalibrationValue(int32_t setArray, int32_t setPosition){
     cmSetLampTest(true);
+}
+
+/** ***************************************************************************
+ * @brief Set calibration on
+ * @param on Set during the calibration process
+ * 
+ * Set the calibrationOn variable true during the calibration process.
+ *
+ *****************************************************************************/
+void cmSetCalibrationOn(bool on){
+    calibrationOn = on;
 }
