@@ -487,3 +487,19 @@ void DeviceDriver_SetCalibrationValue(int32_t setArray, int32_t setPosition){
 void DeviceDriver_SetCalibration(bool on){
     cmSetCalibrationOn(on);
 }
+
+/** ***************************************************************************
+ * @brief Save calibration
+ * 
+ *****************************************************************************/
+void DeviceDriver_SaveCalibration(void){
+    cmSaveCalibration();
+}
+
+/** ***************************************************************************
+ * @brief Reset calibration
+ * 
+ *****************************************************************************/
+void DeviceDriver_ResetCalibration(void){
+    cmResetCalibration();
+}

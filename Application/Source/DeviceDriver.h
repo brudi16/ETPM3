@@ -152,6 +152,8 @@ void DeviceDriver_SetPrecision(bool precision);
 void DeviceDriver_SetWireSelection(int32_t selection);
 void DeviceDriver_SetCalibrationValue(int32_t setArray, int32_t setPosition);
 void DeviceDriver_SetCalibration(bool on);
+void DeviceDriver_SaveCalibration(void);
+void DeviceDriver_ResetCalibration(void);
 
 
 #ifdef __cplusplus

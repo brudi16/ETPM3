@@ -2626,6 +2626,7 @@ class Calibration : Core::Group
   object WidgetSet::PushButton PushButton1
   {
     preset Bounds = <45,130,195,180>;
+    preset OnRelease = SaveCalibration;
     preset Label = "Save";
     preset Appearance = WidgetSet::PushButton_Medium;
   }
@@ -2634,6 +2635,7 @@ class Calibration : Core::Group
   object WidgetSet::PushButton PushButton2
   {
     preset Bounds = <45,194,195,244>;
+    preset OnRelease = ResetCalibration;
     preset Label = "Reset";
     preset Appearance = WidgetSet::PushButton_Medium;
   }
@@ -2643,6 +2645,28 @@ class Calibration : Core::Group
   {
     if (IsActiveDialog(true)) 
       GetRoot().PresentDialog( new Application::SelectCalibration, Application::FadeInOutCentered, null, null, null, null, null, null, null, false );
+  }
+
+  $rect <510,140,710,180>
+  slot SaveCalibration
+  {
+    $if !$prototyper
+      native
+      {
+        DeviceDriver_SaveCalibration();
+      }
+    $endif
+  }
+
+  $rect <510,180,710,220>
+  slot ResetCalibration
+  {
+    $if !$prototyper
+      native
+      {
+        DeviceDriver_ResetCalibration();
+      }
+    $endif
   }
 }
 
