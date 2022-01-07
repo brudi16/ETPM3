@@ -7,7 +7,8 @@
  * @author  Pavel Müller, Yves Röhrig
  * @date	25.12.2021
  *****************************************************************************/
-
+#ifndef SRC_CALIBRATION_H
+#define SRC_CALIBRATION_H
 /******************************************************************************
  * Includes
  *****************************************************************************/
@@ -25,4 +26,6 @@
  *****************************************************************************/
 void setCalPnt(int32_t arrayNum, int32_t pointNum, int32_t value);
 void calibrateSingleValue(int32_t type,int32_t pointNum);
-void calibration(int32_t type);
+void calibration(void);
+
+#endif

@@ -85,9 +85,6 @@ void calibrateSingleValue(int32_t type,int32_t pointNum){
 
     switch(type){
     case 0: // Distance calibration
-        // get peak to peak value
-        peakToPeak1 = calc_peakToPeak_av(pad1Values, arraySize, peakToPeakArrayHall1);
-        peakToPeak2 = calc_peakToPeak_av(pad2Values, arraySize, peakToPeakArrayHall2);
         // fill peak values in the array
         setCalPnt(0,pointNum,peakToPeak1);
         setCalPnt(1,pointNum,peakToPeak2);
@@ -106,7 +103,7 @@ void calibrateSingleValue(int32_t type,int32_t pointNum){
  * 
  * @param[in] type 
  ******************************************************************************/
-void calibration(int32_t type){
+void calibration(void){
     if(calPad1[0] > 0 && calPad2[0] > 0){
         interpolCalDistance(calDist, calPad1, calDist, calPad2,  NUM_CALB_POINTS);
     }
