@@ -23,3 +23,6 @@
 /******************************************************************************
  * Functions
  *****************************************************************************/
+void setCalPnt(int32_t arrayNum, int32_t pointNum, int32_t value);
+void calibrateSingleValue(int32_t type,int32_t pointNum);
+void calibration(int32_t type);

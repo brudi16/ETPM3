@@ -27,6 +27,7 @@
 #include "calculations.h"
 #include "signalProcessing.h"
 #include "LUT.h"
+#include "calibration.h"
 #include "stm32f4xx.h"
 #include "stm32f429i_discovery.h"
 
@@ -298,12 +299,15 @@ void cmOlLed(void){
     ExtLedOl(2, ADC_HALL1_samples, ADC_HALL2_samples, arraySize, 15);
 }
 
+
 /** ***************************************************************************
- * @brief Enable overload LED
- *
+ * @brief set value to calibration array
+ * 
+ * @param[in] setArray 
+ * @param[in] setPosition 
  *****************************************************************************/
 void cmSetCalibrationValue(int32_t setArray, int32_t setPosition){
-    cmSetLampTest(true);
+    calibrateSingleValue(setArray,setPosition);
 }
 
 /** ***************************************************************************
