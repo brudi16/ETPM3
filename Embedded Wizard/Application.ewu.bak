@@ -2388,6 +2388,28 @@ $rect <70,-70,270,-30>
 $output false
 class Calibration : Core::Group
 {
+  $rect <810,120,1010,160>
+  inherited method Done()
+  {
+    $if !$prototyper
+      native
+      {
+        DeviceDriver_SetCalibration(false);
+      }
+    $endif
+  }
+
+  $rect <830,80,1010,120>
+  inherited method Init()
+  {
+    $if !$prototyper
+      native
+      {
+        DeviceDriver_SetCalibration(true);
+      }
+    $endif
+  }
+
   $rect <260,10,460,50>
   inherited property Bounds = <0,0,240,320>;
 
@@ -8198,7 +8220,7 @@ class CalibrationWindow20 : Core::Group
   object Views::Text Text
   {
     preset Bounds = <30,49,210,79>;
-    preset String = "Distance";
+    preset String = "Current 2";
     preset Font = Application::CalibrationTitelFont;
     preset Color = #000000FF;
   }
@@ -8241,7 +8263,7 @@ class CalibrationWindow20 : Core::Group
     $if !$prototyper
       native
       {
-        DeviceDriver_SetCalibrationValue(0, 5);
+        DeviceDriver_SetCalibrationValue(2, 5);
       }
     $endif
   }
@@ -8250,7 +8272,7 @@ class CalibrationWindow20 : Core::Group
   object Views::Text Text1
   {
     preset Bounds = <30,79,210,109>;
-    preset String = "100 mm";
+    preset String = "15 mm";
     preset Font = Application::CalibrationTextFont;
     preset Color = #000000FF;
   }
@@ -8455,7 +8477,7 @@ class CalibrationWindow21 : Core::Group
   object Views::Text Text
   {
     preset Bounds = <30,49,210,79>;
-    preset String = "Distance";
+    preset String = "Current 2";
     preset Font = Application::CalibrationTitelFont;
     preset Color = #000000FF;
   }
@@ -8491,7 +8513,7 @@ class CalibrationWindow21 : Core::Group
     $if !$prototyper
       native
       {
-        DeviceDriver_SetCalibrationValue(0, 6);
+        DeviceDriver_SetCalibrationValue(2, 6);
       }
     $endif
   }
@@ -8500,7 +8522,7 @@ class CalibrationWindow21 : Core::Group
   object Views::Text Text1
   {
     preset Bounds = <70,79,170,109>;
-    preset String = "200 mm";
+    preset String = "20 mm";
     preset Font = Application::CalibrationTextFont;
     preset Color = #000000FF;
   }

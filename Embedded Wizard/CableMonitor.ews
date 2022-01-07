@@ -1,12 +1,12 @@
 $version 1.0
 
-attr active = Application::CalibrationWindow21;
+attr active = Application::DeviceClass;
 attr callStackMonitor_Show = false;
 attr codeColSelect = false;
-attr codeFirstPos = <0,0>;
-attr codeInspector = Application::CalibrationWindow21.SetValue;
-attr codeSelEnd = <38,3>;
-attr codeSelStart = <38,3>;
+attr codeFirstPos = <0,5>;
+attr codeInspector = Application::DeviceClass.OnSetSelectedCalibration;
+attr codeSelEnd = <18,11>;
+attr codeSelStart = <18,11>;
 attr connectInspectors = false;
 attr debug_TrackUpdates = false;
 attr extractDoc_ClassOverview = true;
@@ -49,89 +49,24 @@ view unit Application
   attr enableGrid = true;
   attr enableWireMode = false;
   attr grid = 10;
-  attr scrollTo = <-7,-23>;
+  attr scrollTo = <-7,-455>;
   attr zoom = 0.75;
 }
 
-view class Application::CalibrationWindow15
+view class Application::DeviceClass
 {
   attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeInspector = SetValue;
-  attr codeSelEnd = <38,3>;
-  attr codeSelStart = <38,3>;
+  attr codeFirstPos = <0,5>;
+  attr codeInspector = OnSetSelectedCalibration;
+  attr codeSelEnd = <18,11>;
+  attr codeSelStart = <18,11>;
   attr enableWireMode = false;
-  attr scrollTo = <-7,-7>;
+  attr scrollTo = <-7,25>;
   attr zoom = 1.0;
 }
 
-view class Application::CalibrationWindow16
+view class Application::DetectorScreen
 {
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeInspector = SetValue;
-  attr codeSelEnd = <38,3>;
-  attr codeSelStart = <38,3>;
-  attr enableWireMode = false;
-  attr scrollTo = <-7,-7>;
-  attr zoom = 1.0;
-}
-
-view class Application::CalibrationWindow17
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeInspector = SetValue;
-  attr codeSelEnd = <38,3>;
-  attr codeSelStart = <38,3>;
-  attr enableWireMode = false;
-  attr scrollTo = <-7,-7>;
-  attr zoom = 1.0;
-}
-
-view class Application::CalibrationWindow18
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeInspector = SetValue;
-  attr codeSelEnd = <4,4>;
-  attr codeSelStart = <4,4>;
-  attr enableWireMode = false;
-  attr scrollTo = <-7,-7>;
-  attr zoom = 1.0;
-}
-
-view class Application::CalibrationWindow19
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeInspector = SetValue;
-  attr codeSelEnd = <43,3>;
-  attr codeSelStart = <43,3>;
-  attr enableWireMode = false;
-  attr scrollTo = <-7,-7>;
-  attr zoom = 1.0;
-}
-
-view class Application::CalibrationWindow20
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeInspector = SetValue;
-  attr codeSelEnd = <38,3>;
-  attr codeSelStart = <38,3>;
-  attr enableWireMode = false;
-  attr scrollTo = <-7,-7>;
-  attr zoom = 1.0;
-}
-
-view class Application::CalibrationWindow21
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeInspector = SetValue;
-  attr codeSelEnd = <38,3>;
-  attr codeSelStart = <38,3>;
   attr enableWireMode = false;
   attr scrollTo = <-7,-7>;
   attr zoom = 1.0;
