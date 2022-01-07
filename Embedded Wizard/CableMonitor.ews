@@ -1,6 +1,5 @@
 $version 1.0
 
-attr active = Application::CalibrationWindow21;
 attr callStackMonitor_Show = false;
 attr codeColSelect = false;
 attr codeFirstPos = <0,0>;

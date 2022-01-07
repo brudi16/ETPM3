@@ -73,20 +73,22 @@ void initLUT(void){
  * @brief interpolate Calibration values
  * 
  * @param[in] x1 Array with calibration Distances for pad 1
- * @param[in] y1 Array with measured calibration values for pad 2
- * @param[in] xySize Size of the calibration array
+ * @param[in] y1 Array with measured calibration values for pad 1
+ * @param[in] x2 Array with calibration Distances for pad 2
+ * @param[in] y2 Array with measured calibration values for pad 2
+ * @param[in] xSize Size of the calibration array
  * 
  * The LUT for the distances is filled with interpolated values. These values are
  * calculated form the interpolated calibration array.
  * 
  ******************************************************************************/
-void interpolCalDistance(int16_t x1[], int16_t y1[], int16_t x2[], int16_t y2[], int32_t xySize){
+void interpolCalDistance(int16_t x1[], int16_t y1[], int16_t x2[], int16_t y2[], int32_t xSize){
     int16_t i,j;
     bool l;
     
     // Pad 1
     // loop for the different distances
-    for(i=0;i<xySize;i++){
+    for(i=0;i<xSize;i++){
         l = false;
         // loop for Values
         for(j=0;j<x1[i];j++){
@@ -108,7 +110,7 @@ void interpolCalDistance(int16_t x1[], int16_t y1[], int16_t x2[], int16_t y2[],
 
     // Pad 2
     // loop for the different distances
-    for(i=0;i<xySize;i++){
+    for(i=0;i<xSize;i++){
         l = false;
         // loop for Values
         for(j=0;j<x2[i];j++){
