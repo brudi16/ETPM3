@@ -316,3 +316,23 @@ void cmSetCalibrationValue(int32_t setArray, int32_t setPosition){
 void cmSetCalibrationOn(bool on){
     calibrationOn = on;
 }
+
+/** ***************************************************************************
+ * @brief Save calibration
+ * 
+ * Calculate the calibration values.
+ *
+ *****************************************************************************/
+void cmSaveCalibration(void){
+    cmSetLampTest(true);
+}
+
+/** ***************************************************************************
+ * @brief Reset calibration
+ * 
+ * Reset the calibration values.
+ *
+ *****************************************************************************/
+void cmResetCalibration(void){
+    cmSetLampTest(false);
+}

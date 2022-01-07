@@ -58,7 +58,7 @@ $rect <550,-240,750,-200>
 $output false
 resource Resources::Font TitelFont
 {
-  attr fontname FontName = Roboto Medium;
+  attr fontname FontName = Arial;
   attr fontheight Height = 32;
   attr fontheightmode HeightMode = Popular;
   attr fontquality Quality = High;
@@ -2643,6 +2643,28 @@ class Calibration : Core::Group
   {
     if (IsActiveDialog(true)) 
       GetRoot().PresentDialog( new Application::SelectCalibration, Application::FadeInOutCentered, null, null, null, null, null, null, null, false );
+  }
+
+  $rect <510,140,710,180>
+  slot SaveCalibration
+  {
+    $if !$prototyper
+      native
+      {
+        DeviceDriver_SaveCalibration();
+      }
+    $endif
+  }
+
+  $rect <510,180,710,220>
+  slot ResetCalibration
+  {
+    $if !$prototyper
+      native
+      {
+        DeviceDriver_ResetCalibration();
+      }
+    $endif
   }
 }
 
