@@ -1,12 +1,11 @@
 $version 1.0
 
-attr active = Application::DeviceClass;
 attr callStackMonitor_Show = false;
 attr codeColSelect = false;
-attr codeFirstPos = <0,5>;
-attr codeInspector = Application::DeviceClass.OnSetSelectedCalibration;
-attr codeSelEnd = <18,11>;
-attr codeSelStart = <18,11>;
+attr codeFirstPos = <0,0>;
+attr codeInspector = Application::Calibration.ResetCalibration;
+attr codeSelEnd = <3,4>;
+attr codeSelStart = <3,4>;
 attr connectInspectors = false;
 attr debug_TrackUpdates = false;
 attr extractDoc_ClassOverview = true;
@@ -42,31 +41,18 @@ view Project
 
 view unit Application
 {
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,3>;
-  attr codeSelEnd = <25,15>;
-  attr codeSelStart = <25,15>;
-  attr enableGrid = true;
   attr enableWireMode = false;
-  attr grid = 10;
-  attr scrollTo = <-7,-455>;
-  attr zoom = 0.75;
-}
-
-view class Application::DeviceClass
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,5>;
-  attr codeInspector = OnSetSelectedCalibration;
-  attr codeSelEnd = <18,11>;
-  attr codeSelStart = <18,11>;
-  attr enableWireMode = false;
-  attr scrollTo = <-7,25>;
+  attr scrollTo = <-7,-807>;
   attr zoom = 1.0;
 }
 
-view class Application::DetectorScreen
+view class Application::Calibration
 {
+  attr codeColSelect = false;
+  attr codeFirstPos = <0,0>;
+  attr codeInspector = ResetCalibration;
+  attr codeSelEnd = <3,4>;
+  attr codeSelStart = <3,4>;
   attr enableWireMode = false;
   attr scrollTo = <-7,-7>;
   attr zoom = 1.0;
