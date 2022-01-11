@@ -338,7 +338,7 @@ void cmSaveCalibration(void){
  *
  *****************************************************************************/
 void cmResetCalibration(void){
-    cmSetLampTest(false);
+    initLUT();
 }
 
 /** ***************************************************************************
@@ -350,6 +350,9 @@ void cmResetCalibration(void){
  *****************************************************************************/
 int32_t cmGetPadPeakToPeak(void){
     // Function call of all required functions to return a debug value...
-    int32_t padPeakToPeak = 20;
+    int32_t padPeakToPeak = 0;
+
+    padPeakToPeak = (int32_t)peakToPeakPadAv;
+
     return padPeakToPeak;
 }

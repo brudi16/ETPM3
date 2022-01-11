@@ -30,7 +30,7 @@
 int32_t distance1 = 0;          ///< global variable for the distance of pad 1
 int32_t distance2 = 0;          ///< global variable for the distance of pad 2
 
-uint32_t peakToPeakAv = 0;      ///< global variable for the average peak to peak value
+uint32_t peakToPeakPadAv = 0;      ///< global variable for the average peak to peak value
 uint32_t peakToPeakPad1 = 0;       ///< global variable for the peak to peak value of pad 1
 uint32_t peakToPeakPad2 = 0;       ///< global variable for the peak to peak value of pad 2
 
@@ -60,7 +60,7 @@ int32_t getDistance(uint16_t arraySize){
     peakToPeakPad2 = calc_peakToPeak_av(pad2Values, arraySize, peakToPeakArrayHall2);
 
     // Calculate average peak to peak value
-    peakToPeakAv = ((peakToPeakPad1 + peakToPeakPad2)/2);
+    peakToPeakPadAv = ((peakToPeakPad1 + peakToPeakPad2)/2);
     // get the distance from the LUT
     distance1 = getXFromY(pad1Lut, LUT_SIZE_PAD, peakToPeakPad1);
     distance2 = getXFromY(pad2Lut, LUT_SIZE_PAD, peakToPeakPad2);
@@ -114,7 +114,6 @@ int32_t getAngle(void){
     }else{
         y = 360;    // for debugging
     }
-
 
     return y;
 }
