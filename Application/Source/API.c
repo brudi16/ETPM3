@@ -338,5 +338,5 @@ void cmSaveCalibration(void){
  *
  *****************************************************************************/
 void cmResetCalibration(void){
-    cmSetLampTest(false);
+    initLUT();
 }
