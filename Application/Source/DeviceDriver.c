@@ -357,6 +357,13 @@ int DeviceDriver_ProcessData( void )
 
     #endif
 
+    #ifdef _ApplicationDeviceClass__UpdateHallPeakToPeak_
+
+        ApplicationDeviceClass__UpdateHallPeakToPeak( DeviceObject, (XInt32)cmGetHallPeakToPeak() );
+        needUpdate = 1;
+
+    #endif
+
 #endif
 
     /*

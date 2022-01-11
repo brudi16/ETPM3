@@ -39,6 +39,7 @@ void cmSetCalibrationOn(bool on);
 void cmSaveCalibration(void);
 void cmResetCalibration(void);
 int32_t cmGetPadPeakToPeak(void);
+int32_t cmGetHallPeakToPeak(void);
 
 extern uint16_t arraySize;
 
