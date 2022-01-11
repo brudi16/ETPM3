@@ -38,6 +38,7 @@ void cmSetCalibrationValue(int32_t setArray, int32_t setPosition);
 void cmSetCalibrationOn(bool on);
 void cmSaveCalibration(void);
 void cmResetCalibration(void);
+int32_t cmGetPadPeakToPeak(void);
 
 extern uint16_t arraySize;
 

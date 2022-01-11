@@ -338,5 +338,18 @@ void cmSaveCalibration(void){
  *
  *****************************************************************************/
 void cmResetCalibration(void){
-    initLUT();
+    cmSetLampTest(false);
+}
+
+/** ***************************************************************************
+ * @brief Display peak to peapk avarage of both pads
+ * @return Peak to peak avarage of both pads
+ * 
+ * This function returns the avarage peak to peak value of both pads.
+ *
+ *****************************************************************************/
+int32_t cmGetPadPeakToPeak(void){
+    // Function call of all required functions to return a debug value...
+    int32_t padPeakToPeak = 20;
+    return padPeakToPeak;
 }
