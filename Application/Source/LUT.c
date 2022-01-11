@@ -31,16 +31,16 @@ const uint16_t padLutStartValues[] = {          ///< Start values for the LUT of
     #include "lutPad.csv"
 };
 
-//const int16_t hallLutStartValues[] = {          ///< Start values for the LUT of the Hall Sensors (included with a .csv)
+// const int16_t hallLutStartValues[50][20] = {          ///< Start values for the LUT of the Hall Sensors (included with a .csv)
 //    #include "lutHall.csv"
-//};
+// };
 
 uint16_t pad1Lut[LUT_SIZE_PAD];                 ///< LUT for the pad 1
 uint16_t pad2Lut[LUT_SIZE_PAD];                 ///< LUT for the pad 2
 
 
-//uint16_t hall1Lut[LUT_HALL_SIZE];             ///< LUT for the Hall Sensor 1
-//uint16_t hall2Lut[LUT_HALL_SIZE];             ///< LUT for the Hall Sensor 2
+// uint16_t hall1Lut[LUT_HALL_ROWS][LUT_HALL_COLUMNS];             ///< LUT for the Hall Sensor 1
+// uint16_t hall2Lut[LUT_HALL_ROWS][LUT_HALL_COLUMNS];             ///< LUT for the Hall Sensor 2
 
 /******************************************************************************
  * Functions
@@ -54,19 +54,20 @@ uint16_t pad2Lut[LUT_SIZE_PAD];                 ///< LUT for the pad 2
  ******************************************************************************/
 void initLUT(void){
     #ifdef LUT_SIZE_PAD
-        uint16_t i;
-        for(i=0;i<LUT_SIZE_PAD;i++){
+        for(uint16_t i=0;i<LUT_SIZE_PAD;i++){
             pad1Lut[i] = padLutStartValues[i];
             pad2Lut[i] = padLutStartValues[i];
         }
     #endif
 
-    #ifdef LUT_SIZE_HALL
-        for(i=0;i<LUT_SIZE_Hall;i++){
-            hallLut1[i] = hallLutStartValues[i];
-            hallLut1[i] = hallLutStartValues[i];
-        }
-    #endif
+    // #ifdef LUT_HALL_ROWS
+    //     for(uint16_t c=0;c<LUT_HALL_ROWS;c++){
+    //         for(uint16_t i=0;i<LUT_HALL_ROWS;i++){
+    //             hall1Lut[c][i] = hallLutStartValues[c][i];
+    //             hall2Lut[c][i] = hallLutStartValues[c][i];
+    //         }
+    //     }
+    // #endif
 }
 
 /** ****************************************************************************

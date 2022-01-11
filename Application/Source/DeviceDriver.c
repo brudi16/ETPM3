@@ -350,6 +350,13 @@ int DeviceDriver_ProcessData( void )
 
     #endif
 
+    #ifdef _ApplicationDeviceClass__UpdatePadPeakToPeak_
+
+        ApplicationDeviceClass__UpdatePadPeakToPeak( DeviceObject, (XInt32)cmGetPadPeakToPeak() );
+        needUpdate = 1;
+
+    #endif
+
 #endif
 
     /*

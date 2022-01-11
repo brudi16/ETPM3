@@ -1,11 +1,12 @@
 $version 1.0
 
+attr active = Application::DeviceClass;
 attr callStackMonitor_Show = false;
 attr codeColSelect = false;
 attr codeFirstPos = <0,0>;
-attr codeInspector = Application::Calibration.ResetCalibration;
-attr codeSelEnd = <3,4>;
-attr codeSelStart = <3,4>;
+attr codeInspector = Application::DeviceClass.UpdatePadPeakToPeak;
+attr codeSelEnd = <0,0>;
+attr codeSelStart = <0,0>;
 attr connectInspectors = false;
 attr debug_TrackUpdates = false;
 attr extractDoc_ClassOverview = true;
@@ -42,18 +43,18 @@ view Project
 view unit Application
 {
   attr enableWireMode = false;
-  attr scrollTo = <-7,-807>;
+  attr scrollTo = <-7,137>;
   attr zoom = 1.0;
 }
 
-view class Application::Calibration
+view class Application::DeviceClass
 {
   attr codeColSelect = false;
   attr codeFirstPos = <0,0>;
-  attr codeInspector = ResetCalibration;
-  attr codeSelEnd = <3,4>;
-  attr codeSelStart = <3,4>;
+  attr codeInspector = UpdatePadPeakToPeak;
+  attr codeSelEnd = <0,0>;
+  attr codeSelStart = <0,0>;
   attr enableWireMode = false;
-  attr scrollTo = <-7,-7>;
+  attr scrollTo = <-7,9>;
   attr zoom = 1.0;
 }
