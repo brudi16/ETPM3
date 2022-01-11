@@ -353,3 +353,16 @@ int32_t cmGetPadPeakToPeak(void){
     int32_t padPeakToPeak = 20;
     return padPeakToPeak;
 }
+
+/** ***************************************************************************
+ * @brief Display peak to peapk avarage of both hall sensors
+ * @return Peak to peak avarage of both hall sensors
+ * 
+ * This function returns the avarage peak to peak value of both hall sensors.
+ *
+ *****************************************************************************/
+int32_t cmGetHallPeakToPeak(void){
+    // Function call of all required functions to return a debug value...
+    int32_t hallPeakToPeak = 55;
+    return hallPeakToPeak;
+}

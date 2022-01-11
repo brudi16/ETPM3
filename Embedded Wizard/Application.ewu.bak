@@ -2053,6 +2053,24 @@ class DeviceClass : Templates::DeviceClass
       notifyobservers ^PadPeakToPeak;
     }
   }
+
+  $rect <970,480,1170,520>
+  property int32 HallPeakToPeak;
+
+  $rect <970,520,1170,560>
+  $output true
+  method void UpdateHallPeakToPeak( arg int32 aNewValue )
+  {
+    // Only if the reported value does differ from the one stored currently in the property.
+    if ( aNewValue != pure HallPeakToPeak )
+    {
+      // Remember the new value in the internal memory of the property.
+      pure HallPeakToPeak = aNewValue;
+
+      // Notify all associated property observers.
+      notifyobservers ^HallPeakToPeak;
+    }
+  }
 }
 
 $rect <1030,110,1230,150>
@@ -4408,6 +4426,7 @@ class CalibrationWindow7 : Core::Group
   {
     preset Layout = Core::Layout[AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
     preset Bounds = <30,116,210,148>;
+    preset Outlet = ^Application::Device.PadPeakToPeak;
     preset Unit = "";
     preset Precision = 0;
     preset Appearance = WidgetSet::ValueDisplay_Medium;
@@ -5213,6 +5232,7 @@ class CalibrationWindow8 : Core::Group
   {
     preset Layout = Core::Layout[AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
     preset Bounds = <30,116,210,148>;
+    preset Outlet = ^Application::Device.HallPeakToPeak;
     preset Unit = "";
     preset Precision = 0;
     preset Appearance = WidgetSet::ValueDisplay_Medium;
@@ -5456,6 +5476,7 @@ class CalibrationWindow9 : Core::Group
   {
     preset Layout = Core::Layout[AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
     preset Bounds = <30,116,210,148>;
+    preset Outlet = ^Application::Device.HallPeakToPeak;
     preset Unit = "";
     preset Precision = 0;
     preset Appearance = WidgetSet::ValueDisplay_Medium;
@@ -5713,6 +5734,7 @@ class CalibrationWindow10 : Core::Group
   {
     preset Layout = Core::Layout[AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
     preset Bounds = <30,116,210,148>;
+    preset Outlet = ^Application::Device.HallPeakToPeak;
     preset Unit = "";
     preset Precision = 0;
     preset Appearance = WidgetSet::ValueDisplay_Medium;
@@ -5970,6 +5992,7 @@ class CalibrationWindow11 : Core::Group
   {
     preset Layout = Core::Layout[AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
     preset Bounds = <30,116,210,148>;
+    preset Outlet = ^Application::Device.HallPeakToPeak;
     preset Unit = "";
     preset Precision = 0;
     preset Appearance = WidgetSet::ValueDisplay_Medium;
@@ -6227,6 +6250,7 @@ class CalibrationWindow12 : Core::Group
   {
     preset Layout = Core::Layout[AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
     preset Bounds = <30,116,210,148>;
+    preset Outlet = ^Application::Device.HallPeakToPeak;
     preset Unit = "";
     preset Precision = 0;
     preset Appearance = WidgetSet::ValueDisplay_Medium;
@@ -6484,6 +6508,7 @@ class CalibrationWindow13 : Core::Group
   {
     preset Layout = Core::Layout[AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
     preset Bounds = <30,116,210,148>;
+    preset Outlet = ^Application::Device.HallPeakToPeak;
     preset Unit = "";
     preset Precision = 0;
     preset Appearance = WidgetSet::ValueDisplay_Medium;
@@ -6741,6 +6766,7 @@ class CalibrationWindow14 : Core::Group
   {
     preset Layout = Core::Layout[AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
     preset Bounds = <30,116,210,148>;
+    preset Outlet = ^Application::Device.HallPeakToPeak;
     preset Unit = "";
     preset Precision = 0;
     preset Appearance = WidgetSet::ValueDisplay_Medium;
@@ -6987,6 +7013,7 @@ class CalibrationWindow15 : Core::Group
   {
     preset Layout = Core::Layout[AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
     preset Bounds = <30,116,210,148>;
+    preset Outlet = ^Application::Device.HallPeakToPeak;
     preset Unit = "";
     preset Precision = 0;
     preset Appearance = WidgetSet::ValueDisplay_Medium;
@@ -7230,6 +7257,7 @@ class CalibrationWindow16 : Core::Group
   {
     preset Layout = Core::Layout[AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
     preset Bounds = <30,116,210,148>;
+    preset Outlet = ^Application::Device.HallPeakToPeak;
     preset Unit = "";
     preset Precision = 0;
     preset Appearance = WidgetSet::ValueDisplay_Medium;
@@ -7487,6 +7515,7 @@ class CalibrationWindow17 : Core::Group
   {
     preset Layout = Core::Layout[AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
     preset Bounds = <30,116,210,148>;
+    preset Outlet = ^Application::Device.HallPeakToPeak;
     preset Unit = "";
     preset Precision = 0;
     preset Appearance = WidgetSet::ValueDisplay_Medium;
@@ -7744,6 +7773,7 @@ class CalibrationWindow18 : Core::Group
   {
     preset Layout = Core::Layout[AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
     preset Bounds = <30,116,210,148>;
+    preset Outlet = ^Application::Device.HallPeakToPeak;
     preset Unit = "";
     preset Precision = 0;
     preset Appearance = WidgetSet::ValueDisplay_Medium;
@@ -8002,6 +8032,7 @@ class CalibrationWindow19 : Core::Group
   {
     preset Layout = Core::Layout[AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
     preset Bounds = <30,116,210,148>;
+    preset Outlet = ^Application::Device.HallPeakToPeak;
     preset Unit = "";
     preset Precision = 0;
     preset Appearance = WidgetSet::ValueDisplay_Medium;
@@ -8259,6 +8290,7 @@ class CalibrationWindow20 : Core::Group
   {
     preset Layout = Core::Layout[AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
     preset Bounds = <30,116,210,148>;
+    preset Outlet = ^Application::Device.HallPeakToPeak;
     preset Unit = "";
     preset Precision = 0;
     preset Appearance = WidgetSet::ValueDisplay_Medium;
