@@ -1,10 +1,33 @@
 /** ***************************************************************************
  * @file
  * @brief Functions for calibration process
- * In this file the calibration functions will be included
  * 
+ * Functions of calibration
+ * ============================================================================
+ * - Fill the calibration points into the calibration array
+ * - Calibration of single points
+ * - Function to call the interpolation process with measured calibration values
  * 
- * @note This file is prepared for later functions regarding calibration
+ * Array numbers
+ * ============================================================================
+ * The following list shows the number of the arrays used in this files and the
+ * corresponding calibration arrray. @n
+ * - 0: Pad 1
+ * - 1: Pad 2
+ * - 2: Hall Sensor 1, 1.2A
+ * - 3: Hall Sensor 2, 1.2A
+ * - 4: Hall Sensor 1, 5A
+ * - 5: Hall Sensor 2, 5A  
+ * @n
+ * 
+ * Calibration type
+ * ==========================================================================
+ * The following list shows the calibration types and their corresponding numbers.
+ * - 0: Distance calibration
+ * - 1: Current calibration 1.2A
+ * - 2: Current calibration 5A
+ * @n
+ * 
  * @author  Pavel Müller, Yves Röhrig
  * @date	25.12.2021
  *****************************************************************************/
@@ -46,11 +69,14 @@ int16_t calHall2_5A[NUM_CALB_POINTS];                                 ///< Measu
  *****************************************************************************/
 
 /** ****************************************************************************
- * @brief Set the Cal Pnt object
+ * @brief Set the calibration points to the correspondet calibration array
  * 
- * @param[in] arrayNum 
- * @param[in] pointNum 
- * @param[in] value 
+ * @param[in] arrayNum  Number of the array to fill in (see filedescription)
+ * @param[in] pointNum  Number of the point in the array to fill in
+ * @param[in] value     Value to be filled in
+ * 
+ * This function fills in the measured calibration points in the corresponding array.
+ * 
  ******************************************************************************/
 void setCalPnt(int32_t arrayNum, int32_t pointNum, int32_t value){
     
@@ -75,7 +101,7 @@ void setCalPnt(int32_t arrayNum, int32_t pointNum, int32_t value){
 }
 
 /** ****************************************************************************
- * @brief 
+ * @brief Calibration
  * 
  * @param[in] type 
  * @param[in] pointNum 
