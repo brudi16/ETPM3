@@ -1,5 +1,6 @@
 $version 1.0
 
+
 attr callStackMonitor_Show = false;
 attr codeColSelect = false;
 attr codeFirstPos = <0,0>;
@@ -42,7 +43,7 @@ view Project
 view unit Application
 {
   attr enableWireMode = false;
-  attr scrollTo = <-7,137>;
+  attr scrollTo = <-7,377>;
   attr zoom = 1.0;
 }
 
@@ -54,6 +55,6 @@ view class Application::DeviceClass
   attr codeSelEnd = <0,0>;
   attr codeSelStart = <0,0>;
   attr enableWireMode = false;
-  attr scrollTo = <-7,-951>;
+  attr scrollTo = <-7,185>;
   attr zoom = 1.0;
 }
